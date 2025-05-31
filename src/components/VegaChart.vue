@@ -6,6 +6,9 @@
     <div class="info-panel">
       <p><strong>Hovered Point:</strong> {{ hoveredInfo || 'None' }}</p>
       <p><strong>Clicked Point:</strong> {{ clickedInfo || 'None' }}</p>
+      <hr />
+      <p><strong>Hovered X-Axis:</strong> {{ hoveredYearInfo || 'None' }}</p>
+      <p><strong>Clicked X-Axis:</strong> {{ clickedYearInfo || 'None' }}</p>
     </div>
   </div>
 </template>
@@ -17,29 +20,44 @@ import embed from 'vega-embed'
 const chartContainer = ref(null)
 const hoveredInfo = ref(null)
 const clickedInfo = ref(null)
+const hoveredYearInfo = ref(null)
+const clickedYearInfo = ref(null)
 
 onMounted(async () => {
   const result = await embed(chartContainer.value, '/vega_line.json')
   const view = result.view
 
-  // === 监听 hovered 信号 ===
+  // === 折线图上的点 ===
   view.addSignalListener('hovered', (name, value) => {
     hoveredInfo.value = value
       ? `Year: ${value.year}, Category: ${value.category}, Value: ${value.food_value}`
       : null
   })
 
-  // === 监听 clicked 信号 ===
   view.addSignalListener('clicked', (name, value) => {
     clickedInfo.value = value
       ? `Year: ${value.year}, Category: ${value.category}, Value: ${value.food_value}`
       : null
   })
 
-  // 取消点击时点击空白处
+  // === 横轴上的点 ===
+  view.addSignalListener('hoveredYear', (name, value) => {
+    hoveredYearInfo.value = value
+      ? `Year: ${value.year}`
+      : null
+  })
+
+  view.addSignalListener('clickedYear', (name, value) => {
+    clickedYearInfo.value = value
+      ? `Year: ${value.year}`
+      : null
+  })
+
+  // === 取消点击线点高亮 ===
   view.addEventListener('click', (event, item) => {
-    if (!item || item.mark.name !== 'points') {
+    if (!item || (item.mark.name !== 'points' && item.mark.name !== 'xAxisPoints')) {
       view.signal('clicked', null).runAsync()
+      view.signal('clickedYear', null).runAsync()
     }
   })
 })

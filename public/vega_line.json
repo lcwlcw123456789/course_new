@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "description": "Category Food Value Trends Over Years (Vega with click-to-highlight)",
+  "description": "Category Food Value Trends Over Years (with interactive x-axis points)",
   "width": 800,
   "height": 400,
   "padding": 5,
@@ -1855,6 +1855,30 @@
           "update": "datum"
         }
       ]
+    },
+    {
+      "name": "hoveredYear",
+      "value": null,
+      "on": [
+        {
+          "events": "@xAxisPoints:mouseover",
+          "update": "datum"
+        },
+        {
+          "events": "@xAxisPoints:mouseout",
+          "update": "null"
+        }
+      ]
+    },
+    {
+      "name": "clickedYear",
+      "value": null,
+      "on": [
+        {
+          "events": "@xAxisPoints:click",
+          "update": "datum"
+        }
+      ]
     }
   ],
   "scales": [
@@ -2020,6 +2044,59 @@
           }
         }
       ]
+    },
+    {
+      "type": "symbol",
+      "name": "xAxisPoints",
+      "from": {
+        "data": "table"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "scale": "xscale",
+            "field": "year"
+          },
+          "y": {
+            "value": 400
+          },
+          "fill": {
+            "value": "#ccc"
+          },
+          "opacity": {
+            "value": 0
+          },
+          "size": {
+            "value": 50
+          },
+          "tooltip": {
+            "signal": "{'year': datum.year}"
+          }
+        },
+        "update": {
+          "opacity": {
+            "value": 0
+          },
+          "fill": [
+            {
+              "test": "hoveredYear && hoveredYear.year === datum.year",
+              "value": "#666"
+            },
+            {
+              "value": "#ccc"
+            }
+          ],
+          "size": [
+            {
+              "test": "hoveredYear && hoveredYear.year === datum.year",
+              "value": 200
+            },
+            {
+              "value": 50
+            }
+          ]
+        }
+      }
     }
   ],
   "title": "Trends of Food Value per Category (1999\u20132024)"
