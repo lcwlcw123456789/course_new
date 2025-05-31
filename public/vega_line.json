@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "description": "Category Food Value Trends Over Years (with interactive x-axis points)",
+  "description": "Category Food Value Trends Over Years (with interactive x-axis points and legend)",
   "width": 800,
   "height": 400,
   "padding": 5,
@@ -2097,6 +2097,37 @@
           ]
         }
       }
+    },
+    {
+      "type": "group",
+      "marks": [
+        {
+          "type": "rect",
+          "from": {
+            "data": "table"
+          },
+          "encode": {
+            "update": {
+              "fill": {
+                "scale": "color",
+                "field": "category"
+              },
+              "opacity": {
+                "value": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "title": "Category",
+      "orient": "right",
+      "labelFontSize": 12,
+      "symbolSize": 100
     }
   ],
   "title": "Trends of Food Value per Category (1999\u20132024)"
