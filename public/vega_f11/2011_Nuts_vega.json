@@ -1,0 +1,438 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "2011 Nuts - Interactive globe of FoodValue.",
+  "padding": 10,
+  "width": 450,
+  "height": 450,
+  "autosize": "none",
+  "signals": [
+    {
+      "name": "quakeSize",
+      "value": 6,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 12
+      }
+    },
+    {
+      "name": "rotate0",
+      "value": 90,
+      "bind": {
+        "input": "range",
+        "min": -180,
+        "max": 180
+      }
+    },
+    {
+      "name": "rotate1",
+      "value": -5,
+      "bind": {
+        "input": "range",
+        "min": -180,
+        "max": 180
+      }
+    }
+  ],
+  "data": [
+    {
+      "name": "sphere",
+      "values": [
+        {
+          "type": "Sphere"
+        }
+      ]
+    },
+    {
+      "name": "world",
+      "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+      "format": {
+        "type": "topojson",
+        "feature": "countries"
+      }
+    },
+    {
+      "name": "foodvalue",
+      "values": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 31.2,
+              "country": "ARGENTINA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -63.616672,
+                -38.416097,
+                0
+              ]
+            },
+            "id": "0"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 0.1,
+              "country": "BENIN"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                2.315834,
+                9.30769,
+                0
+              ]
+            },
+            "id": "1"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 37.6,
+              "country": "BOLIVIA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -63.588653,
+                -16.290154,
+                0
+              ]
+            },
+            "id": "2"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 290.6,
+              "country": "BRAZIL"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -51.92528,
+                -14.235004,
+                0
+              ]
+            },
+            "id": "3"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 86.8,
+              "country": "CANADA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -106.346771,
+                56.130366,
+                0
+              ]
+            },
+            "id": "4"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 170.3,
+              "country": "CHINA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                104.195397,
+                35.86166,
+                0
+              ]
+            },
+            "id": "5"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 15.0,
+              "country": "COTE D棚VOIRE"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -4.0244,
+                5.3453,
+                0
+              ]
+            },
+            "id": "6"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 316.70000000000005,
+              "country": "INDIA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                78.96288,
+                20.593684,
+                0
+              ]
+            },
+            "id": "7"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 6.7,
+              "country": "INDONESIA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                113.921327,
+                -0.789275,
+                0
+              ]
+            },
+            "id": "8"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 13.8,
+              "country": "ISRAEL"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                34.851612,
+                31.046051,
+                0
+              ]
+            },
+            "id": "9"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 662.6,
+              "country": "MEXICO"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -102.552784,
+                23.634501,
+                0
+              ]
+            },
+            "id": "10"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 216.3,
+              "country": "PHILIPPINES"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                121.774017,
+                12.879721,
+                0
+              ]
+            },
+            "id": "11"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 67.4,
+              "country": "REPUBLIC OF SOUTH AFRICA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                28.1881,
+                -25.7461,
+                0
+              ]
+            },
+            "id": "12"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 127.0,
+              "country": "THAILAND"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                100.992541,
+                15.870032,
+                0
+              ]
+            },
+            "id": "13"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 54.3,
+              "country": "TURKEY"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                35.243322,
+                38.963745,
+                0
+              ]
+            },
+            "id": "14"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 1221.1,
+              "country": "VIETNAM"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                108.277199,
+                14.058324,
+                0
+              ]
+            },
+            "id": "15"
+          }
+        ]
+      },
+      "format": {
+        "type": "json",
+        "property": "features"
+      }
+    }
+  ],
+  "projections": [
+    {
+      "name": "projection",
+      "scale": 225,
+      "type": "orthographic",
+      "translate": {
+        "signal": "[width/2, height/2]"
+      },
+      "rotate": [
+        {
+          "signal": "rotate0"
+        },
+        {
+          "signal": "rotate1"
+        },
+        0
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "size",
+      "type": "sqrt",
+      "domain": [
+        0,
+        415
+      ],
+      "range": [
+        0,
+        {
+          "signal": "quakeSize"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "shape",
+      "from": {
+        "data": "sphere"
+      },
+      "encode": {
+        "update": {
+          "fill": {
+            "value": "aliceblue"
+          },
+          "stroke": {
+            "value": "black"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    },
+    {
+      "type": "shape",
+      "from": {
+        "data": "world"
+      },
+      "encode": {
+        "update": {
+          "fill": {
+            "value": "mintcream"
+          },
+          "stroke": {
+            "value": "black"
+          },
+          "strokeWidth": {
+            "value": 0.35
+          }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    },
+    {
+      "type": "shape",
+      "from": {
+        "data": "foodvalue"
+      },
+      "encode": {
+        "update": {
+          "opacity": {
+            "value": 0.25
+          },
+          "fill": {
+            "value": "red"
+          },
+          "tooltip": {
+            "signal": "{'Country': datum.properties.country, 'Value': datum.properties.value, 'Category': 'Nuts'}"
+          }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection",
+          "pointRadius": {
+            "expr": "scale('size', datum.properties.value)"
+          }
+        }
+      ]
+    }
+  ]
+}

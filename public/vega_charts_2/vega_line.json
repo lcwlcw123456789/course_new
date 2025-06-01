@@ -1,0 +1,1897 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Category Food Value Trends Over Years",
+  "width": 800,
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "year": "1999",
+        "category": "Animals",
+        "food_value": 2357.3
+      },
+      {
+        "year": "2000",
+        "category": "Animals",
+        "food_value": 2818.6
+      },
+      {
+        "year": "2001",
+        "category": "Animals",
+        "food_value": 3520.7
+      },
+      {
+        "year": "2002",
+        "category": "Animals",
+        "food_value": 3416.6
+      },
+      {
+        "year": "2003",
+        "category": "Animals",
+        "food_value": 2527.9
+      },
+      {
+        "year": "2004",
+        "category": "Animals",
+        "food_value": 2231.6
+      },
+      {
+        "year": "2005",
+        "category": "Animals",
+        "food_value": 3318.7000000000003
+      },
+      {
+        "year": "2006",
+        "category": "Animals",
+        "food_value": 4307.7
+      },
+      {
+        "year": "2007",
+        "category": "Animals",
+        "food_value": 5128.0
+      },
+      {
+        "year": "2008",
+        "category": "Animals",
+        "food_value": 4481.2
+      },
+      {
+        "year": "2009",
+        "category": "Animals",
+        "food_value": 3277.4
+      },
+      {
+        "year": "2010",
+        "category": "Animals",
+        "food_value": 3971.2
+      },
+      {
+        "year": "2011",
+        "category": "Animals",
+        "food_value": 3726.1
+      },
+      {
+        "year": "2012",
+        "category": "Animals",
+        "food_value": 4335.8
+      },
+      {
+        "year": "2013",
+        "category": "Animals",
+        "food_value": 4331.0
+      },
+      {
+        "year": "2014",
+        "category": "Animals",
+        "food_value": 5945.7
+      },
+      {
+        "year": "2015",
+        "category": "Animals",
+        "food_value": 5256.900000000001
+      },
+      {
+        "year": "2016",
+        "category": "Animals",
+        "food_value": 4040.9
+      },
+      {
+        "year": "2017",
+        "category": "Animals",
+        "food_value": 3942.7
+      },
+      {
+        "year": "2018",
+        "category": "Animals",
+        "food_value": 3973.5
+      },
+      {
+        "year": "2019",
+        "category": "Animals",
+        "food_value": 4418.0
+      },
+      {
+        "year": "2020",
+        "category": "Animals",
+        "food_value": 4227.599999999999
+      },
+      {
+        "year": "2021",
+        "category": "Animals",
+        "food_value": 4486.9
+      },
+      {
+        "year": "2022",
+        "category": "Animals",
+        "food_value": 4840.3
+      },
+      {
+        "year": "2023",
+        "category": "Animals",
+        "food_value": 5976.8
+      },
+      {
+        "year": "2024",
+        "category": "Animals",
+        "food_value": 7228.5
+      },
+      {
+        "year": "1999",
+        "category": "Beverages",
+        "food_value": 10322.6
+      },
+      {
+        "year": "2000",
+        "category": "Beverages",
+        "food_value": 11266.1
+      },
+      {
+        "year": "2001",
+        "category": "Beverages",
+        "food_value": 11831.0
+      },
+      {
+        "year": "2002",
+        "category": "Beverages",
+        "food_value": 13408.4
+      },
+      {
+        "year": "2003",
+        "category": "Beverages",
+        "food_value": 15138.7
+      },
+      {
+        "year": "2004",
+        "category": "Beverages",
+        "food_value": 15832.3
+      },
+      {
+        "year": "2005",
+        "category": "Beverages",
+        "food_value": 17451.9
+      },
+      {
+        "year": "2006",
+        "category": "Beverages",
+        "food_value": 19867.5
+      },
+      {
+        "year": "2007",
+        "category": "Beverages",
+        "food_value": 21291.6
+      },
+      {
+        "year": "2008",
+        "category": "Beverages",
+        "food_value": 21027.8
+      },
+      {
+        "year": "2009",
+        "category": "Beverages",
+        "food_value": 18686.6
+      },
+      {
+        "year": "2010",
+        "category": "Beverages",
+        "food_value": 19886.4
+      },
+      {
+        "year": "2011",
+        "category": "Beverages",
+        "food_value": 21646.8
+      },
+      {
+        "year": "2012",
+        "category": "Beverages",
+        "food_value": 22894.5
+      },
+      {
+        "year": "2013",
+        "category": "Beverages",
+        "food_value": 24007.1
+      },
+      {
+        "year": "2014",
+        "category": "Beverages",
+        "food_value": 25566.3
+      },
+      {
+        "year": "2015",
+        "category": "Beverages",
+        "food_value": 26955.0
+      },
+      {
+        "year": "2016",
+        "category": "Beverages",
+        "food_value": 28489.0
+      },
+      {
+        "year": "2017",
+        "category": "Beverages",
+        "food_value": 30242.0
+      },
+      {
+        "year": "2018",
+        "category": "Beverages",
+        "food_value": 32313.7
+      },
+      {
+        "year": "2019",
+        "category": "Beverages",
+        "food_value": 34430.4
+      },
+      {
+        "year": "2020",
+        "category": "Beverages",
+        "food_value": 34168.4
+      },
+      {
+        "year": "2021",
+        "category": "Beverages",
+        "food_value": 39977.6
+      },
+      {
+        "year": "2022",
+        "category": "Beverages",
+        "food_value": 42988.0
+      },
+      {
+        "year": "2023",
+        "category": "Beverages",
+        "food_value": 41062.0
+      },
+      {
+        "year": "2024",
+        "category": "Beverages",
+        "food_value": 43583.6
+      },
+      {
+        "year": "1999",
+        "category": "Cocoa",
+        "food_value": 2168.0
+      },
+      {
+        "year": "2000",
+        "category": "Cocoa",
+        "food_value": 2012.0
+      },
+      {
+        "year": "2001",
+        "category": "Cocoa",
+        "food_value": 2228.8
+      },
+      {
+        "year": "2002",
+        "category": "Cocoa",
+        "food_value": 2566.4
+      },
+      {
+        "year": "2003",
+        "category": "Cocoa",
+        "food_value": 3568.1
+      },
+      {
+        "year": "2004",
+        "category": "Cocoa",
+        "food_value": 3703.4
+      },
+      {
+        "year": "2005",
+        "category": "Cocoa",
+        "food_value": 4062.5
+      },
+      {
+        "year": "2006",
+        "category": "Cocoa",
+        "food_value": 3779.3
+      },
+      {
+        "year": "2007",
+        "category": "Cocoa",
+        "food_value": 3811.0
+      },
+      {
+        "year": "2008",
+        "category": "Cocoa",
+        "food_value": 4896.5
+      },
+      {
+        "year": "2009",
+        "category": "Cocoa",
+        "food_value": 5329.5
+      },
+      {
+        "year": "2010",
+        "category": "Cocoa",
+        "food_value": 6534.8
+      },
+      {
+        "year": "2011",
+        "category": "Cocoa",
+        "food_value": 7324.2
+      },
+      {
+        "year": "2012",
+        "category": "Cocoa",
+        "food_value": 6462.6
+      },
+      {
+        "year": "2013",
+        "category": "Cocoa",
+        "food_value": 6687.2
+      },
+      {
+        "year": "2014",
+        "category": "Cocoa",
+        "food_value": 7630.3
+      },
+      {
+        "year": "2015",
+        "category": "Cocoa",
+        "food_value": 7872.7
+      },
+      {
+        "year": "2016",
+        "category": "Cocoa",
+        "food_value": 8213.3
+      },
+      {
+        "year": "2017",
+        "category": "Cocoa",
+        "food_value": 8096.900000000001
+      },
+      {
+        "year": "2018",
+        "category": "Cocoa",
+        "food_value": 7576.0
+      },
+      {
+        "year": "2019",
+        "category": "Cocoa",
+        "food_value": 7973.3
+      },
+      {
+        "year": "2020",
+        "category": "Cocoa",
+        "food_value": 8194.4
+      },
+      {
+        "year": "2021",
+        "category": "Cocoa",
+        "food_value": 8991.0
+      },
+      {
+        "year": "2022",
+        "category": "Cocoa",
+        "food_value": 9448.1
+      },
+      {
+        "year": "2023",
+        "category": "Cocoa",
+        "food_value": 9578.5
+      },
+      {
+        "year": "2024",
+        "category": "Cocoa",
+        "food_value": 12755.5
+      },
+      {
+        "year": "1999",
+        "category": "Coffee",
+        "food_value": 4196.9
+      },
+      {
+        "year": "2000",
+        "category": "Coffee",
+        "food_value": 3706.7
+      },
+      {
+        "year": "2001",
+        "category": "Coffee",
+        "food_value": 2583.9
+      },
+      {
+        "year": "2002",
+        "category": "Coffee",
+        "food_value": 2653.4
+      },
+      {
+        "year": "2003",
+        "category": "Coffee",
+        "food_value": 3090.3
+      },
+      {
+        "year": "2004",
+        "category": "Coffee",
+        "food_value": 3413.1
+      },
+      {
+        "year": "2005",
+        "category": "Coffee",
+        "food_value": 4364.7
+      },
+      {
+        "year": "2006",
+        "category": "Coffee",
+        "food_value": 4763.9
+      },
+      {
+        "year": "2007",
+        "category": "Coffee",
+        "food_value": 5661.0
+      },
+      {
+        "year": "2008",
+        "category": "Coffee",
+        "food_value": 6560.8
+      },
+      {
+        "year": "2009",
+        "category": "Coffee",
+        "food_value": 6338.3
+      },
+      {
+        "year": "2010",
+        "category": "Coffee",
+        "food_value": 7960.7
+      },
+      {
+        "year": "2011",
+        "category": "Coffee",
+        "food_value": 12591.7
+      },
+      {
+        "year": "2012",
+        "category": "Coffee",
+        "food_value": 10761.5
+      },
+      {
+        "year": "2013",
+        "category": "Coffee",
+        "food_value": 9683.9
+      },
+      {
+        "year": "2014",
+        "category": "Coffee",
+        "food_value": 10842.1
+      },
+      {
+        "year": "2015",
+        "category": "Coffee",
+        "food_value": 11159.3
+      },
+      {
+        "year": "2016",
+        "category": "Coffee",
+        "food_value": 10801.2
+      },
+      {
+        "year": "2017",
+        "category": "Coffee",
+        "food_value": 11690.6
+      },
+      {
+        "year": "2018",
+        "category": "Coffee",
+        "food_value": 10641.8
+      },
+      {
+        "year": "2019",
+        "category": "Coffee",
+        "food_value": 10724.4
+      },
+      {
+        "year": "2020",
+        "category": "Coffee",
+        "food_value": 10768.2
+      },
+      {
+        "year": "2021",
+        "category": "Coffee",
+        "food_value": 13123.6
+      },
+      {
+        "year": "2022",
+        "category": "Coffee",
+        "food_value": 17647.5
+      },
+      {
+        "year": "2023",
+        "category": "Coffee",
+        "food_value": 15238.1
+      },
+      {
+        "year": "2024",
+        "category": "Coffee",
+        "food_value": 17815.1
+      },
+      {
+        "year": "1999",
+        "category": "Dairy",
+        "food_value": 1036.9
+      },
+      {
+        "year": "2000",
+        "category": "Dairy",
+        "food_value": 1029.2
+      },
+      {
+        "year": "2001",
+        "category": "Dairy",
+        "food_value": 1153.0
+      },
+      {
+        "year": "2002",
+        "category": "Dairy",
+        "food_value": 1158.3
+      },
+      {
+        "year": "2003",
+        "category": "Dairy",
+        "food_value": 1354.3
+      },
+      {
+        "year": "2004",
+        "category": "Dairy",
+        "food_value": 1587.2
+      },
+      {
+        "year": "2005",
+        "category": "Dairy",
+        "food_value": 1658.4
+      },
+      {
+        "year": "2006",
+        "category": "Dairy",
+        "food_value": 1778.3
+      },
+      {
+        "year": "2007",
+        "category": "Dairy",
+        "food_value": 1950.3
+      },
+      {
+        "year": "2008",
+        "category": "Dairy",
+        "food_value": 2170.3
+      },
+      {
+        "year": "2009",
+        "category": "Dairy",
+        "food_value": 1846.1
+      },
+      {
+        "year": "2010",
+        "category": "Dairy",
+        "food_value": 1952.1
+      },
+      {
+        "year": "2011",
+        "category": "Dairy",
+        "food_value": 2239.3
+      },
+      {
+        "year": "2012",
+        "category": "Dairy",
+        "food_value": 2378.2
+      },
+      {
+        "year": "2013",
+        "category": "Dairy",
+        "food_value": 2449.7
+      },
+      {
+        "year": "2014",
+        "category": "Dairy",
+        "food_value": 2718.5
+      },
+      {
+        "year": "2015",
+        "category": "Dairy",
+        "food_value": 2705.7
+      },
+      {
+        "year": "2016",
+        "category": "Dairy",
+        "food_value": 2677.6
+      },
+      {
+        "year": "2017",
+        "category": "Dairy",
+        "food_value": 2706.4
+      },
+      {
+        "year": "2018",
+        "category": "Dairy",
+        "food_value": 3024.3
+      },
+      {
+        "year": "2019",
+        "category": "Dairy",
+        "food_value": 3227.1
+      },
+      {
+        "year": "2020",
+        "category": "Dairy",
+        "food_value": 3140.1
+      },
+      {
+        "year": "2021",
+        "category": "Dairy",
+        "food_value": 3659.5
+      },
+      {
+        "year": "2022",
+        "category": "Dairy",
+        "food_value": 4207.1
+      },
+      {
+        "year": "2023",
+        "category": "Dairy",
+        "food_value": 4739.1
+      },
+      {
+        "year": "2024",
+        "category": "Dairy",
+        "food_value": 5613.8
+      },
+      {
+        "year": "1999",
+        "category": "Fish",
+        "food_value": 8567.6
+      },
+      {
+        "year": "2000",
+        "category": "Fish",
+        "food_value": 9675.0
+      },
+      {
+        "year": "2001",
+        "category": "Fish",
+        "food_value": 10158.7
+      },
+      {
+        "year": "2002",
+        "category": "Fish",
+        "food_value": 11304.1
+      },
+      {
+        "year": "2003",
+        "category": "Fish",
+        "food_value": 12727.9
+      },
+      {
+        "year": "2004",
+        "category": "Fish",
+        "food_value": 12881.8
+      },
+      {
+        "year": "2005",
+        "category": "Fish",
+        "food_value": 14004.9
+      },
+      {
+        "year": "2006",
+        "category": "Fish",
+        "food_value": 15694.6
+      },
+      {
+        "year": "2007",
+        "category": "Fish",
+        "food_value": 16264.9
+      },
+      {
+        "year": "2008",
+        "category": "Fish",
+        "food_value": 17236.1
+      },
+      {
+        "year": "2009",
+        "category": "Fish",
+        "food_value": 15742.8
+      },
+      {
+        "year": "2010",
+        "category": "Fish",
+        "food_value": 17851.600000000002
+      },
+      {
+        "year": "2011",
+        "category": "Fish",
+        "food_value": 20922.0
+      },
+      {
+        "year": "2012",
+        "category": "Fish",
+        "food_value": 21424.8
+      },
+      {
+        "year": "2013",
+        "category": "Fish",
+        "food_value": 24282.2
+      },
+      {
+        "year": "2014",
+        "category": "Fish",
+        "food_value": 28341.8
+      },
+      {
+        "year": "2015",
+        "category": "Fish",
+        "food_value": 25797.9
+      },
+      {
+        "year": "2016",
+        "category": "Fish",
+        "food_value": 26752.9
+      },
+      {
+        "year": "2017",
+        "category": "Fish",
+        "food_value": 29915.2
+      },
+      {
+        "year": "2018",
+        "category": "Fish",
+        "food_value": 31430.4
+      },
+      {
+        "year": "2019",
+        "category": "Fish",
+        "food_value": 30258.2
+      },
+      {
+        "year": "2020",
+        "category": "Fish",
+        "food_value": 29553.4
+      },
+      {
+        "year": "2021",
+        "category": "Fish",
+        "food_value": 38999.1
+      },
+      {
+        "year": "2022",
+        "category": "Fish",
+        "food_value": 40895.1
+      },
+      {
+        "year": "2023",
+        "category": "Fish",
+        "food_value": 34945.0
+      },
+      {
+        "year": "2024",
+        "category": "Fish",
+        "food_value": 34663.4
+      },
+      {
+        "year": "1999",
+        "category": "Fruits",
+        "food_value": 8169.7
+      },
+      {
+        "year": "2000",
+        "category": "Fruits",
+        "food_value": 7805.3
+      },
+      {
+        "year": "2001",
+        "category": "Fruits",
+        "food_value": 8085.3
+      },
+      {
+        "year": "2002",
+        "category": "Fruits",
+        "food_value": 8727.3
+      },
+      {
+        "year": "2003",
+        "category": "Fruits",
+        "food_value": 9572.2
+      },
+      {
+        "year": "2004",
+        "category": "Fruits",
+        "food_value": 10430.5
+      },
+      {
+        "year": "2005",
+        "category": "Fruits",
+        "food_value": 12117.0
+      },
+      {
+        "year": "2006",
+        "category": "Fruits",
+        "food_value": 13523.0
+      },
+      {
+        "year": "2007",
+        "category": "Fruits",
+        "food_value": 16163.0
+      },
+      {
+        "year": "2008",
+        "category": "Fruits",
+        "food_value": 17645.4
+      },
+      {
+        "year": "2009",
+        "category": "Fruits",
+        "food_value": 17633.1
+      },
+      {
+        "year": "2010",
+        "category": "Fruits",
+        "food_value": 19582.4
+      },
+      {
+        "year": "2011",
+        "category": "Fruits",
+        "food_value": 21894.5
+      },
+      {
+        "year": "2012",
+        "category": "Fruits",
+        "food_value": 22976.5
+      },
+      {
+        "year": "2013",
+        "category": "Fruits",
+        "food_value": 25121.0
+      },
+      {
+        "year": "2014",
+        "category": "Fruits",
+        "food_value": 27147.3
+      },
+      {
+        "year": "2015",
+        "category": "Fruits",
+        "food_value": 29008.5
+      },
+      {
+        "year": "2016",
+        "category": "Fruits",
+        "food_value": 31511.0
+      },
+      {
+        "year": "2017",
+        "category": "Fruits",
+        "food_value": 33969.2
+      },
+      {
+        "year": "2018",
+        "category": "Fruits",
+        "food_value": 36007.6
+      },
+      {
+        "year": "2019",
+        "category": "Fruits",
+        "food_value": 37173.7
+      },
+      {
+        "year": "2020",
+        "category": "Fruits",
+        "food_value": 37262.0
+      },
+      {
+        "year": "2021",
+        "category": "Fruits",
+        "food_value": 42360.4
+      },
+      {
+        "year": "2022",
+        "category": "Fruits",
+        "food_value": 47712.2
+      },
+      {
+        "year": "2023",
+        "category": "Fruits",
+        "food_value": 48937.6
+      },
+      {
+        "year": "2024",
+        "category": "Fruits",
+        "food_value": 52761.6
+      },
+      {
+        "year": "1999",
+        "category": "Grains",
+        "food_value": 4832.2
+      },
+      {
+        "year": "2000",
+        "category": "Grains",
+        "food_value": 4939.8
+      },
+      {
+        "year": "2001",
+        "category": "Grains",
+        "food_value": 5338.0
+      },
+      {
+        "year": "2002",
+        "category": "Grains",
+        "food_value": 5817.7
+      },
+      {
+        "year": "2003",
+        "category": "Grains",
+        "food_value": 6176.2
+      },
+      {
+        "year": "2004",
+        "category": "Grains",
+        "food_value": 6943.0
+      },
+      {
+        "year": "2005",
+        "category": "Grains",
+        "food_value": 7302.099999999999
+      },
+      {
+        "year": "2006",
+        "category": "Grains",
+        "food_value": 8738.5
+      },
+      {
+        "year": "2007",
+        "category": "Grains",
+        "food_value": 10815.0
+      },
+      {
+        "year": "2008",
+        "category": "Grains",
+        "food_value": 14824.7
+      },
+      {
+        "year": "2009",
+        "category": "Grains",
+        "food_value": 12612.9
+      },
+      {
+        "year": "2010",
+        "category": "Grains",
+        "food_value": 12956.1
+      },
+      {
+        "year": "2011",
+        "category": "Grains",
+        "food_value": 14738.7
+      },
+      {
+        "year": "2012",
+        "category": "Grains",
+        "food_value": 16126.2
+      },
+      {
+        "year": "2013",
+        "category": "Grains",
+        "food_value": 18241.3
+      },
+      {
+        "year": "2014",
+        "category": "Grains",
+        "food_value": 18100.1
+      },
+      {
+        "year": "2015",
+        "category": "Grains",
+        "food_value": 17585.5
+      },
+      {
+        "year": "2016",
+        "category": "Grains",
+        "food_value": 17509.9
+      },
+      {
+        "year": "2017",
+        "category": "Grains",
+        "food_value": 19008.7
+      },
+      {
+        "year": "2018",
+        "category": "Grains",
+        "food_value": 21484.4
+      },
+      {
+        "year": "2019",
+        "category": "Grains",
+        "food_value": 21795.5
+      },
+      {
+        "year": "2020",
+        "category": "Grains",
+        "food_value": 23241.7
+      },
+      {
+        "year": "2021",
+        "category": "Grains",
+        "food_value": 25114.9
+      },
+      {
+        "year": "2022",
+        "category": "Grains",
+        "food_value": 32411.5
+      },
+      {
+        "year": "2023",
+        "category": "Grains",
+        "food_value": 34950.2
+      },
+      {
+        "year": "2024",
+        "category": "Grains",
+        "food_value": 36857.3
+      },
+      {
+        "year": "1999",
+        "category": "Meats",
+        "food_value": 5133.599999999999
+      },
+      {
+        "year": "2000",
+        "category": "Meats",
+        "food_value": 6151.5
+      },
+      {
+        "year": "2001",
+        "category": "Meats",
+        "food_value": 7091.6
+      },
+      {
+        "year": "2002",
+        "category": "Meats",
+        "food_value": 7097.599999999999
+      },
+      {
+        "year": "2003",
+        "category": "Meats",
+        "food_value": 7128.099999999999
+      },
+      {
+        "year": "2004",
+        "category": "Meats",
+        "food_value": 9383.9
+      },
+      {
+        "year": "2005",
+        "category": "Meats",
+        "food_value": 9428.2
+      },
+      {
+        "year": "2006",
+        "category": "Meats",
+        "food_value": 8423.2
+      },
+      {
+        "year": "2007",
+        "category": "Meats",
+        "food_value": 8546.2
+      },
+      {
+        "year": "2008",
+        "category": "Meats",
+        "food_value": 7942.8
+      },
+      {
+        "year": "2009",
+        "category": "Meats",
+        "food_value": 7223.4
+      },
+      {
+        "year": "2010",
+        "category": "Meats",
+        "food_value": 8120.400000000001
+      },
+      {
+        "year": "2011",
+        "category": "Meats",
+        "food_value": 8995.6
+      },
+      {
+        "year": "2012",
+        "category": "Meats",
+        "food_value": 10093.1
+      },
+      {
+        "year": "2013",
+        "category": "Meats",
+        "food_value": 10567.6
+      },
+      {
+        "year": "2014",
+        "category": "Meats",
+        "food_value": 14927.3
+      },
+      {
+        "year": "2015",
+        "category": "Meats",
+        "food_value": 16825.5
+      },
+      {
+        "year": "2016",
+        "category": "Meats",
+        "food_value": 13960.7
+      },
+      {
+        "year": "2017",
+        "category": "Meats",
+        "food_value": 14066.5
+      },
+      {
+        "year": "2018",
+        "category": "Meats",
+        "food_value": 14540.1
+      },
+      {
+        "year": "2019",
+        "category": "Meats",
+        "food_value": 15308.7
+      },
+      {
+        "year": "2020",
+        "category": "Meats",
+        "food_value": 16648.3
+      },
+      {
+        "year": "2021",
+        "category": "Meats",
+        "food_value": 20782.5
+      },
+      {
+        "year": "2022",
+        "category": "Meats",
+        "food_value": 22166.2
+      },
+      {
+        "year": "2023",
+        "category": "Meats",
+        "food_value": 22416.9
+      },
+      {
+        "year": "2024",
+        "category": "Meats",
+        "food_value": 26858.4
+      },
+      {
+        "year": "1999",
+        "category": "Nuts",
+        "food_value": 1034.2
+      },
+      {
+        "year": "2000",
+        "category": "Nuts",
+        "food_value": 1134.0
+      },
+      {
+        "year": "2001",
+        "category": "Nuts",
+        "food_value": 931.0
+      },
+      {
+        "year": "2002",
+        "category": "Nuts",
+        "food_value": 1043.3
+      },
+      {
+        "year": "2003",
+        "category": "Nuts",
+        "food_value": 1230.7
+      },
+      {
+        "year": "2004",
+        "category": "Nuts",
+        "food_value": 1740.4
+      },
+      {
+        "year": "2005",
+        "category": "Nuts",
+        "food_value": 1758.4
+      },
+      {
+        "year": "2006",
+        "category": "Nuts",
+        "food_value": 1770.4
+      },
+      {
+        "year": "2007",
+        "category": "Nuts",
+        "food_value": 1982.2
+      },
+      {
+        "year": "2008",
+        "category": "Nuts",
+        "food_value": 2292.5
+      },
+      {
+        "year": "2009",
+        "category": "Nuts",
+        "food_value": 2282.4
+      },
+      {
+        "year": "2010",
+        "category": "Nuts",
+        "food_value": 2648.3
+      },
+      {
+        "year": "2011",
+        "category": "Nuts",
+        "food_value": 3317.5
+      },
+      {
+        "year": "2012",
+        "category": "Nuts",
+        "food_value": 3434.9
+      },
+      {
+        "year": "2013",
+        "category": "Nuts",
+        "food_value": 3599.2000000000003
+      },
+      {
+        "year": "2014",
+        "category": "Nuts",
+        "food_value": 4267.6
+      },
+      {
+        "year": "2015",
+        "category": "Nuts",
+        "food_value": 5132.5
+      },
+      {
+        "year": "2016",
+        "category": "Nuts",
+        "food_value": 5660.9
+      },
+      {
+        "year": "2017",
+        "category": "Nuts",
+        "food_value": 6638.3
+      },
+      {
+        "year": "2018",
+        "category": "Nuts",
+        "food_value": 7111.0
+      },
+      {
+        "year": "2019",
+        "category": "Nuts",
+        "food_value": 6295.4
+      },
+      {
+        "year": "2020",
+        "category": "Nuts",
+        "food_value": 5706.0
+      },
+      {
+        "year": "2021",
+        "category": "Nuts",
+        "food_value": 6434.5
+      },
+      {
+        "year": "2022",
+        "category": "Nuts",
+        "food_value": 5821.7
+      },
+      {
+        "year": "2023",
+        "category": "Nuts",
+        "food_value": 5180.5
+      },
+      {
+        "year": "2024",
+        "category": "Nuts",
+        "food_value": 6039.5
+      },
+      {
+        "year": "1999",
+        "category": "Other",
+        "food_value": 1303.0
+      },
+      {
+        "year": "2000",
+        "category": "Other",
+        "food_value": 1315.7
+      },
+      {
+        "year": "2001",
+        "category": "Other",
+        "food_value": 1387.2
+      },
+      {
+        "year": "2002",
+        "category": "Other",
+        "food_value": 1550.2
+      },
+      {
+        "year": "2003",
+        "category": "Other",
+        "food_value": 2635.7
+      },
+      {
+        "year": "2004",
+        "category": "Other",
+        "food_value": 3664.2
+      },
+      {
+        "year": "2005",
+        "category": "Other",
+        "food_value": 4352.1
+      },
+      {
+        "year": "2006",
+        "category": "Other",
+        "food_value": 4682.7
+      },
+      {
+        "year": "2007",
+        "category": "Other",
+        "food_value": 4784.7
+      },
+      {
+        "year": "2008",
+        "category": "Other",
+        "food_value": 5303.4
+      },
+      {
+        "year": "2009",
+        "category": "Other",
+        "food_value": 4729.8
+      },
+      {
+        "year": "2010",
+        "category": "Other",
+        "food_value": 5173.1
+      },
+      {
+        "year": "2011",
+        "category": "Other",
+        "food_value": 6350.599999999999
+      },
+      {
+        "year": "2012",
+        "category": "Other",
+        "food_value": 9089.5
+      },
+      {
+        "year": "2013",
+        "category": "Other",
+        "food_value": 7822.2
+      },
+      {
+        "year": "2014",
+        "category": "Other",
+        "food_value": 7573.8
+      },
+      {
+        "year": "2015",
+        "category": "Other",
+        "food_value": 7345.8
+      },
+      {
+        "year": "2016",
+        "category": "Other",
+        "food_value": 6958.200000000001
+      },
+      {
+        "year": "2017",
+        "category": "Other",
+        "food_value": 7623.3
+      },
+      {
+        "year": "2018",
+        "category": "Other",
+        "food_value": 11300.4
+      },
+      {
+        "year": "2019",
+        "category": "Other",
+        "food_value": 11656.1
+      },
+      {
+        "year": "2020",
+        "category": "Other",
+        "food_value": 12408.7
+      },
+      {
+        "year": "2021",
+        "category": "Other",
+        "food_value": 14038.9
+      },
+      {
+        "year": "2022",
+        "category": "Other",
+        "food_value": 16985.3
+      },
+      {
+        "year": "2023",
+        "category": "Other",
+        "food_value": 15405.2
+      },
+      {
+        "year": "2024",
+        "category": "Other",
+        "food_value": 16440.5
+      },
+      {
+        "year": "1999",
+        "category": "Sweets",
+        "food_value": 1807.1
+      },
+      {
+        "year": "2000",
+        "category": "Sweets",
+        "food_value": 1677.1
+      },
+      {
+        "year": "2001",
+        "category": "Sweets",
+        "food_value": 1900.0
+      },
+      {
+        "year": "2002",
+        "category": "Sweets",
+        "food_value": 2286.6
+      },
+      {
+        "year": "2003",
+        "category": "Sweets",
+        "food_value": 2656.2
+      },
+      {
+        "year": "2004",
+        "category": "Sweets",
+        "food_value": 2650.5
+      },
+      {
+        "year": "2005",
+        "category": "Sweets",
+        "food_value": 3355.0
+      },
+      {
+        "year": "2006",
+        "category": "Sweets",
+        "food_value": 4122.4
+      },
+      {
+        "year": "2007",
+        "category": "Sweets",
+        "food_value": 3542.9
+      },
+      {
+        "year": "2008",
+        "category": "Sweets",
+        "food_value": 4445.5
+      },
+      {
+        "year": "2009",
+        "category": "Sweets",
+        "food_value": 4403.4
+      },
+      {
+        "year": "2010",
+        "category": "Sweets",
+        "food_value": 5884.2
+      },
+      {
+        "year": "2011",
+        "category": "Sweets",
+        "food_value": 7452.5
+      },
+      {
+        "year": "2012",
+        "category": "Sweets",
+        "food_value": 6755.8
+      },
+      {
+        "year": "2013",
+        "category": "Sweets",
+        "food_value": 6655.4
+      },
+      {
+        "year": "2014",
+        "category": "Sweets",
+        "food_value": 6530.2
+      },
+      {
+        "year": "2015",
+        "category": "Sweets",
+        "food_value": 6635.0
+      },
+      {
+        "year": "2016",
+        "category": "Sweets",
+        "food_value": 6630.400000000001
+      },
+      {
+        "year": "2017",
+        "category": "Sweets",
+        "food_value": 6528.3
+      },
+      {
+        "year": "2018",
+        "category": "Sweets",
+        "food_value": 6892.4
+      },
+      {
+        "year": "2019",
+        "category": "Sweets",
+        "food_value": 6634.3
+      },
+      {
+        "year": "2020",
+        "category": "Sweets",
+        "food_value": 7385.8
+      },
+      {
+        "year": "2021",
+        "category": "Sweets",
+        "food_value": 8130.8
+      },
+      {
+        "year": "2022",
+        "category": "Sweets",
+        "food_value": 9904.6
+      },
+      {
+        "year": "2023",
+        "category": "Sweets",
+        "food_value": 10679.2
+      },
+      {
+        "year": "2024",
+        "category": "Sweets",
+        "food_value": 10864.2
+      },
+      {
+        "year": "1999",
+        "category": "Vegetables",
+        "food_value": 5884.3
+      },
+      {
+        "year": "2000",
+        "category": "Vegetables",
+        "food_value": 6260.4
+      },
+      {
+        "year": "2001",
+        "category": "Vegetables",
+        "food_value": 6976.099999999999
+      },
+      {
+        "year": "2002",
+        "category": "Vegetables",
+        "food_value": 7361.6
+      },
+      {
+        "year": "2003",
+        "category": "Vegetables",
+        "food_value": 8634.2
+      },
+      {
+        "year": "2004",
+        "category": "Vegetables",
+        "food_value": 9801.4
+      },
+      {
+        "year": "2005",
+        "category": "Vegetables",
+        "food_value": 10372.0
+      },
+      {
+        "year": "2006",
+        "category": "Vegetables",
+        "food_value": 11325.4
+      },
+      {
+        "year": "2007",
+        "category": "Vegetables",
+        "food_value": 12339.4
+      },
+      {
+        "year": "2008",
+        "category": "Vegetables",
+        "food_value": 13230.6
+      },
+      {
+        "year": "2009",
+        "category": "Vegetables",
+        "food_value": 12752.9
+      },
+      {
+        "year": "2010",
+        "category": "Vegetables",
+        "food_value": 15020.0
+      },
+      {
+        "year": "2011",
+        "category": "Vegetables",
+        "food_value": 16609.4
+      },
+      {
+        "year": "2012",
+        "category": "Vegetables",
+        "food_value": 16885.7
+      },
+      {
+        "year": "2013",
+        "category": "Vegetables",
+        "food_value": 18618.3
+      },
+      {
+        "year": "2014",
+        "category": "Vegetables",
+        "food_value": 18891.2
+      },
+      {
+        "year": "2015",
+        "category": "Vegetables",
+        "food_value": 19433.1
+      },
+      {
+        "year": "2016",
+        "category": "Vegetables",
+        "food_value": 21555.5
+      },
+      {
+        "year": "2017",
+        "category": "Vegetables",
+        "food_value": 21816.9
+      },
+      {
+        "year": "2018",
+        "category": "Vegetables",
+        "food_value": 23044.3
+      },
+      {
+        "year": "2019",
+        "category": "Vegetables",
+        "food_value": 24070.0
+      },
+      {
+        "year": "2020",
+        "category": "Vegetables",
+        "food_value": 26855.7
+      },
+      {
+        "year": "2021",
+        "category": "Vegetables",
+        "food_value": 28861.6
+      },
+      {
+        "year": "2022",
+        "category": "Vegetables",
+        "food_value": 31261.5
+      },
+      {
+        "year": "2023",
+        "category": "Vegetables",
+        "food_value": 34292.8
+      },
+      {
+        "year": "2024",
+        "category": "Vegetables",
+        "food_value": 37040.2
+      },
+      {
+        "year": "1999",
+        "category": "VegetablesOil",
+        "food_value": 2393.9
+      },
+      {
+        "year": "2000",
+        "category": "VegetablesOil",
+        "food_value": 2583.5
+      },
+      {
+        "year": "2001",
+        "category": "VegetablesOil",
+        "food_value": 2138.1
+      },
+      {
+        "year": "2002",
+        "category": "VegetablesOil",
+        "food_value": 2441.6
+      },
+      {
+        "year": "2003",
+        "category": "VegetablesOil",
+        "food_value": 2793.9
+      },
+      {
+        "year": "2004",
+        "category": "VegetablesOil",
+        "food_value": 3981.3
+      },
+      {
+        "year": "2005",
+        "category": "VegetablesOil",
+        "food_value": 4349.6
+      },
+      {
+        "year": "2006",
+        "category": "VegetablesOil",
+        "food_value": 5241.0
+      },
+      {
+        "year": "2007",
+        "category": "VegetablesOil",
+        "food_value": 6234.1
+      },
+      {
+        "year": "2008",
+        "category": "VegetablesOil",
+        "food_value": 9633.9
+      },
+      {
+        "year": "2009",
+        "category": "VegetablesOil",
+        "food_value": 6901.0
+      },
+      {
+        "year": "2010",
+        "category": "VegetablesOil",
+        "food_value": 7661.5
+      },
+      {
+        "year": "2011",
+        "category": "VegetablesOil",
+        "food_value": 11386.6
+      },
+      {
+        "year": "2012",
+        "category": "VegetablesOil",
+        "food_value": 10347.7
+      },
+      {
+        "year": "2013",
+        "category": "VegetablesOil",
+        "food_value": 10863.3
+      },
+      {
+        "year": "2014",
+        "category": "VegetablesOil",
+        "food_value": 12249.3
+      },
+      {
+        "year": "2015",
+        "category": "VegetablesOil",
+        "food_value": 11112.6
+      },
+      {
+        "year": "2016",
+        "category": "VegetablesOil",
+        "food_value": 12296.7
+      },
+      {
+        "year": "2017",
+        "category": "VegetablesOil",
+        "food_value": 14018.4
+      },
+      {
+        "year": "2018",
+        "category": "VegetablesOil",
+        "food_value": 13286.2
+      },
+      {
+        "year": "2019",
+        "category": "VegetablesOil",
+        "food_value": 11779.1
+      },
+      {
+        "year": "2020",
+        "category": "VegetablesOil",
+        "food_value": 11948.8
+      },
+      {
+        "year": "2021",
+        "category": "VegetablesOil",
+        "food_value": 18830.3
+      },
+      {
+        "year": "2022",
+        "category": "VegetablesOil",
+        "food_value": 25565.1
+      },
+      {
+        "year": "2023",
+        "category": "VegetablesOil",
+        "food_value": 24928.6
+      },
+      {
+        "year": "2024",
+        "category": "VegetablesOil",
+        "food_value": 27320.8
+      }
+    ]
+  },
+  "mark": "line",
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "axis": {
+        "title": "Year"
+      }
+    },
+    "y": {
+      "field": "food_value",
+      "type": "quantitative",
+      "axis": {
+        "title": "Food Value"
+      }
+    },
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Animals",
+          "Beverages",
+          "Coffee",
+          "Cocoa",
+          "Dairy",
+          "Fish",
+          "Fruits",
+          "Grains",
+          "Meats",
+          "Nuts",
+          "Sweets",
+          "Vegetables",
+          "VegetablesOil",
+          "Other"
+        ],
+        "range": [
+          "#1f77b4",
+          "#98df8a",
+          "#7f7f7f",
+          "#ffbb78",
+          "#9467bd",
+          "#2ca02c",
+          "#8c564b",
+          "#bcbd22",
+          "#ff7f0e",
+          "#e377c2",
+          "#aec7e8",
+          "#d62728",
+          "#17becf",
+          "#cccccc"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "year"
+      },
+      {
+        "field": "category"
+      },
+      {
+        "field": "food_value"
+      }
+    ]
+  },
+  "title": "Trends of Food Value per Category (1999\u20132024)"
+}
