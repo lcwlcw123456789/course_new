@@ -1,0 +1,1937 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 960,
+  "height": 500,
+  "padding": 2.5,
+  "autosize": "none",
+  "signals": [
+    {
+      "name": "layout",
+      "value": "squarify",
+      "bind": {
+        "input": "select",
+        "options": [
+          "squarify",
+          "binary",
+          "slicedice"
+        ]
+      }
+    },
+    {
+      "name": "aspectRatio",
+      "value": 1.6,
+      "bind": {
+        "input": "range",
+        "min": 1,
+        "max": 5,
+        "step": 0.1
+      }
+    }
+  ],
+  "data": [
+    {
+      "name": "tree",
+      "values": [
+        {
+          "id": 1,
+          "name": "Foods",
+          "depth": 0,
+          "children": [
+            {
+              "id": 2,
+              "name": "Animals",
+              "parent": 1,
+              "depth": 1,
+              "category": "Animals",
+              "children": [
+                {
+                  "id": 16,
+                  "name": "Bovine animals, live",
+                  "parent": 2,
+                  "size": 1802.6,
+                  "depth": 2,
+                  "category": "Animals"
+                },
+                {
+                  "id": 17,
+                  "name": "Swine, live",
+                  "parent": 2,
+                  "size": 243.2,
+                  "depth": 2,
+                  "category": "Animals"
+                },
+                {
+                  "id": 18,
+                  "name": "Sheep and goats, live",
+                  "parent": 2,
+                  "size": 0.6,
+                  "depth": 2,
+                  "category": "Animals"
+                },
+                {
+                  "id": 19,
+                  "name": "Live poultry",
+                  "parent": 2,
+                  "size": 35.1,
+                  "depth": 2,
+                  "category": "Animals"
+                },
+                {
+                  "id": 20,
+                  "name": "Bird eggs",
+                  "parent": 2,
+                  "size": 76.0,
+                  "depth": 2,
+                  "category": "Animals"
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "Meats",
+              "parent": 1,
+              "depth": 1,
+              "category": "Meats",
+              "children": [
+                {
+                  "id": 51,
+                  "name": "Fresh or chilled red meats",
+                  "parent": 3,
+                  "size": 4391.1,
+                  "depth": 2,
+                  "category": "Meats"
+                },
+                {
+                  "id": 52,
+                  "name": "Frozen red meats and parts",
+                  "parent": 3,
+                  "size": 3367.0,
+                  "depth": 2,
+                  "category": "Meats"
+                },
+                {
+                  "id": 53,
+                  "name": "Fowl and other meats",
+                  "parent": 3,
+                  "size": 302.1,
+                  "depth": 2,
+                  "category": "Meats"
+                },
+                {
+                  "id": 54,
+                  "name": "Prepared meats",
+                  "parent": 3,
+                  "size": 1392.4,
+                  "depth": 2,
+                  "category": "Meats"
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "Fish",
+              "parent": 1,
+              "depth": 1,
+              "category": "Fish",
+              "children": [
+                {
+                  "id": 37,
+                  "name": "Whole fish--fresh, chilled, or frozen",
+                  "parent": 4,
+                  "size": 2298.6,
+                  "depth": 2,
+                  "category": "Fish"
+                },
+                {
+                  "id": 38,
+                  "name": "Fish fillets and mince",
+                  "parent": 4,
+                  "size": 5607.2,
+                  "depth": 2,
+                  "category": "Fish"
+                },
+                {
+                  "id": 39,
+                  "name": "Shellfish, fresh or frozen",
+                  "parent": 4,
+                  "size": 8212.3,
+                  "depth": 2,
+                  "category": "Fish"
+                },
+                {
+                  "id": 40,
+                  "name": "Prepared fish and shellfish",
+                  "parent": 4,
+                  "size": 5166.5,
+                  "depth": 2,
+                  "category": "Fish"
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "name": "Vegetables",
+              "parent": 1,
+              "depth": 1,
+              "category": "Vegetables",
+              "children": [
+                {
+                  "id": 66,
+                  "name": "Fresh vegetables",
+                  "parent": 5,
+                  "size": 10195.1,
+                  "depth": 2,
+                  "category": "Vegetables"
+                },
+                {
+                  "id": 67,
+                  "name": "Frozen vegetables",
+                  "parent": 5,
+                  "size": 1188.8,
+                  "depth": 2,
+                  "category": "Vegetables"
+                },
+                {
+                  "id": 68,
+                  "name": "Dried vegetables",
+                  "parent": 5,
+                  "size": 662.8,
+                  "depth": 2,
+                  "category": "Vegetables"
+                },
+                {
+                  "id": 69,
+                  "name": "Prepared or preserved vegetables",
+                  "parent": 5,
+                  "size": 3627.3,
+                  "depth": 2,
+                  "category": "Vegetables"
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "name": "Dairy",
+              "parent": 1,
+              "depth": 1,
+              "category": "Dairy",
+              "children": [
+                {
+                  "id": 33,
+                  "name": "Cheese, fresh or processed",
+                  "parent": 6,
+                  "size": 1193.9,
+                  "depth": 2,
+                  "category": "Dairy"
+                },
+                {
+                  "id": 34,
+                  "name": "Yogurt, buttermilk, or whey",
+                  "parent": 6,
+                  "size": 354.6,
+                  "depth": 2,
+                  "category": "Dairy"
+                },
+                {
+                  "id": 35,
+                  "name": "Milk and cream",
+                  "parent": 6,
+                  "size": 180.8,
+                  "depth": 2,
+                  "category": "Dairy"
+                },
+                {
+                  "id": 36,
+                  "name": "Butter or spreads",
+                  "parent": 6,
+                  "size": 336.3,
+                  "depth": 2,
+                  "category": "Dairy"
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "name": "Fruits",
+              "parent": 1,
+              "depth": 1,
+              "category": "Fruits",
+              "children": [
+                {
+                  "id": 41,
+                  "name": "Fresh or chilled fruit",
+                  "parent": 7,
+                  "size": 14522.9,
+                  "depth": 2,
+                  "category": "Fruits"
+                },
+                {
+                  "id": 42,
+                  "name": "Bananas and plantains",
+                  "parent": 7,
+                  "size": 2426.1,
+                  "depth": 2,
+                  "category": "Fruits"
+                },
+                {
+                  "id": 43,
+                  "name": "Frozen fruit",
+                  "parent": 7,
+                  "size": 1072.1,
+                  "depth": 2,
+                  "category": "Fruits"
+                },
+                {
+                  "id": 44,
+                  "name": "Dried, prepared or preserved fruit",
+                  "parent": 7,
+                  "size": 3104.1,
+                  "depth": 2,
+                  "category": "Fruits"
+                },
+                {
+                  "id": 45,
+                  "name": "Fruit juices",
+                  "parent": 7,
+                  "size": 1822.0,
+                  "depth": 2,
+                  "category": "Fruits"
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "name": "Nuts",
+              "parent": 1,
+              "depth": 1,
+              "category": "Nuts",
+              "children": [
+                {
+                  "id": 55,
+                  "name": "Tree nuts",
+                  "parent": 8,
+                  "size": 2153.9,
+                  "depth": 2,
+                  "category": "Nuts"
+                },
+                {
+                  "id": 56,
+                  "name": "Cashew nuts",
+                  "parent": 8,
+                  "size": 1082.6,
+                  "depth": 2,
+                  "category": "Nuts"
+                },
+                {
+                  "id": 57,
+                  "name": "Prepared tree nuts",
+                  "parent": 8,
+                  "size": 472.5,
+                  "depth": 2,
+                  "category": "Nuts"
+                },
+                {
+                  "id": 58,
+                  "name": "Ground nuts",
+                  "parent": 8,
+                  "size": 142.4,
+                  "depth": 2,
+                  "category": "Nuts"
+                }
+              ]
+            },
+            {
+              "id": 9,
+              "name": "Coffee",
+              "parent": 1,
+              "depth": 1,
+              "category": "Coffee",
+              "children": [
+                {
+                  "id": 28,
+                  "name": "Coffee beans, unroasted",
+                  "parent": 9,
+                  "size": 4425.1,
+                  "depth": 2,
+                  "category": "Coffee"
+                },
+                {
+                  "id": 29,
+                  "name": "Coffee, roasted and instant",
+                  "parent": 9,
+                  "size": 1113.7,
+                  "depth": 2,
+                  "category": "Coffee"
+                },
+                {
+                  "id": 30,
+                  "name": "Coffee extracts and preparations",
+                  "parent": 9,
+                  "size": 488.5,
+                  "depth": 2,
+                  "category": "Coffee"
+                },
+                {
+                  "id": 31,
+                  "name": "Tea and mate",
+                  "parent": 9,
+                  "size": 659.3,
+                  "depth": 2,
+                  "category": "Coffee"
+                },
+                {
+                  "id": 32,
+                  "name": "Spices",
+                  "parent": 9,
+                  "size": 1659.6,
+                  "depth": 2,
+                  "category": "Coffee"
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "name": "Grains",
+              "parent": 1,
+              "depth": 1,
+              "category": "Grains",
+              "children": [
+                {
+                  "id": 46,
+                  "name": "Bulk grains",
+                  "parent": 10,
+                  "size": 2351.2,
+                  "depth": 2,
+                  "category": "Grains"
+                },
+                {
+                  "id": 47,
+                  "name": "Wheat and products",
+                  "parent": 10,
+                  "size": 1026.9,
+                  "depth": 2,
+                  "category": "Grains"
+                },
+                {
+                  "id": 48,
+                  "name": "Rice and products",
+                  "parent": 10,
+                  "size": 1186.6,
+                  "depth": 2,
+                  "category": "Grains"
+                },
+                {
+                  "id": 49,
+                  "name": "Milled grain products",
+                  "parent": 10,
+                  "size": 1629.7,
+                  "depth": 2,
+                  "category": "Grains"
+                },
+                {
+                  "id": 50,
+                  "name": "Cereal and bakery foods",
+                  "parent": 10,
+                  "size": 9129.6,
+                  "depth": 2,
+                  "category": "Grains"
+                }
+              ]
+            },
+            {
+              "id": 11,
+              "name": "VegetablesOil",
+              "parent": 1,
+              "depth": 1,
+              "category": "VegetablesOil",
+              "children": [
+                {
+                  "id": 70,
+                  "name": "Crude vegetable oils",
+                  "parent": 11,
+                  "size": 510.8,
+                  "depth": 2,
+                  "category": "VegetablesOil"
+                },
+                {
+                  "id": 71,
+                  "name": "Refined vegetable oils",
+                  "parent": 11,
+                  "size": 5156.7,
+                  "depth": 2,
+                  "category": "VegetablesOil"
+                },
+                {
+                  "id": 72,
+                  "name": "Olive oil",
+                  "parent": 11,
+                  "size": 1310.9,
+                  "depth": 2,
+                  "category": "VegetablesOil"
+                },
+                {
+                  "id": 73,
+                  "name": "Tropical oils",
+                  "parent": 11,
+                  "size": 1872.1,
+                  "depth": 2,
+                  "category": "VegetablesOil"
+                },
+                {
+                  "id": 74,
+                  "name": "Oilseeds",
+                  "parent": 11,
+                  "size": 1002.3,
+                  "depth": 2,
+                  "category": "VegetablesOil"
+                }
+              ]
+            },
+            {
+              "id": 12,
+              "name": "Sweets",
+              "parent": 1,
+              "depth": 1,
+              "category": "Sweets",
+              "children": [
+                {
+                  "id": 63,
+                  "name": "Sugar, cane and beet",
+                  "parent": 12,
+                  "size": 2199.4,
+                  "depth": 2,
+                  "category": "Sweets"
+                },
+                {
+                  "id": 64,
+                  "name": "Other sweeteners and syrups",
+                  "parent": 12,
+                  "size": 1035.2,
+                  "depth": 2,
+                  "category": "Sweets"
+                },
+                {
+                  "id": 65,
+                  "name": "Confections",
+                  "parent": 12,
+                  "size": 1936.9,
+                  "depth": 2,
+                  "category": "Sweets"
+                }
+              ]
+            },
+            {
+              "id": 13,
+              "name": "Cocoa",
+              "parent": 1,
+              "depth": 1,
+              "category": "Cocoa",
+              "children": [
+                {
+                  "id": 25,
+                  "name": "Cocoa beans",
+                  "parent": 13,
+                  "size": 995.7,
+                  "depth": 2,
+                  "category": "Cocoa"
+                },
+                {
+                  "id": 26,
+                  "name": "Cocoa paste, butter, and powder",
+                  "parent": 13,
+                  "size": 1264.1,
+                  "depth": 2,
+                  "category": "Cocoa"
+                },
+                {
+                  "id": 27,
+                  "name": "Chocolate",
+                  "parent": 13,
+                  "size": 2791.7,
+                  "depth": 2,
+                  "category": "Cocoa"
+                }
+              ]
+            },
+            {
+              "id": 14,
+              "name": "Other",
+              "parent": 1,
+              "depth": 1,
+              "category": "Other",
+              "children": [
+                {
+                  "id": 59,
+                  "name": "Sauces, soups, prepared foods",
+                  "parent": 14,
+                  "size": 8601.4,
+                  "depth": 2,
+                  "category": "Other"
+                },
+                {
+                  "id": 60,
+                  "name": "Essential oils",
+                  "parent": 14,
+                  "size": 4123.7,
+                  "depth": 2,
+                  "category": "Other"
+                },
+                {
+                  "id": 61,
+                  "name": "Animal and other fats",
+                  "parent": 14,
+                  "size": 704.2,
+                  "depth": 2,
+                  "category": "Other"
+                },
+                {
+                  "id": 62,
+                  "name": "Other edible products",
+                  "parent": 14,
+                  "size": 2115.1,
+                  "depth": 2,
+                  "category": "Other"
+                }
+              ]
+            },
+            {
+              "id": 15,
+              "name": "Beverages",
+              "parent": 1,
+              "depth": 1,
+              "category": "Beverages",
+              "children": [
+                {
+                  "id": 21,
+                  "name": "Wine",
+                  "parent": 15,
+                  "size": 6245.0,
+                  "depth": 2,
+                  "category": "Beverages"
+                },
+                {
+                  "id": 22,
+                  "name": "Malt beer",
+                  "parent": 15,
+                  "size": 5739.1,
+                  "depth": 2,
+                  "category": "Beverages"
+                },
+                {
+                  "id": 23,
+                  "name": "Nonalcoholic beverages",
+                  "parent": 15,
+                  "size": 4139.9,
+                  "depth": 2,
+                  "category": "Beverages"
+                },
+                {
+                  "id": 24,
+                  "name": "Liquors and liqueurs",
+                  "parent": 15,
+                  "size": 8479.2,
+                  "depth": 2,
+                  "category": "Beverages"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Animals",
+          "parent": 1,
+          "depth": 1,
+          "category": "Animals",
+          "children": [
+            {
+              "id": 16,
+              "name": "Bovine animals, live",
+              "parent": 2,
+              "size": 1802.6,
+              "depth": 2,
+              "category": "Animals"
+            },
+            {
+              "id": 17,
+              "name": "Swine, live",
+              "parent": 2,
+              "size": 243.2,
+              "depth": 2,
+              "category": "Animals"
+            },
+            {
+              "id": 18,
+              "name": "Sheep and goats, live",
+              "parent": 2,
+              "size": 0.6,
+              "depth": 2,
+              "category": "Animals"
+            },
+            {
+              "id": 19,
+              "name": "Live poultry",
+              "parent": 2,
+              "size": 35.1,
+              "depth": 2,
+              "category": "Animals"
+            },
+            {
+              "id": 20,
+              "name": "Bird eggs",
+              "parent": 2,
+              "size": 76.0,
+              "depth": 2,
+              "category": "Animals"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Meats",
+          "parent": 1,
+          "depth": 1,
+          "category": "Meats",
+          "children": [
+            {
+              "id": 51,
+              "name": "Fresh or chilled red meats",
+              "parent": 3,
+              "size": 4391.1,
+              "depth": 2,
+              "category": "Meats"
+            },
+            {
+              "id": 52,
+              "name": "Frozen red meats and parts",
+              "parent": 3,
+              "size": 3367.0,
+              "depth": 2,
+              "category": "Meats"
+            },
+            {
+              "id": 53,
+              "name": "Fowl and other meats",
+              "parent": 3,
+              "size": 302.1,
+              "depth": 2,
+              "category": "Meats"
+            },
+            {
+              "id": 54,
+              "name": "Prepared meats",
+              "parent": 3,
+              "size": 1392.4,
+              "depth": 2,
+              "category": "Meats"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Fish",
+          "parent": 1,
+          "depth": 1,
+          "category": "Fish",
+          "children": [
+            {
+              "id": 37,
+              "name": "Whole fish--fresh, chilled, or frozen",
+              "parent": 4,
+              "size": 2298.6,
+              "depth": 2,
+              "category": "Fish"
+            },
+            {
+              "id": 38,
+              "name": "Fish fillets and mince",
+              "parent": 4,
+              "size": 5607.2,
+              "depth": 2,
+              "category": "Fish"
+            },
+            {
+              "id": 39,
+              "name": "Shellfish, fresh or frozen",
+              "parent": 4,
+              "size": 8212.3,
+              "depth": 2,
+              "category": "Fish"
+            },
+            {
+              "id": 40,
+              "name": "Prepared fish and shellfish",
+              "parent": 4,
+              "size": 5166.5,
+              "depth": 2,
+              "category": "Fish"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Vegetables",
+          "parent": 1,
+          "depth": 1,
+          "category": "Vegetables",
+          "children": [
+            {
+              "id": 66,
+              "name": "Fresh vegetables",
+              "parent": 5,
+              "size": 10195.1,
+              "depth": 2,
+              "category": "Vegetables"
+            },
+            {
+              "id": 67,
+              "name": "Frozen vegetables",
+              "parent": 5,
+              "size": 1188.8,
+              "depth": 2,
+              "category": "Vegetables"
+            },
+            {
+              "id": 68,
+              "name": "Dried vegetables",
+              "parent": 5,
+              "size": 662.8,
+              "depth": 2,
+              "category": "Vegetables"
+            },
+            {
+              "id": 69,
+              "name": "Prepared or preserved vegetables",
+              "parent": 5,
+              "size": 3627.3,
+              "depth": 2,
+              "category": "Vegetables"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Dairy",
+          "parent": 1,
+          "depth": 1,
+          "category": "Dairy",
+          "children": [
+            {
+              "id": 33,
+              "name": "Cheese, fresh or processed",
+              "parent": 6,
+              "size": 1193.9,
+              "depth": 2,
+              "category": "Dairy"
+            },
+            {
+              "id": 34,
+              "name": "Yogurt, buttermilk, or whey",
+              "parent": 6,
+              "size": 354.6,
+              "depth": 2,
+              "category": "Dairy"
+            },
+            {
+              "id": 35,
+              "name": "Milk and cream",
+              "parent": 6,
+              "size": 180.8,
+              "depth": 2,
+              "category": "Dairy"
+            },
+            {
+              "id": 36,
+              "name": "Butter or spreads",
+              "parent": 6,
+              "size": 336.3,
+              "depth": 2,
+              "category": "Dairy"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Fruits",
+          "parent": 1,
+          "depth": 1,
+          "category": "Fruits",
+          "children": [
+            {
+              "id": 41,
+              "name": "Fresh or chilled fruit",
+              "parent": 7,
+              "size": 14522.9,
+              "depth": 2,
+              "category": "Fruits"
+            },
+            {
+              "id": 42,
+              "name": "Bananas and plantains",
+              "parent": 7,
+              "size": 2426.1,
+              "depth": 2,
+              "category": "Fruits"
+            },
+            {
+              "id": 43,
+              "name": "Frozen fruit",
+              "parent": 7,
+              "size": 1072.1,
+              "depth": 2,
+              "category": "Fruits"
+            },
+            {
+              "id": 44,
+              "name": "Dried, prepared or preserved fruit",
+              "parent": 7,
+              "size": 3104.1,
+              "depth": 2,
+              "category": "Fruits"
+            },
+            {
+              "id": 45,
+              "name": "Fruit juices",
+              "parent": 7,
+              "size": 1822.0,
+              "depth": 2,
+              "category": "Fruits"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "Nuts",
+          "parent": 1,
+          "depth": 1,
+          "category": "Nuts",
+          "children": [
+            {
+              "id": 55,
+              "name": "Tree nuts",
+              "parent": 8,
+              "size": 2153.9,
+              "depth": 2,
+              "category": "Nuts"
+            },
+            {
+              "id": 56,
+              "name": "Cashew nuts",
+              "parent": 8,
+              "size": 1082.6,
+              "depth": 2,
+              "category": "Nuts"
+            },
+            {
+              "id": 57,
+              "name": "Prepared tree nuts",
+              "parent": 8,
+              "size": 472.5,
+              "depth": 2,
+              "category": "Nuts"
+            },
+            {
+              "id": 58,
+              "name": "Ground nuts",
+              "parent": 8,
+              "size": 142.4,
+              "depth": 2,
+              "category": "Nuts"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Coffee",
+          "parent": 1,
+          "depth": 1,
+          "category": "Coffee",
+          "children": [
+            {
+              "id": 28,
+              "name": "Coffee beans, unroasted",
+              "parent": 9,
+              "size": 4425.1,
+              "depth": 2,
+              "category": "Coffee"
+            },
+            {
+              "id": 29,
+              "name": "Coffee, roasted and instant",
+              "parent": 9,
+              "size": 1113.7,
+              "depth": 2,
+              "category": "Coffee"
+            },
+            {
+              "id": 30,
+              "name": "Coffee extracts and preparations",
+              "parent": 9,
+              "size": 488.5,
+              "depth": 2,
+              "category": "Coffee"
+            },
+            {
+              "id": 31,
+              "name": "Tea and mate",
+              "parent": 9,
+              "size": 659.3,
+              "depth": 2,
+              "category": "Coffee"
+            },
+            {
+              "id": 32,
+              "name": "Spices",
+              "parent": 9,
+              "size": 1659.6,
+              "depth": 2,
+              "category": "Coffee"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "Grains",
+          "parent": 1,
+          "depth": 1,
+          "category": "Grains",
+          "children": [
+            {
+              "id": 46,
+              "name": "Bulk grains",
+              "parent": 10,
+              "size": 2351.2,
+              "depth": 2,
+              "category": "Grains"
+            },
+            {
+              "id": 47,
+              "name": "Wheat and products",
+              "parent": 10,
+              "size": 1026.9,
+              "depth": 2,
+              "category": "Grains"
+            },
+            {
+              "id": 48,
+              "name": "Rice and products",
+              "parent": 10,
+              "size": 1186.6,
+              "depth": 2,
+              "category": "Grains"
+            },
+            {
+              "id": 49,
+              "name": "Milled grain products",
+              "parent": 10,
+              "size": 1629.7,
+              "depth": 2,
+              "category": "Grains"
+            },
+            {
+              "id": 50,
+              "name": "Cereal and bakery foods",
+              "parent": 10,
+              "size": 9129.6,
+              "depth": 2,
+              "category": "Grains"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "VegetablesOil",
+          "parent": 1,
+          "depth": 1,
+          "category": "VegetablesOil",
+          "children": [
+            {
+              "id": 70,
+              "name": "Crude vegetable oils",
+              "parent": 11,
+              "size": 510.8,
+              "depth": 2,
+              "category": "VegetablesOil"
+            },
+            {
+              "id": 71,
+              "name": "Refined vegetable oils",
+              "parent": 11,
+              "size": 5156.7,
+              "depth": 2,
+              "category": "VegetablesOil"
+            },
+            {
+              "id": 72,
+              "name": "Olive oil",
+              "parent": 11,
+              "size": 1310.9,
+              "depth": 2,
+              "category": "VegetablesOil"
+            },
+            {
+              "id": 73,
+              "name": "Tropical oils",
+              "parent": 11,
+              "size": 1872.1,
+              "depth": 2,
+              "category": "VegetablesOil"
+            },
+            {
+              "id": 74,
+              "name": "Oilseeds",
+              "parent": 11,
+              "size": 1002.3,
+              "depth": 2,
+              "category": "VegetablesOil"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "name": "Sweets",
+          "parent": 1,
+          "depth": 1,
+          "category": "Sweets",
+          "children": [
+            {
+              "id": 63,
+              "name": "Sugar, cane and beet",
+              "parent": 12,
+              "size": 2199.4,
+              "depth": 2,
+              "category": "Sweets"
+            },
+            {
+              "id": 64,
+              "name": "Other sweeteners and syrups",
+              "parent": 12,
+              "size": 1035.2,
+              "depth": 2,
+              "category": "Sweets"
+            },
+            {
+              "id": 65,
+              "name": "Confections",
+              "parent": 12,
+              "size": 1936.9,
+              "depth": 2,
+              "category": "Sweets"
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "Cocoa",
+          "parent": 1,
+          "depth": 1,
+          "category": "Cocoa",
+          "children": [
+            {
+              "id": 25,
+              "name": "Cocoa beans",
+              "parent": 13,
+              "size": 995.7,
+              "depth": 2,
+              "category": "Cocoa"
+            },
+            {
+              "id": 26,
+              "name": "Cocoa paste, butter, and powder",
+              "parent": 13,
+              "size": 1264.1,
+              "depth": 2,
+              "category": "Cocoa"
+            },
+            {
+              "id": 27,
+              "name": "Chocolate",
+              "parent": 13,
+              "size": 2791.7,
+              "depth": 2,
+              "category": "Cocoa"
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "name": "Other",
+          "parent": 1,
+          "depth": 1,
+          "category": "Other",
+          "children": [
+            {
+              "id": 59,
+              "name": "Sauces, soups, prepared foods",
+              "parent": 14,
+              "size": 8601.4,
+              "depth": 2,
+              "category": "Other"
+            },
+            {
+              "id": 60,
+              "name": "Essential oils",
+              "parent": 14,
+              "size": 4123.7,
+              "depth": 2,
+              "category": "Other"
+            },
+            {
+              "id": 61,
+              "name": "Animal and other fats",
+              "parent": 14,
+              "size": 704.2,
+              "depth": 2,
+              "category": "Other"
+            },
+            {
+              "id": 62,
+              "name": "Other edible products",
+              "parent": 14,
+              "size": 2115.1,
+              "depth": 2,
+              "category": "Other"
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "name": "Beverages",
+          "parent": 1,
+          "depth": 1,
+          "category": "Beverages",
+          "children": [
+            {
+              "id": 21,
+              "name": "Wine",
+              "parent": 15,
+              "size": 6245.0,
+              "depth": 2,
+              "category": "Beverages"
+            },
+            {
+              "id": 22,
+              "name": "Malt beer",
+              "parent": 15,
+              "size": 5739.1,
+              "depth": 2,
+              "category": "Beverages"
+            },
+            {
+              "id": 23,
+              "name": "Nonalcoholic beverages",
+              "parent": 15,
+              "size": 4139.9,
+              "depth": 2,
+              "category": "Beverages"
+            },
+            {
+              "id": 24,
+              "name": "Liquors and liqueurs",
+              "parent": 15,
+              "size": 8479.2,
+              "depth": 2,
+              "category": "Beverages"
+            }
+          ]
+        },
+        {
+          "id": 16,
+          "name": "Bovine animals, live",
+          "parent": 2,
+          "size": 1802.6,
+          "depth": 2,
+          "category": "Animals"
+        },
+        {
+          "id": 17,
+          "name": "Swine, live",
+          "parent": 2,
+          "size": 243.2,
+          "depth": 2,
+          "category": "Animals"
+        },
+        {
+          "id": 18,
+          "name": "Sheep and goats, live",
+          "parent": 2,
+          "size": 0.6,
+          "depth": 2,
+          "category": "Animals"
+        },
+        {
+          "id": 19,
+          "name": "Live poultry",
+          "parent": 2,
+          "size": 35.1,
+          "depth": 2,
+          "category": "Animals"
+        },
+        {
+          "id": 20,
+          "name": "Bird eggs",
+          "parent": 2,
+          "size": 76.0,
+          "depth": 2,
+          "category": "Animals"
+        },
+        {
+          "id": 21,
+          "name": "Wine",
+          "parent": 15,
+          "size": 6245.0,
+          "depth": 2,
+          "category": "Beverages"
+        },
+        {
+          "id": 22,
+          "name": "Malt beer",
+          "parent": 15,
+          "size": 5739.1,
+          "depth": 2,
+          "category": "Beverages"
+        },
+        {
+          "id": 23,
+          "name": "Nonalcoholic beverages",
+          "parent": 15,
+          "size": 4139.9,
+          "depth": 2,
+          "category": "Beverages"
+        },
+        {
+          "id": 24,
+          "name": "Liquors and liqueurs",
+          "parent": 15,
+          "size": 8479.2,
+          "depth": 2,
+          "category": "Beverages"
+        },
+        {
+          "id": 25,
+          "name": "Cocoa beans",
+          "parent": 13,
+          "size": 995.7,
+          "depth": 2,
+          "category": "Cocoa"
+        },
+        {
+          "id": 26,
+          "name": "Cocoa paste, butter, and powder",
+          "parent": 13,
+          "size": 1264.1,
+          "depth": 2,
+          "category": "Cocoa"
+        },
+        {
+          "id": 27,
+          "name": "Chocolate",
+          "parent": 13,
+          "size": 2791.7,
+          "depth": 2,
+          "category": "Cocoa"
+        },
+        {
+          "id": 28,
+          "name": "Coffee beans, unroasted",
+          "parent": 9,
+          "size": 4425.1,
+          "depth": 2,
+          "category": "Coffee"
+        },
+        {
+          "id": 29,
+          "name": "Coffee, roasted and instant",
+          "parent": 9,
+          "size": 1113.7,
+          "depth": 2,
+          "category": "Coffee"
+        },
+        {
+          "id": 30,
+          "name": "Coffee extracts and preparations",
+          "parent": 9,
+          "size": 488.5,
+          "depth": 2,
+          "category": "Coffee"
+        },
+        {
+          "id": 31,
+          "name": "Tea and mate",
+          "parent": 9,
+          "size": 659.3,
+          "depth": 2,
+          "category": "Coffee"
+        },
+        {
+          "id": 32,
+          "name": "Spices",
+          "parent": 9,
+          "size": 1659.6,
+          "depth": 2,
+          "category": "Coffee"
+        },
+        {
+          "id": 33,
+          "name": "Cheese, fresh or processed",
+          "parent": 6,
+          "size": 1193.9,
+          "depth": 2,
+          "category": "Dairy"
+        },
+        {
+          "id": 34,
+          "name": "Yogurt, buttermilk, or whey",
+          "parent": 6,
+          "size": 354.6,
+          "depth": 2,
+          "category": "Dairy"
+        },
+        {
+          "id": 35,
+          "name": "Milk and cream",
+          "parent": 6,
+          "size": 180.8,
+          "depth": 2,
+          "category": "Dairy"
+        },
+        {
+          "id": 36,
+          "name": "Butter or spreads",
+          "parent": 6,
+          "size": 336.3,
+          "depth": 2,
+          "category": "Dairy"
+        },
+        {
+          "id": 37,
+          "name": "Whole fish--fresh, chilled, or frozen",
+          "parent": 4,
+          "size": 2298.6,
+          "depth": 2,
+          "category": "Fish"
+        },
+        {
+          "id": 38,
+          "name": "Fish fillets and mince",
+          "parent": 4,
+          "size": 5607.2,
+          "depth": 2,
+          "category": "Fish"
+        },
+        {
+          "id": 39,
+          "name": "Shellfish, fresh or frozen",
+          "parent": 4,
+          "size": 8212.3,
+          "depth": 2,
+          "category": "Fish"
+        },
+        {
+          "id": 40,
+          "name": "Prepared fish and shellfish",
+          "parent": 4,
+          "size": 5166.5,
+          "depth": 2,
+          "category": "Fish"
+        },
+        {
+          "id": 41,
+          "name": "Fresh or chilled fruit",
+          "parent": 7,
+          "size": 14522.9,
+          "depth": 2,
+          "category": "Fruits"
+        },
+        {
+          "id": 42,
+          "name": "Bananas and plantains",
+          "parent": 7,
+          "size": 2426.1,
+          "depth": 2,
+          "category": "Fruits"
+        },
+        {
+          "id": 43,
+          "name": "Frozen fruit",
+          "parent": 7,
+          "size": 1072.1,
+          "depth": 2,
+          "category": "Fruits"
+        },
+        {
+          "id": 44,
+          "name": "Dried, prepared or preserved fruit",
+          "parent": 7,
+          "size": 3104.1,
+          "depth": 2,
+          "category": "Fruits"
+        },
+        {
+          "id": 45,
+          "name": "Fruit juices",
+          "parent": 7,
+          "size": 1822.0,
+          "depth": 2,
+          "category": "Fruits"
+        },
+        {
+          "id": 46,
+          "name": "Bulk grains",
+          "parent": 10,
+          "size": 2351.2,
+          "depth": 2,
+          "category": "Grains"
+        },
+        {
+          "id": 47,
+          "name": "Wheat and products",
+          "parent": 10,
+          "size": 1026.9,
+          "depth": 2,
+          "category": "Grains"
+        },
+        {
+          "id": 48,
+          "name": "Rice and products",
+          "parent": 10,
+          "size": 1186.6,
+          "depth": 2,
+          "category": "Grains"
+        },
+        {
+          "id": 49,
+          "name": "Milled grain products",
+          "parent": 10,
+          "size": 1629.7,
+          "depth": 2,
+          "category": "Grains"
+        },
+        {
+          "id": 50,
+          "name": "Cereal and bakery foods",
+          "parent": 10,
+          "size": 9129.6,
+          "depth": 2,
+          "category": "Grains"
+        },
+        {
+          "id": 51,
+          "name": "Fresh or chilled red meats",
+          "parent": 3,
+          "size": 4391.1,
+          "depth": 2,
+          "category": "Meats"
+        },
+        {
+          "id": 52,
+          "name": "Frozen red meats and parts",
+          "parent": 3,
+          "size": 3367.0,
+          "depth": 2,
+          "category": "Meats"
+        },
+        {
+          "id": 53,
+          "name": "Fowl and other meats",
+          "parent": 3,
+          "size": 302.1,
+          "depth": 2,
+          "category": "Meats"
+        },
+        {
+          "id": 54,
+          "name": "Prepared meats",
+          "parent": 3,
+          "size": 1392.4,
+          "depth": 2,
+          "category": "Meats"
+        },
+        {
+          "id": 55,
+          "name": "Tree nuts",
+          "parent": 8,
+          "size": 2153.9,
+          "depth": 2,
+          "category": "Nuts"
+        },
+        {
+          "id": 56,
+          "name": "Cashew nuts",
+          "parent": 8,
+          "size": 1082.6,
+          "depth": 2,
+          "category": "Nuts"
+        },
+        {
+          "id": 57,
+          "name": "Prepared tree nuts",
+          "parent": 8,
+          "size": 472.5,
+          "depth": 2,
+          "category": "Nuts"
+        },
+        {
+          "id": 58,
+          "name": "Ground nuts",
+          "parent": 8,
+          "size": 142.4,
+          "depth": 2,
+          "category": "Nuts"
+        },
+        {
+          "id": 59,
+          "name": "Sauces, soups, prepared foods",
+          "parent": 14,
+          "size": 8601.4,
+          "depth": 2,
+          "category": "Other"
+        },
+        {
+          "id": 60,
+          "name": "Essential oils",
+          "parent": 14,
+          "size": 4123.7,
+          "depth": 2,
+          "category": "Other"
+        },
+        {
+          "id": 61,
+          "name": "Animal and other fats",
+          "parent": 14,
+          "size": 704.2,
+          "depth": 2,
+          "category": "Other"
+        },
+        {
+          "id": 62,
+          "name": "Other edible products",
+          "parent": 14,
+          "size": 2115.1,
+          "depth": 2,
+          "category": "Other"
+        },
+        {
+          "id": 63,
+          "name": "Sugar, cane and beet",
+          "parent": 12,
+          "size": 2199.4,
+          "depth": 2,
+          "category": "Sweets"
+        },
+        {
+          "id": 64,
+          "name": "Other sweeteners and syrups",
+          "parent": 12,
+          "size": 1035.2,
+          "depth": 2,
+          "category": "Sweets"
+        },
+        {
+          "id": 65,
+          "name": "Confections",
+          "parent": 12,
+          "size": 1936.9,
+          "depth": 2,
+          "category": "Sweets"
+        },
+        {
+          "id": 66,
+          "name": "Fresh vegetables",
+          "parent": 5,
+          "size": 10195.1,
+          "depth": 2,
+          "category": "Vegetables"
+        },
+        {
+          "id": 67,
+          "name": "Frozen vegetables",
+          "parent": 5,
+          "size": 1188.8,
+          "depth": 2,
+          "category": "Vegetables"
+        },
+        {
+          "id": 68,
+          "name": "Dried vegetables",
+          "parent": 5,
+          "size": 662.8,
+          "depth": 2,
+          "category": "Vegetables"
+        },
+        {
+          "id": 69,
+          "name": "Prepared or preserved vegetables",
+          "parent": 5,
+          "size": 3627.3,
+          "depth": 2,
+          "category": "Vegetables"
+        },
+        {
+          "id": 70,
+          "name": "Crude vegetable oils",
+          "parent": 11,
+          "size": 510.8,
+          "depth": 2,
+          "category": "VegetablesOil"
+        },
+        {
+          "id": 71,
+          "name": "Refined vegetable oils",
+          "parent": 11,
+          "size": 5156.7,
+          "depth": 2,
+          "category": "VegetablesOil"
+        },
+        {
+          "id": 72,
+          "name": "Olive oil",
+          "parent": 11,
+          "size": 1310.9,
+          "depth": 2,
+          "category": "VegetablesOil"
+        },
+        {
+          "id": 73,
+          "name": "Tropical oils",
+          "parent": 11,
+          "size": 1872.1,
+          "depth": 2,
+          "category": "VegetablesOil"
+        },
+        {
+          "id": 74,
+          "name": "Oilseeds",
+          "parent": 11,
+          "size": 1002.3,
+          "depth": 2,
+          "category": "VegetablesOil"
+        }
+      ],
+      "transform": [
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "treemap",
+          "field": "size",
+          "sort": {
+            "field": "value"
+          },
+          "round": true,
+          "method": {
+            "signal": "layout"
+          },
+          "ratio": {
+            "signal": "aspectRatio"
+          },
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nodes",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.children"
+        }
+      ]
+    },
+    {
+      "name": "leaves",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!datum.children"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {
+        "data": "nodes",
+        "field": "name"
+      },
+      "range": [
+        "#3182bd",
+        "#6baed6",
+        "#9ecae1",
+        "#c6dbef",
+        "#e6550d",
+        "#fd8d3c",
+        "#fdae6b",
+        "#fdd0a2",
+        "#31a354",
+        "#74c476",
+        "#a1d99b",
+        "#c7e9c0",
+        "#756bb1",
+        "#9e9ac8",
+        "#bcbddc",
+        "#dadaeb",
+        "#636363",
+        "#969696",
+        "#ffffff",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "name": "size",
+      "type": "ordinal",
+      "domain": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "range": [
+        256,
+        28,
+        20,
+        14
+      ]
+    },
+    {
+      "name": "opacity",
+      "type": "ordinal",
+      "domain": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "range": [
+        0.15,
+        0.5,
+        0.8,
+        1.0
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {
+        "data": "nodes"
+      },
+      "interactive": false,
+      "encode": {
+        "enter": {
+          "fill": {
+            "scale": "color",
+            "field": "name"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          }
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "enter": {
+          "stroke": {
+            "value": "#fff"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "value": "transparent"
+          },
+          "tooltip": {
+            "signal": "{'Category': datum.category, 'Commodity': datum.name, 'Value (M$)': datum.size}"
+          }
+        },
+        "hover": {
+          "fill": {
+            "value": "rgba(255,0,0,0.2)"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "nodes"
+      },
+      "interactive": false,
+      "encode": {
+        "enter": {
+          "font": {
+            "value": "Helvetica Neue, Arial"
+          },
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "middle"
+          },
+          "fill": {
+            "value": "#000"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "0.5 * (datum.x0 + datum.x1)"
+          },
+          "y": {
+            "signal": "0.5 * (datum.y0 + datum.y1)"
+          },
+          "text": {
+            "field": "name"
+          },
+          "fontSize": {
+            "scale": "size",
+            "field": "depth"
+          },
+          "fillOpacity": {
+            "scale": "opacity",
+            "field": "depth"
+          }
+        }
+      }
+    }
+  ]
+}
