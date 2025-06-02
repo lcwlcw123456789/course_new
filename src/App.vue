@@ -95,6 +95,7 @@ const visibleComponents = computed(() => {
   return list;
 });
 
+
 const mainClass = computed(() => {
   const count = visibleComponents.value.length;
   if (count === 0) return "full-screen";
