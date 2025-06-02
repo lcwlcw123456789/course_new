@@ -30,7 +30,6 @@ onMounted(async () => {
   );
   const view = result.view;
 
-  // 监听 hoveredYear：只更新不一样的 hover 年份
   view.addSignalListener("hoveredYear", async (_, value) => {
     if (!value || (lockedHoveredYear.value?.year === value.year)) return;
 
@@ -57,18 +56,30 @@ onMounted(async () => {
     emit("update:clickedYearChart", spec);
   });
 
-  // 点击图外清除 hovered 图（修复：延迟绑定，避免与 Vega 冲突）
-  setTimeout(() => {
-    document.addEventListener("click", (e) => {
-      const chartEl = chartContainer.value;
-      if (!chartEl.contains(e.target)) {
-        lockedHoveredYear.value = null;
-        emit("update:hoveredChart", null);
-      }
-    });
-  }, 100); // 延迟绑定，让 Vega 内部事件先注册
-});
+  const onDocumentClick = (event) => {
+    const chartEl = chartContainer.value;
 
+    if (!chartEl.contains(event.target)) {
+      // 点击画外区域，清空所有相关信号和状态
+      lockedHoveredYear.value = null;
+      emit("update:hoveredChart", null);
+      view.signal("clicked", null).runAsync();
+      view.signal("clickedYear", null).runAsync();
+    }
+    // 点击画内，不清空，保留信号，保持功能正常
+  };
+  document.addEventListener("click", onDocumentClick);
+
+  // 原来的 view 点击监听，只处理点击点标记，不做信号清空
+  view.addEventListener("click", (event, item) => {
+    // 如果点击非点标记，交由 document 监听处理
+    // 这里可以不再操作信号，避免冲突
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener("click", onDocumentClick);
+  });
+});
 
 </script>
 
