@@ -6,6 +6,7 @@
     <!-- 图表显示框 -->
     <div ref="clickedChartDiv" class="chart-box left-bottom" v-show="clickedChartSpec"></div>
     <div ref="hoveredChartDiv" class="chart-box bottom-center" v-show="hoveredYearChartSpec"></div>
+    <div ref="clickedYearChartDiv" class="chart-box right-bottom" v-show="clickedYearChartSpec"></div>
   </div>
 </template>
 
@@ -25,6 +26,8 @@ const hoveredChartDiv = ref(null)
 
 const isHoveredChartVisible = ref(false)
 
+const clickedYearChartSpec = ref(null)
+const clickedYearChartDiv = ref(null)
 // 渲染 hovered 年份图表
 const renderHoveredChart = async () => {
   await nextTick()
@@ -42,6 +45,15 @@ const renderClickedChart = async () => {
     console.log('📈 Rendering clicked chart...')
     const cleanSpec = JSON.parse(JSON.stringify(clickedChartSpec.value))
     await vegaEmbed.default(clickedChartDiv.value, cleanSpec, { actions: false })
+  }
+}
+
+const renderClickedYearChart = async () => {
+  await nextTick()
+  if (clickedYearChartDiv.value && clickedYearChartSpec.value) {
+    console.log('📈 Rendering clicked YEAR chart...')
+    const cleanSpec = JSON.parse(JSON.stringify(clickedYearChartSpec.value))
+    await vegaEmbed.default(clickedYearChartDiv.value, cleanSpec, { actions: false })
   }
 }
 
@@ -89,6 +101,23 @@ onMounted(async () => {
     }
   })
 
+  view.addSignalListener('clickedYear', async (name, value) => {
+  if (value) {
+    const fileName = `/vega3/${value.year}_WORLD.json`
+    console.log(`📁 Loading clickedYear chart from ${fileName}`)
+    try {
+      const response = await fetch(fileName)
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+      clickedYearChartSpec.value = await response.json()
+      await renderClickedYearChart()
+    } catch (err) {
+      console.error('❌ clickedYear chart load failed:', err)
+    }
+  } else {
+    clickedYearChartSpec.value = null
+  }
+}
+)
   // 取消高亮
   view.addEventListener('click', (event, item) => {
     if (!item || (item.mark.name !== 'points' && item.mark.name !== 'xAxisPoints')) {
@@ -96,6 +125,7 @@ onMounted(async () => {
       view.signal('clickedYear', null).runAsync()
     }
   })
+
 })
 </script>
 
@@ -137,4 +167,11 @@ onMounted(async () => {
   transform: translateX(-50%);
   width: 400px;
 }
+
+.right-bottom {
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+}
+
 </style>
