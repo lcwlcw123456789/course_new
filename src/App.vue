@@ -68,17 +68,29 @@ const handleUpdate = (type, spec) => {
 const visibleComponents = computed(() => {
   const list = [];
   if (clickedChart.value)
-    list.push({ comp: EarthChart, props: { spec: clickedChart.value } });
+    list.push({
+      comp: EarthChart,
+      props: {
+        spec: clickedChart.value,
+        onClose: () => (clickedChart.value = null), // 👈 添加 close 逻辑
+      },
+    });
   if (hoveredChart.value)
-    list.push({ comp: BarChart, props: { spec: hoveredChart.value } });
+    list.push({
+      comp: BarChart,
+      props: {
+        spec: hoveredChart.value,
+        onClose: () => (hoveredChart.value = null), // 👈 添加 close 逻辑
+      },
+    });
   if (clickedYearChart.value)
     list.push({
       comp: TreemapChart,
-      props: { spec: clickedYearChart.value },
+      props: {
+        spec: clickedYearChart.value,
+        onClose: () => (clickedYearChart.value = null), // 👈 添加 close 逻辑
+      },
     });
-
-  console.log("list");
-  console.log(list);
 
   return list;
 });

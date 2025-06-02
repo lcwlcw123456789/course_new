@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import * as vegaEmbed from "vega-embed";
 
 const chartContainer = ref(null);
@@ -16,6 +16,13 @@ const emit = defineEmits([
   "update:clickedYearChart",
 ]);
 
+const lockedHoveredYear = ref(null); // 新增：锁定状态
+
+const resetHover = () => {
+  lockedHoveredYear.value = null;
+  emit("update:hoveredChart", null);
+};
+
 onMounted(async () => {
   const result = await vegaEmbed.default(
     chartContainer.value,
@@ -23,8 +30,11 @@ onMounted(async () => {
   );
   const view = result.view;
 
+  // 监听 hoveredYear：只更新不一样的 hover 年份
   view.addSignalListener("hoveredYear", async (_, value) => {
-    if (!value) return emit("update:hoveredChart", null);
+    if (!value || (lockedHoveredYear.value?.year === value.year)) return;
+
+    lockedHoveredYear.value = value;
     const fileName = `/vega_charts_2/vega_pie_${value.year}.json`;
     const res = await fetch(fileName);
     const spec = await res.json();
@@ -47,16 +57,19 @@ onMounted(async () => {
     emit("update:clickedYearChart", spec);
   });
 
-  view.addEventListener("click", (event, item) => {
-    if (
-      !item ||
-      (item.mark.name !== "points" && item.mark.name !== "xAxisPoints")
-    ) {
-      view.signal("clicked", null).runAsync();
-      view.signal("clickedYear", null).runAsync();
-    }
-  });
+  // 点击图外清除 hovered 图（修复：延迟绑定，避免与 Vega 冲突）
+  setTimeout(() => {
+    document.addEventListener("click", (e) => {
+      const chartEl = chartContainer.value;
+      if (!chartEl.contains(e.target)) {
+        lockedHoveredYear.value = null;
+        emit("update:hoveredChart", null);
+      }
+    });
+  }, 100); // 延迟绑定，让 Vega 内部事件先注册
 });
+
+
 </script>
 
 <style scoped>
