@@ -15,6 +15,7 @@
         <component
           :is="visibleComponents[0].comp"
           v-bind="visibleComponents[0].props"
+          @close="handleComponentClose(visibleComponents[0].comp)"
         />
       </div>
     </template>
@@ -26,6 +27,7 @@
           :key="idx"
           :is="vc.comp"
           v-bind="vc.props"
+          @close="handleComponentClose(vc.comp)"
           style="height: 50%"
         />
       </div>
@@ -37,7 +39,7 @@
         :key="idx"
         class="quarter-block"
       >
-        <component :is="vc.comp" v-bind="vc.props" />
+        <component :is="vc.comp" v-bind="vc.props" @close="handleComponentClose(vc.comp)"/>
       </div>
     </template>
   </div>
@@ -63,6 +65,14 @@ const handleUpdate = (type, spec) => {
   }
   if (type === "hovered") hoveredChart.value = spec;
   if (type === "clickedYear") clickedYearChart.value = spec;
+};
+
+const handleComponentClose = (comp) => {
+  const name = comp.name || comp.__name;
+  console.log("🧹 Received close from:", name);
+  if (name === "BarChart") hoveredChart.value = null;
+  if (name === "EarthChart") clickedChart.value = null;
+  if (name === "TreemapChart") clickedYearChart.value = null;
 };
 
 const visibleComponents = computed(() => {

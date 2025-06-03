@@ -30,8 +30,9 @@ onMounted(async () => {
   );
   const view = result.view;
 
+  // 监听 hoveredYear，但如果当前锁定，则不处理
   view.addSignalListener("hoveredYear", async (_, value) => {
-    if (!value || (lockedHoveredYear.value?.year === value.year)) return;
+    if (!value || value === lockedHoveredYear.value) return;
 
     lockedHoveredYear.value = value;
     const fileName = `/vega_charts_2/vega_pie_${value.year}.json`;
@@ -56,28 +57,37 @@ onMounted(async () => {
     emit("update:clickedYearChart", spec);
   });
 
-  const onDocumentClick = (event) => {
+  // 点击图外区域清除 hover 图
+  const handleClickOutside = (event) => {
+    const wrapper = document.querySelector(".line-chart-wrapper");
     const chartEl = chartContainer.value;
 
-    if (!chartEl.contains(event.target)) {
-      // 点击画外区域，清空所有相关信号和状态
-      lockedHoveredYear.value = null;
-      emit("update:hoveredChart", null);
+    // 条件1：点在 wrapper 内部
+    const inWrapper = wrapper && wrapper.contains(event.target);
+    // 条件2：点不在 Vega 图形上
+    const inChart = chartEl && chartEl.contains(event.target);
+
+    if (inWrapper && !inChart) {
+      resetHover();
+    }
+  };
+
+  document.addEventListener("click", handleClickOutside);
+
+  // Vue 生命周期清理
+  onBeforeUnmount(() => {
+    document.removeEventListener("click", handleClickOutside);
+  });
+
+  // 仍然保留点击空白区域清空 clicked、clickedYear 的逻辑
+  view.addEventListener("click", (event, item) => {
+    if (
+      !item ||
+      (item.mark.name !== "points" && item.mark.name !== "xAxisPoints")
+    ) {
       view.signal("clicked", null).runAsync();
       view.signal("clickedYear", null).runAsync();
     }
-    // 点击画内，不清空，保留信号，保持功能正常
-  };
-  document.addEventListener("click", onDocumentClick);
-
-  // 原来的 view 点击监听，只处理点击点标记，不做信号清空
-  view.addEventListener("click", (event, item) => {
-    // 如果点击非点标记，交由 document 监听处理
-    // 这里可以不再操作信号，避免冲突
-  });
-
-  onBeforeUnmount(() => {
-    document.removeEventListener("click", onDocumentClick);
   });
 });
 
