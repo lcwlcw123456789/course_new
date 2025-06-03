@@ -1,6 +1,9 @@
 <template>
-  <div class="chart-box" ref="chartRef">
-    <p v-if="!spec">点击图表加载中...</p>
+  <div class="chart-container">
+    <div class="chart-box" ref="chartRef">
+      <p v-if="!spec">点击图表加载中...</p>
+    </div>
+    <button class="close-btn" @click="handleClose">🏠</button>
   </div>
 </template>
 
@@ -8,35 +11,42 @@
 import { ref, watch, nextTick, onMounted } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-// Props 接收 Vega spec
 const props = defineProps({ spec: Object });
+const emit = defineEmits(["close"]);
 const chartRef = ref(null);
 
-// 渲染函数
 const renderChart = async () => {
   if (props.spec && chartRef.value) {
-    await nextTick(); // 确保 DOM 渲染完毕
-    const cleanSpec = JSON.parse(JSON.stringify(props.spec)); // 深拷贝以防修改
+    await nextTick();
+    const cleanSpec = JSON.parse(JSON.stringify(props.spec));
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
   }
 };
 
-// 立即监听 spec
+const handleClose = () => {
+  console.log("🚪 Close button clicked in BarChart");
+  emit("close");
+};
+
 watch(
   () => props.spec,
   () => renderChart(),
   { immediate: true }
 );
 
-// 如果父组件挂载时已经传入 spec，可直接渲染
 onMounted(() => {
   if (props.spec) renderChart();
 });
 </script>
 
 <style scoped>
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .chart-box {
-  box-sizing: border-box;
   width: 100%;
   height: 100%;
   background-color: #ffe4b5;
@@ -45,5 +55,31 @@ onMounted(() => {
   align-items: center;
   border: 1px solid #aaa;
   font-size: 1.5rem;
+  box-sizing: border-box;
 }
+
+/* 关闭按钮样式 */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 14px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.close-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
 </style>
