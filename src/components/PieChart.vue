@@ -5,7 +5,7 @@
     </div>
     <button class="close-btn" @click="handleClose">🏠</button>
     <button class="lock-btn" @click="toggleLock">
-      {{ isLocked ? '🔒' : '🔓' }}
+      {{ isLocked ? "🔒" : "🔓" }}
     </button>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import { ref, watch, nextTick, onMounted } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-defineOptions({ name: "BarChart" });
+defineOptions({ name: "PieChart" });
 
 const props = defineProps({ spec: Object });
 const emit = defineEmits(["close"]);
@@ -23,7 +23,7 @@ const isLocked = ref(false); // 🔒 锁定状态
 
 const renderChart = async () => {
   if (props.spec && chartRef.value) {
-    console.log("🔧 Rendering Vega chart in BarChart");
+    console.log("🔧 Rendering Vega chart in PieChart");
     await nextTick();
     const cleanSpec = JSON.parse(JSON.stringify(props.spec));
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
@@ -31,7 +31,7 @@ const renderChart = async () => {
 };
 
 const handleClose = () => {
-  console.log("🚪 Close button clicked in BarChart");
+  console.log("🚪 Close button clicked in PieChart");
   emit("close");
 };
 
@@ -53,7 +53,7 @@ watch(
 );
 
 onMounted(() => {
-  console.log("📦 BarChart mounted with spec:", props.spec);
+  console.log("📦 PieChart mounted with spec:", props.spec);
   if (props.spec) renderChart();
 });
 </script>

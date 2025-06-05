@@ -39,7 +39,11 @@
         :key="idx"
         class="quarter-block"
       >
-        <component :is="vc.comp" v-bind="vc.props" @close="handleComponentClose(vc.comp)"/>
+        <component
+          :is="vc.comp"
+          v-bind="vc.props"
+          @close="handleComponentClose(vc.comp)"
+        />
       </div>
     </template>
   </div>
@@ -49,7 +53,7 @@
 import { ref, computed } from "vue";
 import LineChart from "./components/LineChart.vue";
 import EarthChart from "./components/EarthChart.vue";
-import BarChart from "./components/BarChart.vue";
+import PieChart from "./components/PieChart.vue";
 import TreemapChart from "./components/TreemapChart.vue";
 
 const clickedChart = ref(null);
@@ -70,7 +74,7 @@ const handleUpdate = (type, spec) => {
 const handleComponentClose = (comp) => {
   const name = comp.name || comp.__name;
   console.log("🧹 Received close from:", name);
-  if (name === "BarChart") hoveredChart.value = null;
+  if (name === "PieChart") hoveredChart.value = null;
   if (name === "EarthChart") clickedChart.value = null;
   if (name === "TreemapChart") clickedYearChart.value = null;
 };
@@ -80,7 +84,7 @@ const visibleComponents = computed(() => {
   if (clickedChart.value)
     list.push({ comp: EarthChart, props: { spec: clickedChart.value } });
   if (hoveredChart.value)
-    list.push({ comp: BarChart, props: { spec: hoveredChart.value } });
+    list.push({ comp: PieChart, props: { spec: hoveredChart.value } });
   if (clickedYearChart.value)
     list.push({
       comp: TreemapChart,
