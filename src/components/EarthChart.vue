@@ -24,7 +24,7 @@ const renderChart = async () => {
 };
 
 const handleClose = () => {
-  console.log("🚪 Close button clicked in BarChart");
+  console.log("🚪 Close button clicked in EarthChart");
   emit("close");
 };
 
@@ -40,7 +40,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 .chart-container {
   position: relative;
   width: 100%;

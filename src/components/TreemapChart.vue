@@ -24,7 +24,7 @@ const renderChart = async () => {
 };
 
 const handleClose = () => {
-  console.log("🚪 Close button clicked in BarChart");
+  console.log("🚪 Close button clicked in TreemapChart");
   emit("close");
 };
 
@@ -81,5 +81,4 @@ onMounted(() => {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   background: linear-gradient(to right, #43e97b, #38f9d7);
 }
-
 </style>
