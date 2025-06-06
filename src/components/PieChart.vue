@@ -16,7 +16,7 @@ import * as vegaEmbed from "vega-embed";
 
 defineOptions({ name: "PieChart" });
 
-const props = defineProps({ spec: Object });
+const props = defineProps({ spec: Object, componentNumber: Number });
 const emit = defineEmits(["close"]);
 
 const chartRef = ref(null);
@@ -39,7 +39,7 @@ const renderChart = async (width, height) => {
 const resize = () => {
   if (!chartRef.value || !wrapperRef.value) return;
   const { width, height } = wrapperRef.value.getBoundingClientRect();
-  renderChart(Math.floor(width) * 0.7, Math.floor(height) * 0.7);
+  renderChart(Math.floor(width) * 0.6, Math.floor(height) * 0.6);
 };
 
 watch(

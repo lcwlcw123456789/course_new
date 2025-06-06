@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div class="chart-container" ref="wrapperRef">
     <div class="chart-box" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
@@ -8,19 +8,33 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted } from "vue";
+import { ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-const props = defineProps({ spec: Object });
+const props = defineProps({ spec: Object, componentNumber: Number });
 const emit = defineEmits(["close"]);
-const chartRef = ref(null);
 
-const renderChart = async () => {
+const chartRef = ref(null);
+const wrapperRef = ref(null);
+
+let resizeObserver;
+
+const renderChart = async (width, height) => {
   if (props.spec && chartRef.value) {
     await nextTick();
     const cleanSpec = JSON.parse(JSON.stringify(props.spec));
-    await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
+    await vegaEmbed.default(chartRef.value, cleanSpec, {
+      actions: false,
+      width,
+      height,
+    });
   }
+};
+
+const resize = () => {
+  if (!chartRef.value || !wrapperRef.value) return;
+  const { width, height } = wrapperRef.value.getBoundingClientRect();
+  renderChart(Math.floor(width) * 0.4, Math.floor(height) * 0.4);
 };
 
 const handleClose = () => {
@@ -30,12 +44,19 @@ const handleClose = () => {
 
 watch(
   () => props.spec,
-  () => renderChart(),
+  () => resize(),
   { immediate: true }
 );
 
 onMounted(() => {
-  if (props.spec) renderChart();
+  if (props.spec) resize();
+  resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(wrapperRef.value);
+});
+
+onBeforeUnmount(() => {
+  if (resizeObserver && wrapperRef.value)
+    resizeObserver.unobserve(wrapperRef.value);
 });
 </script>
 
