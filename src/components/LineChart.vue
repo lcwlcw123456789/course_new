@@ -1,39 +1,51 @@
 <template>
-  <div class="main-chart">
+  <div class="main-chart" ref="wrapperRef">
     <h2 class="title">📊 Food Value Trends</h2>
-    <div ref="chartContainer" id="vega-chart"></div>
+    <div ref="chartContainer" class="vega-chart"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-const chartContainer = ref(null);
+const props = defineProps({
+  containerCount: Number,
+});
 const emit = defineEmits([
   "update:clickedChart",
   "update:hoveredChart",
   "update:clickedYearChart",
 ]);
 
-const lockedHoveredYear = ref(null); // 新增：锁定状态
+const chartContainer = ref(null);
+const wrapperRef = ref(null);
 
-const resetHover = () => {
-  lockedHoveredYear.value = null;
-  emit("update:hoveredChart", null);
-};
+const lockedHoveredYear = ref(null);
+let resizeObserver;
 
-onMounted(async () => {
+// const getChartSize = () => {
+//   if (props.containerCount === 0) return { width: 1000, height: 600 };
+//   if (props.containerCount === 1) return { width: 600, height: 600 };
+//   if (props.containerCount === 2) return { width: 600, height: 500 };
+//   return { width: 500, height: 400 };
+// };
+
+const renderChart = async (width, height) => {
   const result = await vegaEmbed.default(
     chartContainer.value,
-    "/vega_line.json"
+    "/vega_line.json",
+    {
+      actions: false,
+      width,
+      height,
+    }
   );
+
   const view = result.view;
 
-  // 监听 hoveredYear，但如果当前锁定，则不处理
   view.addSignalListener("hoveredYear", async (_, value) => {
     if (!value || value === lockedHoveredYear.value) return;
-
     lockedHoveredYear.value = value;
     const fileName = `/vega_charts_2/vega_pie_${value.year}.json`;
     const res = await fetch(fileName);
@@ -56,63 +68,57 @@ onMounted(async () => {
     const spec = await res.json();
     emit("update:clickedYearChart", spec);
   });
+};
 
-  // 点击图外区域清除 hover 图
-  const handleClickOutside = (event) => {
-    const wrapper = document.querySelector(".line-chart-wrapper");
-    const chartEl = chartContainer.value;
-
-    // 条件1：点在 wrapper 内部
-    const inWrapper = wrapper && wrapper.contains(event.target);
-    // 条件2：点不在 Vega 图形上
-    const inChart = chartEl && chartEl.contains(event.target);
-
-    if (inWrapper && !inChart) {
-      resetHover();
-    }
+onMounted(() => {
+  const resize = () => {
+    if (!wrapperRef.value) return;
+    const { width, height } = wrapperRef.value.getBoundingClientRect();
+    console.log(`width: ${width}`);
+    console.log(`height: ${height}`);
+    renderChart(Math.floor(width) * 0.8, Math.floor(height - 40) * 0.6); // 40 为 title 高度
   };
 
+  resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(wrapperRef.value);
+
   document.addEventListener("click", handleClickOutside);
-
-  // Vue 生命周期清理
-  onBeforeUnmount(() => {
-    document.removeEventListener("click", handleClickOutside);
-  });
-
-  // 仍然保留点击空白区域清空 clicked、clickedYear 的逻辑
-  view.addEventListener("click", (event, item) => {
-    if (
-      !item ||
-      (item.mark.name !== "points" && item.mark.name !== "xAxisPoints")
-    ) {
-      view.signal("clicked", null).runAsync();
-      view.signal("clickedYear", null).runAsync();
-    }
-  });
 });
 
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+  if (resizeObserver && wrapperRef.value)
+    resizeObserver.unobserve(wrapperRef.value);
+});
+
+const handleClickOutside = (event) => {
+  const wrapper = wrapperRef.value;
+  const chartEl = chartContainer.value;
+  const inWrapper = wrapper && wrapper.contains(event.target);
+  const inChart = chartEl && chartEl.contains(event.target);
+  if (inWrapper && !inChart) {
+    lockedHoveredYear.value = null;
+    emit("update:hoveredChart", null);
+  }
+};
 </script>
 
 <style scoped>
 .main-chart {
-  /* height: 100%; */
-  box-sizing: border-box;
   width: 100%;
   height: 100%;
   background-color: #e0f7fa;
   padding: 20px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 .title {
-  margin-bottom: 10px;
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 10px;
 }
-#vega-chart {
-  border: 1px solid #ccc;
-  padding: 10px;
-  height: 100%;
+.vega-chart {
+  flex: 1;
 }
 </style>

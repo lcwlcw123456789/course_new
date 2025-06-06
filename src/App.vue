@@ -3,6 +3,7 @@
     <!-- 主组件区域 -->
     <div :class="mainClass">
       <LineChart
+        :container-count="visibleComponents.length"
         @update:clickedChart="handleUpdate('clicked', $event)"
         @update:hoveredChart="handleUpdate('hovered', $event)"
         @update:clickedYearChart="handleUpdate('clickedYear', $event)"
@@ -15,6 +16,7 @@
         <component
           :is="visibleComponents[0].comp"
           v-bind="visibleComponents[0].props"
+          :container-count="visibleComponents.length"
           @close="handleComponentClose(visibleComponents[0].comp)"
         />
       </div>
@@ -27,6 +29,7 @@
           :key="idx"
           :is="vc.comp"
           v-bind="vc.props"
+          :container-count="visibleComponents.length"
           @close="handleComponentClose(vc.comp)"
           style="height: 50%"
         />
@@ -42,6 +45,7 @@
         <component
           :is="vc.comp"
           v-bind="vc.props"
+          :container-count="visibleComponents.length"
           @close="handleComponentClose(vc.comp)"
         />
       </div>
@@ -82,13 +86,25 @@ const handleComponentClose = (comp) => {
 const visibleComponents = computed(() => {
   const list = [];
   if (clickedChart.value)
-    list.push({ comp: EarthChart, props: { spec: clickedChart.value } });
+    list.push({
+      comp: EarthChart,
+      props: {
+        spec: clickedChart.value,
+      },
+    });
   if (hoveredChart.value)
-    list.push({ comp: PieChart, props: { spec: hoveredChart.value } });
+    list.push({
+      comp: PieChart,
+      props: {
+        spec: hoveredChart.value,
+      },
+    });
   if (clickedYearChart.value)
     list.push({
       comp: TreemapChart,
-      props: { spec: clickedYearChart.value },
+      props: {
+        spec: clickedYearChart.value,
+      },
     });
 
   console.log("list");
