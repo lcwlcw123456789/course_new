@@ -32,15 +32,15 @@ let resizeObserver;
 // };
 
 const renderChart = async (width, height) => {
-  const result = await vegaEmbed.default(
-    chartContainer.value,
-    "/vega_line.json",
-    {
-      actions: false,
-      width,
-      height,
-    }
-  );
+  const file = await fetch("/vega_line.json");
+  const spec = await file.json();
+  spec.width = width;
+  spec.height = height;
+  // console.log(spec.marks[1]);
+  spec.marks[1].encode.enter.y.value = height;
+  const result = await vegaEmbed.default(chartContainer.value, spec, {
+    actions: false,
+  });
 
   const view = result.view;
 
