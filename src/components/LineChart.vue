@@ -17,7 +17,7 @@
     </div>
     <div class="source-selector">
       <select v-model="source">
-        <option value="agri-pulse">🔗 Agri-Pulse</option>
+        <option value="agri-pulse">🌎 Agri-Pulse</option>
         <option value="foodbusinessnews">📰 Food Business News</option>
       </select>
     </div>
