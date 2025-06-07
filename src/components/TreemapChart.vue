@@ -1,8 +1,14 @@
 <template>
   <div class="chart-container" ref="wrapperRef">
-    <div class="chart-box" ref="chartRef">
+    <!-- 图像区域 -->
+    <div :class="['chart-box', { visible: ready }]" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
+
+    <!-- 控件区域 -->
+    <div :class="['vega-controls', { visible: ready }]" ref="controlRef" />
+
+    <!-- 关闭按钮 -->
     <button class="close-btn" @click="handleClose">🏠</button>
   </div>
 </template>
@@ -16,23 +22,42 @@ const emit = defineEmits(["close"]);
 
 const chartRef = ref(null);
 const wrapperRef = ref(null);
+const controlRef = ref(null);
+const ready = ref(false);
+
 let resizeObserver;
+
 const renderChart = async (width, height) => {
-  if (props.spec && chartRef.value) {
-    await nextTick();
-    const cleanSpec = JSON.parse(JSON.stringify(props.spec));
-    await vegaEmbed.default(chartRef.value, cleanSpec, {
-      actions: false,
-      width,
-      height,
-    });
+  if (!props.spec || !chartRef.value) return;
+
+  ready.value = false;
+
+  await nextTick();
+
+  const cleanSpec = JSON.parse(JSON.stringify(props.spec));
+  cleanSpec.width = width;
+  cleanSpec.height = height - 50;
+
+  chartRef.value.innerHTML = "";
+  controlRef.value.innerHTML = "";
+
+  const result = await vegaEmbed.default(chartRef.value, cleanSpec, {
+    actions: false,
+    renderer: "svg",
+  });
+
+  const form = chartRef.value.querySelector(".vega-bindings");
+  if (form) {
+    controlRef.value.appendChild(form);
   }
+
+  ready.value = true;
 };
 
 const resize = () => {
   if (!chartRef.value || !wrapperRef.value) return;
-  const { width, height } = wrapperRef.value.getBoundingClientRect();
-  renderChart(Math.floor(width) * 0.8, Math.floor(height) * 0.8);
+  const { width, height } = chartRef.value.getBoundingClientRect();
+  renderChart(Math.floor(width), Math.floor(height));
 };
 
 const handleClose = () => {
@@ -49,25 +74,27 @@ watch(
 onMounted(() => {
   if (props.spec) resize();
   resizeObserver = new ResizeObserver(resize);
-  resizeObserver.observe(wrapperRef.value);
+  resizeObserver.observe(chartRef.value);
 });
 
 onBeforeUnmount(() => {
-  if (resizeObserver && wrapperRef.value)
-    resizeObserver.unobserve(wrapperRef.value);
+  if (resizeObserver && chartRef.value)
+    resizeObserver.unobserve(chartRef.value);
 });
 </script>
 
 <style scoped>
 .chart-container {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .chart-box {
-  width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: #ffe4b5;
   display: flex;
   justify-content: center;
@@ -75,9 +102,55 @@ onBeforeUnmount(() => {
   border: 1px solid #aaa;
   font-size: 1.5rem;
   box-sizing: border-box;
+  overflow: hidden;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-/* 关闭按钮样式 */
+.chart-box.visible {
+  opacity: 1;
+}
+
+.vega-controls {
+  padding: 8px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  background-color: #fff8dc;
+  border-top: 1px solid #ccc;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.vega-controls.visible {
+  opacity: 1;
+}
+
+.vega-bindings {
+  font-family: monospace;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vega-bind {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 150px;
+  white-space: nowrap;
+}
+
+.vega-bind span:last-child {
+  display: inline-block;
+  width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
 .close-btn {
   position: absolute;
   top: 20px;
