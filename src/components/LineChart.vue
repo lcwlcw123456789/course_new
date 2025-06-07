@@ -6,11 +6,18 @@
 
     <div ref="chartContainer" class="vega-chart"></div>
     <button class="mode-btn" @click="toggleMode">
-      {{ isLinkMode ? '📈 切换为图像展示模式' : '🔗 切换为链接跳转模式' }}
+      {{ isLinkMode ? "📈 切换为图像展示模式" : "🔗 切换为链接跳转模式" }}
     </button>
+    <div
+      class="custom-message"
+      v-show="showMessage"
+      :class="{ visible: showMessage }"
+    >
+      {{ messageText }}
+    </div>
     <div class="source-selector">
       <select v-model="source">
-        <option value="agri-pulse">🔗 Agri-Pulse</option>
+        <option value="agri-pulse">🌎 Agri-Pulse</option>
         <option value="foodbusinessnews">📰 Food Business News</option>
       </select>
     </div>
@@ -18,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount} from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import * as vegaEmbed from "vega-embed";
 
 const emit = defineEmits([
@@ -60,7 +67,6 @@ const renderChart = async (width, height) => {
 
   const view = result.view;
 
-  
   view.addSignalListener("hoveredYear", async (_, value) => {
     if (!value || value === lockedHoveredYear.value || isLinkMode.value) return;
     lockedHoveredYear.value = value;
@@ -81,12 +87,14 @@ const renderChart = async (width, height) => {
             : "www.foodbusinessnews.net";
 
         const url = `https://${baseDomain}/search?utf8=%E2%9C%93&q=${encodeURIComponent(
-          value.category
+          value.category,
         )}&author=&datatype=&start_date=01%2F01%2F${value.year}&end_date=12%2F30%2F${value.year}&Submit=Submit`;
 
         window.open(url, "_blank");
       } else {
-        showCustomMessage(`${value.year} 年 ${value.category} 数据正常，无需细究`);
+        showCustomMessage(
+          `${value.year} 年 ${value.category} 数据正常，无需细究`,
+        );
       }
     } else {
       const fileName = `/vega_f11/${value.year}_${value.category}_vega.json`;
@@ -102,8 +110,10 @@ const renderChart = async (width, height) => {
     if (isLinkMode.value) {
       const file = await fetch("/vega_line.json");
       const spec = await file.json();
-      const yearData = spec.data[0].values.filter(item => item.year === value.year);
-      const hasNormal = yearData.some(item => !item.event);
+      const yearData = spec.data[0].values.filter(
+        (item) => item.year === value.year,
+      );
+      const hasNormal = yearData.some((item) => !item.event);
 
       if (hasNormal) {
         showCustomMessage(`${value.year} 年数据整体正常，无需跳转`);
@@ -113,7 +123,9 @@ const renderChart = async (width, height) => {
             ? "www.agri-pulse.com"
             : "www.foodbusinessnews.net";
 
-        const url = `https://${baseDomain}/search?utf8=%E2%9C%93&q=&author=&datatype=&start_date=01%2F01%2F${value.year}&end_date=12%2F30%2F${value.year}&Submit=Submit`;
+        const url = `https://${baseDomain}/search?utf8=%E2%9C%93&q=${encodeURIComponent(
+          value.event,
+        )}&author=&datatype=&start_date=01%2F01%2F${value.year}&end_date=12%2F30%2F${value.year}&Submit=Submit`;
 
         window.open(url, "_blank");
       }
@@ -126,15 +138,15 @@ const renderChart = async (width, height) => {
   });
 };
 
-  const toggleMode = () => {
-    isLinkMode.value = !isLinkMode.value;
+const toggleMode = () => {
+  isLinkMode.value = !isLinkMode.value;
 
-    if (isLinkMode.value) {
-      showCustomMessage('🔗 链接跳转模式已启用，请点击异常点或年份查看相关新闻');
-    } else {
-      showCustomMessage('📈 图像展示模式已启用');
-    }
-  };
+  if (isLinkMode.value) {
+    showCustomMessage("🔗 链接跳转模式已启用，请点击异常点或年份查看相关新闻");
+  } else {
+    showCustomMessage("📈 图像展示模式已启用");
+  }
+};
 
 onMounted(() => {
   const resize = () => {
@@ -216,7 +228,7 @@ const handleClickOutside = (event) => {
 .custom-message {
   position: absolute;
   top: 16px; /* 留出按钮空间 */
-  right: 100px;
+  right: 230px;
   background: linear-gradient(to right, #b2ebf2, #80deea);
   color: #004d40;
   padding: 10px 18px;
@@ -264,5 +276,4 @@ const handleClickOutside = (event) => {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   background: linear-gradient(to right, #91bdf4, #b3e5fc);
 }
-
 </style>
