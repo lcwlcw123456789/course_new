@@ -13,6 +13,7 @@
     "vega": "^6.1.2",
     "vega-embed": "^7.0.2",
     "vue": "^3.5.13",
+    "vue-draggable-plus": "^0.6.0",
     "vue-vega": "^1.0.0-alpha.13",
     "vuedraggable": "^2.24.3"
   },
