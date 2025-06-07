@@ -1,15 +1,12 @@
 <template>
   <div class="chart-container" ref="wrapperRef">
     <!-- 图像区域 -->
-    <div :class="['chart-box', { visible: animationTrigger }]" ref="chartRef">
+    <div :class="['chart-box', { visible: ready }]" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
 
     <!-- 控件区域 -->
-    <div
-      :class="['vega-controls', { visible: animationTrigger }]"
-      ref="controlRef"
-    />
+    <div :class="['vega-controls', { visible: ready }]" ref="controlRef" />
 
     <!-- 关闭按钮 -->
     <button class="close-btn" @click="handleClose">🏠</button>
@@ -26,24 +23,20 @@ const emit = defineEmits(["close"]);
 const chartRef = ref(null);
 const wrapperRef = ref(null);
 const controlRef = ref(null);
-
-const ready = ref(false); // 控制是否渲染 DOM
-const animationTrigger = ref(false); // 控制动画触发
+const ready = ref(false);
 
 let resizeObserver;
 
 const renderChart = async (width, height) => {
   if (!props.spec || !chartRef.value) return;
 
-  // 1. 立即隐藏动画
-  animationTrigger.value = false;
   ready.value = false;
 
   await nextTick();
 
   const cleanSpec = JSON.parse(JSON.stringify(props.spec));
   cleanSpec.width = width;
-  cleanSpec.height = height - 50;
+  cleanSpec.height = height - 50; // 给控件预留高度
 
   const scaleFactor = Math.min(width, height) / 2.2;
   if (Array.isArray(cleanSpec.projections)) {
@@ -64,10 +57,7 @@ const renderChart = async (width, height) => {
     controlRef.value.appendChild(form);
   }
 
-  // 2. 显示组件 + 动画过渡
   ready.value = true;
-  await nextTick(); // 等 DOM 挂载完毕再开始动画
-  animationTrigger.value = true;
 };
 
 const resize = () => {
@@ -120,7 +110,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
 
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 .chart-box.visible {
@@ -137,13 +127,14 @@ onBeforeUnmount(() => {
   border-top: 1px solid #ccc;
 
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 .vega-controls.visible {
   opacity: 1;
 }
 
+/* 控件美化与防抖动 */
 .vega-bindings {
   font-family: monospace;
   display: flex;
@@ -166,6 +157,7 @@ onBeforeUnmount(() => {
   font-variant-numeric: tabular-nums;
 }
 
+/* 关闭按钮样式 */
 .close-btn {
   position: absolute;
   top: 20px;
