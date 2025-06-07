@@ -1,8 +1,17 @@
 <template>
   <div class="chart-container" ref="wrapperRef">
-    <div class="chart-box" ref="chartRef">
+    <!-- 图像区域 -->
+    <div :class="['chart-box', { visible: animationTrigger }]" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
+
+    <!-- 控件区域 -->
+    <div
+      :class="['vega-controls', { visible: animationTrigger }]"
+      ref="controlRef"
+    />
+
+    <!-- 关闭按钮 -->
     <button class="close-btn" @click="handleClose">🏠</button>
   </div>
 </template>
@@ -16,29 +25,58 @@ const emit = defineEmits(["close"]);
 
 const chartRef = ref(null);
 const wrapperRef = ref(null);
+const controlRef = ref(null);
+
+const ready = ref(false); // 控制是否渲染 DOM
+const animationTrigger = ref(false); // 控制动画触发
 
 let resizeObserver;
 
 const renderChart = async (width, height) => {
-  if (props.spec && chartRef.value) {
-    await nextTick();
-    const cleanSpec = JSON.parse(JSON.stringify(props.spec));
-    await vegaEmbed.default(chartRef.value, cleanSpec, {
-      actions: false,
-      width,
-      height,
-    });
+  if (!props.spec || !chartRef.value) return;
+
+  // 1. 立即隐藏动画
+  animationTrigger.value = false;
+  ready.value = false;
+
+  await nextTick();
+
+  const cleanSpec = JSON.parse(JSON.stringify(props.spec));
+  cleanSpec.width = width;
+  cleanSpec.height = height - 50;
+
+  const scaleFactor = Math.min(width, height) / 2.2;
+  if (Array.isArray(cleanSpec.projections)) {
+    const proj = cleanSpec.projections.find((p) => p.name === "projection");
+    if (proj) proj.scale = scaleFactor;
   }
+
+  chartRef.value.innerHTML = "";
+  controlRef.value.innerHTML = "";
+
+  const result = await vegaEmbed.default(chartRef.value, cleanSpec, {
+    actions: false,
+    renderer: "svg",
+  });
+
+  const form = chartRef.value.querySelector(".vega-bindings");
+  if (form) {
+    controlRef.value.appendChild(form);
+  }
+
+  // 2. 显示组件 + 动画过渡
+  ready.value = true;
+  await nextTick(); // 等 DOM 挂载完毕再开始动画
+  animationTrigger.value = true;
 };
 
 const resize = () => {
   if (!chartRef.value || !wrapperRef.value) return;
-  const { width, height } = wrapperRef.value.getBoundingClientRect();
-  renderChart(Math.floor(width) * 0.4, Math.floor(height) * 0.4);
+  const { width, height } = chartRef.value.getBoundingClientRect();
+  renderChart(Math.floor(width), Math.floor(height));
 };
 
 const handleClose = () => {
-  console.log("🚪 Close button clicked in EarthChart");
   emit("close");
 };
 
@@ -51,36 +89,83 @@ watch(
 onMounted(() => {
   if (props.spec) resize();
   resizeObserver = new ResizeObserver(resize);
-  resizeObserver.observe(wrapperRef.value);
+  resizeObserver.observe(chartRef.value);
 });
 
 onBeforeUnmount(() => {
-  if (resizeObserver && wrapperRef.value)
-    resizeObserver.unobserve(wrapperRef.value);
+  if (resizeObserver && chartRef.value)
+    resizeObserver.unobserve(chartRef.value);
 });
 </script>
 
 <style scoped>
 .chart-container {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .chart-box {
-  position: relative;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: #ffe4b5;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid #aaa;
   font-size: 1.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-/* 关闭按钮样式 */
+.chart-box.visible {
+  opacity: 1;
+}
+
+.vega-controls {
+  padding: 8px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  background-color: #fff8dc;
+  border-top: 1px solid #ccc;
+
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.vega-controls.visible {
+  opacity: 1;
+}
+
+.vega-bindings {
+  font-family: monospace;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vega-bind {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 150px;
+  white-space: nowrap;
+}
+
+.vega-bind span:last-child {
+  display: inline-block;
+  width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
 .close-btn {
   position: absolute;
   top: 20px;
