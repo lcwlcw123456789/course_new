@@ -123,7 +123,9 @@ const renderChart = async (width, height) => {
             ? "www.agri-pulse.com"
             : "www.foodbusinessnews.net";
 
-        const url = `https://${baseDomain}/search?utf8=%E2%9C%93&q=&author=&datatype=&start_date=01%2F01%2F${value.year}&end_date=12%2F30%2F${value.year}&Submit=Submit`;
+        const url = `https://${baseDomain}/search?utf8=%E2%9C%93&q=${encodeURIComponent(
+          value.event,
+        )}&author=&datatype=&start_date=01%2F01%2F${value.year}&end_date=12%2F30%2F${value.year}&Submit=Submit`;
 
         window.open(url, "_blank");
       }
