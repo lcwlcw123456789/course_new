@@ -1,55 +1,31 @@
 <template>
   <div class="app-layout">
-    <!-- 主组件区域 -->
+    <!-- 主图区域 -->
     <div :class="mainClass">
       <LineChart
-        :container-count="visibleComponents.length"
-        @update:clickedChart="handleUpdate('clicked', $event)"
-        @update:hoveredChart="handleUpdate('hovered', $event)"
-        @update:clickedYearChart="handleUpdate('clickedYear', $event)"
+        :container-count="componentStack.length"
+        @update:clickedChart="addComponent('clicked', $event)"
+        @update:hoveredChart="addComponent('hovered', $event)"
+        @update:clickedYearChart="addComponent('clickedYear', $event)"
       />
     </div>
 
-    <!-- 动态组件区域 -->
-    <template v-if="visibleComponents.length === 1">
-      <div class="half-screen right">
-        <component
-          :is="visibleComponents[0].comp"
-          v-bind="visibleComponents[0].props"
-          :container-count="visibleComponents.length"
-          @close="handleComponentClose(visibleComponents[0].comp)"
-        />
-      </div>
-    </template>
-
-    <template v-else-if="visibleComponents.length === 2">
-      <div class="right-column">
-        <component
-          v-for="(vc, idx) in visibleComponents"
-          :key="idx"
-          :is="vc.comp"
-          v-bind="vc.props"
-          :container-count="visibleComponents.length"
-          @close="handleComponentClose(vc.comp)"
-          style="height: 50%"
-        />
-      </div>
-    </template>
-
-    <template v-else-if="visibleComponents.length === 3">
+    <!-- 右侧子图区域 -->
+    <div v-if="componentStack.length > 0" class="right-grid">
       <div
-        v-for="(vc, idx) in visibleComponents"
-        :key="idx"
-        class="quarter-block"
+        v-for="(vc, idx) in componentStack"
+        :key="vc.key"
+        class="component-wrapper"
       >
         <component
           :is="vc.comp"
           v-bind="vc.props"
-          :container-count="visibleComponents.length"
-          @close="handleComponentClose(vc.comp)"
+          :container-count="componentStack.length"
+          @close="removeComponent(vc.key)"
+          @lock="lockComponent(vc.key)"
         />
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -60,64 +36,43 @@ import EarthChart from "./components/EarthChart.vue";
 import PieChart from "./components/PieChart.vue";
 import TreemapChart from "./components/TreemapChart.vue";
 
-const clickedChart = ref(null);
-const hoveredChart = ref(null);
-const clickedYearChart = ref(null);
+// 所有子组件的堆叠数组
+const componentStack = ref([]);
 
-const handleUpdate = (type, spec) => {
-  if (type === "clicked") {
-    clickedChart.value = spec;
-    console.log("clickedChart:");
-    console.log(clickedChart);
-    console.log("-----------------");
-  }
-  if (type === "hovered") hoveredChart.value = spec;
-  if (type === "clickedYear") clickedYearChart.value = spec;
-};
+// 被锁定的组件 key 集合
+const lockedKeys = ref(new Set());
 
-const handleComponentClose = (comp) => {
-  const name = comp.name || comp.__name;
-  console.log("🧹 Received close from:", name);
-  if (name === "PieChart") hoveredChart.value = null;
-  if (name === "EarthChart") clickedChart.value = null;
-  if (name === "TreemapChart") clickedYearChart.value = null;
-};
+// 类型映射到组件
+function getComponent(type) {
+  if (type === "clicked") return EarthChart;
+  if (type === "hovered") return PieChart;
+  if (type === "clickedYear") return TreemapChart;
+  return null;
+}
 
-const visibleComponents = computed(() => {
-  const list = [];
-  if (clickedChart.value)
-    list.push({
-      comp: EarthChart,
-      props: {
-        spec: clickedChart.value,
-      },
-    });
-  if (hoveredChart.value)
-    list.push({
-      comp: PieChart,
-      props: {
-        spec: hoveredChart.value,
-      },
-    });
-  if (clickedYearChart.value)
-    list.push({
-      comp: TreemapChart,
-      props: {
-        spec: clickedYearChart.value,
-      },
-    });
+// 添加新组件
+function addComponent(type, spec) {
+  const key = `${type}_${Date.now()}_${Math.random()}`;
+  const comp = getComponent(type);
+  const props = { spec };
 
-  console.log("list");
-  console.log(list);
+  componentStack.value.push({ key, comp, props });
+}
 
-  return list;
-});
+// 关闭组件
+function removeComponent(key) {
+  lockedKeys.value.delete(key);
+  componentStack.value = componentStack.value.filter((c) => c.key !== key);
+}
 
+// 锁定组件（可扩展用）
+function lockComponent(key) {
+  lockedKeys.value.add(key);
+}
+
+// 主图样式控制
 const mainClass = computed(() => {
-  const count = visibleComponents.value.length;
-  if (count === 0) return "full-screen";
-  if (count === 1 || count === 2) return "half-screen left";
-  return "quarter-screen";
+  return componentStack.value.length > 0 ? "half-screen left" : "full-screen";
 });
 </script>
 
@@ -126,47 +81,38 @@ const mainClass = computed(() => {
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   overflow: hidden;
-  position: relative;
 }
 
-/* 仅组件1 */
 .full-screen {
   width: 100vw;
   height: 100vh;
 }
 
-/* 左半屏样式（组件1在2/3情况） */
 .half-screen {
   width: 50vw;
   height: 100vh;
-}
-
-/* quarter-block 也用于 4 分之一情况 */
-.quarter-block {
-  width: 50vw;
-  height: 50vh;
 }
 
 .left {
   order: 0;
 }
 
-.right {
+.right-grid {
+  width: 50vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+  grid-auto-rows: 50vh;
+  overflow-y: auto;
   order: 1;
 }
 
-/* 两个动态组件时，右边竖排布局 */
-.right-column {
-  width: 50vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.quarter-screen {
-  width: 50vw;
-  height: 50vh;
+.component-wrapper {
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  padding: 4px;
+  position: relative;
 }
 </style>

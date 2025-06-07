@@ -87,13 +87,15 @@ const renderChart = async (width, height) => {
             : "www.foodbusinessnews.net";
 
         const url = `https://${baseDomain}/search?utf8=%E2%9C%93&q=${encodeURIComponent(
-          value.category,
-        )}&author=&datatype=&start_date=01%2F01%2F${value.year}&end_date=12%2F30%2F${value.year}&Submit=Submit`;
+          value.category
+        )}&author=&datatype=&start_date=01%2F01%2F${
+          value.year
+        }&end_date=12%2F30%2F${value.year}&Submit=Submit`;
 
         window.open(url, "_blank");
       } else {
         showCustomMessage(
-          `${value.year} 年 ${value.category} 数据正常，无需细究`,
+          `${value.year} 年 ${value.category} 数据正常，无需细究`
         );
       }
     } else {
@@ -111,7 +113,7 @@ const renderChart = async (width, height) => {
       const file = await fetch("/vega_line.json");
       const spec = await file.json();
       const yearData = spec.data[0].values.filter(
-        (item) => item.year === value.year,
+        (item) => item.year === value.year
       );
       const hasNormal = yearData.some((item) => !item.event);
 
@@ -124,8 +126,10 @@ const renderChart = async (width, height) => {
             : "www.foodbusinessnews.net";
 
         const url = `https://${baseDomain}/search?utf8=%E2%9C%93&q=${encodeURIComponent(
-          value.event,
-        )}&author=&datatype=&start_date=01%2F01%2F${value.year}&end_date=12%2F30%2F${value.year}&Submit=Submit`;
+          value.event
+        )}&author=&datatype=&start_date=01%2F01%2F${
+          value.year
+        }&end_date=12%2F30%2F${value.year}&Submit=Submit`;
 
         window.open(url, "_blank");
       }
