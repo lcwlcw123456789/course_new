@@ -117,7 +117,12 @@ const renderChart = async (width, height) => {
       const fileName = `/vega_f11/${value.year}_${value.category}_vega.json`;
       const res = await fetch(fileName);
       const spec = await res.json();
-      emit("update:clickedChart", spec);
+
+      emit("update:clickedChart", {
+        ...spec,
+        year: value.year,
+        category: value.category,
+      });
     }
   });
 
@@ -155,7 +160,10 @@ const renderChart = async (width, height) => {
           : `/vega3/${value.year}_WORLD.json`;
       const res = await fetch(path);
       const spec = await res.json();
-      emit("update:clickedYearChart", spec);
+      emit("update:clickedChart", {
+        ...spec,
+        year: value.year,
+      });
     }
   });
 };

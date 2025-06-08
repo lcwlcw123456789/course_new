@@ -61,7 +61,12 @@ function getComponent(type) {
 function addComponent(type, spec) {
   const key = `${type}_${Date.now()}_${Math.random()}`;
   const comp = getComponent(type);
-  const props = { spec };
+
+  const { year, category } = spec;
+  const props = {
+    spec,
+    meta: { year, category }, // 💡 添加 meta 信息
+  };
 
   componentStack.value.push({ key, comp, props });
 }

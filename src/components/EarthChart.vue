@@ -4,7 +4,11 @@
     <div v-show="ready" class="chart-box" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
-
+    <h2 class="title">
+      <span v-if="props.meta?.year || props.meta?.category">
+        {{ props.meta?.year ?? "" }} {{ props.meta?.category ?? "" }}
+      </span>
+    </h2>
     <!-- 控件区域 -->
     <div v-show="ready" class="vega-controls no-drag" ref="controlRef" />
 
@@ -17,7 +21,14 @@
 import { ref, watch, nextTick, onMounted } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-const props = defineProps({ spec: Object });
+const props = defineProps({
+  spec: Object,
+  meta: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
 const emit = defineEmits(["close"]);
 const chartRef = ref(null);
 
@@ -149,5 +160,13 @@ onMounted(() => {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   background: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background: none; /* 明确取消背景 */
+  color: #fff; /* 文字颜色，根据需要调整 */
 }
 </style>
