@@ -5,8 +5,10 @@
       <LineChart
         :container-count="componentStack.length"
         @update:clickedChart="addComponent('clicked', $event)"
-        @update:hoveredChart="addComponent('hovered', $event)"
-        @update:clickedYearChart="addComponent('clickedYear', $event)"
+        @update:clickedYearChart_pie="addComponent('clickedYear_pie', $event)"
+        @update:clickedYearChart_treemap="
+          addComponent('clickedYear_treemap', $event)
+        "
       />
     </div>
 
@@ -52,8 +54,8 @@ const lockedKeys = ref(new Set());
 // 类型映射到组件
 function getComponent(type) {
   if (type === "clicked") return EarthChart;
-  if (type === "hovered") return PieChart;
-  if (type === "clickedYear") return TreemapChart;
+  if (type === "clickedYear_pie") return PieChart;
+  if (type === "clickedYear_treemap") return TreemapChart;
   return null;
 }
 

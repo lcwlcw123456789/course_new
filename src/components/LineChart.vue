@@ -160,10 +160,19 @@ const renderChart = async (width, height) => {
           : `/vega3/${value.year}_WORLD.json`;
       const res = await fetch(path);
       const spec = await res.json();
-      emit("update:clickedChart", {
-        ...spec,
-        year: value.year,
-      });
+      if (chartMode.value === "pie") {
+        emit("update:clickedYearChart_pie", {
+          ...spec,
+          year: value.year,
+          category: value.category,
+        });
+      } else {
+        emit("update:clickedYearChart_treemap", {
+          ...spec,
+          year: value.year,
+          category: value.category,
+        });
+      }
     }
   });
 };

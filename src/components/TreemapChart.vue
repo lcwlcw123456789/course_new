@@ -1,5 +1,8 @@
 <template>
   <div class="chart-container">
+    <h2 class="title" v-if="props.meta?.year">
+      📅 Year: {{ props.meta.year }}
+    </h2>
     <!-- 等待完全渲染后再显示图表与控件 -->
     <div v-show="ready" class="chart-box" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
@@ -17,7 +20,13 @@
 import { ref, watch, nextTick, onMounted } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-const props = defineProps({ spec: Object });
+const props = defineProps({
+  spec: Object,
+  meta: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 const emit = defineEmits(["close"]);
 const chartRef = ref(null);
 
@@ -88,6 +97,7 @@ onMounted(() => {
 
 /* 控件容器 */
 .vega-controls {
+  flex: 0 0 auto;
   padding: 8px 16px;
   display: flex;
   flex-wrap: wrap;
@@ -142,5 +152,15 @@ onMounted(() => {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   background: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+.title {
+  flex: 0 0 40px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  padding: 8px 16px;
+  color: #fff;
+  background-color: #444; /* 为了能看到标题效果 */
 }
 </style>

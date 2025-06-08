@@ -1,5 +1,8 @@
 <template>
   <div class="chart-container">
+    <h2 class="title" v-if="props.meta?.year">
+      📅 Year: {{ props.meta.year }}
+    </h2>
     <div class="chart-box" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
@@ -13,7 +16,14 @@ import * as vegaEmbed from "vega-embed";
 
 defineOptions({ name: "BarChart" });
 
-const props = defineProps({ spec: Object });
+const props = defineProps({
+  spec: Object,
+  meta: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
 const emit = defineEmits(["close"]);
 const chartRef = ref(null);
 const isLocked = ref(false); // 🔒 锁定状态
@@ -51,20 +61,23 @@ watch(
 
 onMounted(() => {
   console.log("📦 BarChart mounted with spec:", props.spec);
+  console.log("📅 PieChart meta:", props.meta);
   if (props.spec) renderChart();
 });
 </script>
 
 <style scoped>
 .chart-container {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .chart-box {
-  width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: #ffe4b5;
   display: flex;
   justify-content: center;
@@ -120,5 +133,15 @@ onMounted(() => {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   background: linear-gradient(to right, #f77062, #fe5196);
+}
+
+.title {
+  flex: 0 0 40px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 8px 16px;
+  margin: 0;
+  background-color: #444; /* 用于对比显示 */
+  color: #fff;
 }
 </style>

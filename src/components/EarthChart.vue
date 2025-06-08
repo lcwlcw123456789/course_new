@@ -1,14 +1,14 @@
 <template>
   <div class="chart-container">
-    <!-- 等待完全渲染后再显示图表与控件 -->
-    <div v-show="ready" class="chart-box" ref="chartRef">
-      <p v-if="!spec">点击图表加载中...</p>
-    </div>
     <h2 class="title">
       <span v-if="props.meta?.year || props.meta?.category">
         {{ props.meta?.year ?? "" }} {{ props.meta?.category ?? "" }}
       </span>
     </h2>
+    <!-- 等待完全渲染后再显示图表与控件 -->
+    <div v-show="ready" class="chart-box" ref="chartRef">
+      <p v-if="!spec">点击图表加载中...</p>
+    </div>
     <!-- 控件区域 -->
     <div v-show="ready" class="vega-controls no-drag" ref="controlRef" />
 
@@ -106,6 +106,7 @@ onMounted(() => {
 
 /* 控件容器 */
 .vega-controls {
+  flex: 0 0 auto;
   padding: 8px 16px;
   display: flex;
   flex-wrap: wrap;
@@ -163,10 +164,12 @@ onMounted(() => {
 }
 
 .title {
+  flex: 0 0 40px;
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
-  background: none; /* 明确取消背景 */
-  color: #fff; /* 文字颜色，根据需要调整 */
+  margin: 0;
+  padding: 8px 16px;
+  color: #fff;
+  background-color: #444; /* 为了能看到标题效果 */
 }
 </style>
