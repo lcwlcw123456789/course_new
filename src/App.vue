@@ -12,7 +12,12 @@
 
     <!-- 右侧子图区域 -->
     <div v-if="componentStack.length > 0" class="right-grid">
-      <VueDraggable v-model="componentStack" class="right-grid">
+      <VueDraggable
+        v-model="componentStack"
+        class="right-grid"
+        :filter="'.no-drag'"
+        :prevent-on-filter="false"
+      >
         <div
           v-for="(vc, idx) in componentStack"
           :key="vc.key"

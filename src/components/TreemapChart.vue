@@ -6,7 +6,7 @@
     </div>
 
     <!-- 控件区域 -->
-    <div v-show="ready" class="vega-controls" ref="controlRef" />
+    <div v-show="ready" class="vega-controls no-drag" ref="controlRef" />
 
     <!-- 关闭按钮 -->
     <button class="close-btn" @click="handleClose">🏠</button>
