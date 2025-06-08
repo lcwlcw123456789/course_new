@@ -5,9 +5,15 @@
     </div>
 
     <div ref="chartContainer" class="vega-chart"></div>
+
     <button class="mode-btn" @click="toggleMode">
       {{ isLinkMode ? "📈 切换为图像展示模式" : "🔗 切换为链接跳转模式" }}
     </button>
+
+    <button class="chart-mode-btn" @click="toggleChartMode">
+      {{ chartMode === "pie" ? "🥧 当前：piechart" : "🌲 当前：treemap" }}
+    </button>
+
     <div
       class="custom-message"
       v-show="showMessage"
@@ -15,6 +21,7 @@
     >
       {{ messageText }}
     </div>
+
     <div class="source-selector">
       <select v-model="source">
         <option value="agri-pulse">🌎 Agri-Pulse</option>
@@ -37,23 +44,40 @@ const emit = defineEmits([
 const chartContainer = ref(null);
 const wrapperRef = ref(null);
 
-const isLinkMode = ref(false); // 🟢 状态控制：false = 图像展示，true = 跳转链接
+const isLinkMode = ref(false); // 🔗 or 📈
+const chartMode = ref("pie"); // pie or treemap
+
 const lockedHoveredYear = ref(null);
 let resizeObserver;
+
 const showMessage = ref(false);
 const messageText = ref("");
-
-const source = ref("agri-pulse"); // 数据源选择
+const source = ref("agri-pulse");
 
 function showCustomMessage(text) {
   messageText.value = text;
   showMessage.value = true;
-
-  // 3秒后自动隐藏
-  setTimeout(() => {
-    showMessage.value = false;
-  }, 3000);
+  setTimeout(() => (showMessage.value = false), 3000);
 }
+
+function toggleMode() {
+  isLinkMode.value = !isLinkMode.value;
+  showCustomMessage(
+    isLinkMode.value
+      ? "🔗 链接跳转模式已启用，请点击异常点或年份查看相关新闻"
+      : "📈 图像展示模式已启用"
+  );
+}
+
+function toggleChartMode() {
+  chartMode.value = chartMode.value === "pie" ? "treemap" : "pie";
+  showCustomMessage(
+    chartMode.value === "pie"
+      ? "🥧 点击年份将展示piechart"
+      : "🌲 点击年份将展示treemap"
+  );
+}
+
 const renderChart = async (width, height) => {
   const file = await fetch("/vega_line.json");
   const spec = await file.json();
@@ -66,15 +90,6 @@ const renderChart = async (width, height) => {
   });
 
   const view = result.view;
-
-  view.addSignalListener("hoveredYear", async (_, value) => {
-    if (!value || value === lockedHoveredYear.value || isLinkMode.value) return;
-    lockedHoveredYear.value = value;
-    const fileName = `/vega_charts_2/vega_pie_${value.year}.json`;
-    const res = await fetch(fileName);
-    const spec = await res.json();
-    emit("update:hoveredChart", spec);
-  });
 
   view.addSignalListener("clicked", async (_, value) => {
     if (!value) return;
@@ -134,22 +149,15 @@ const renderChart = async (width, height) => {
         window.open(url, "_blank");
       }
     } else {
-      const fileName = `/vega3/${value.year}_WORLD.json`;
-      const res = await fetch(fileName);
+      const path =
+        chartMode.value === "pie"
+          ? `/vega_charts_2/vega_pie_${value.year}.json`
+          : `/vega3/${value.year}_WORLD.json`;
+      const res = await fetch(path);
       const spec = await res.json();
       emit("update:clickedYearChart", spec);
     }
   });
-};
-
-const toggleMode = () => {
-  isLinkMode.value = !isLinkMode.value;
-
-  if (isLinkMode.value) {
-    showCustomMessage("🔗 链接跳转模式已启用，请点击异常点或年份查看相关新闻");
-  } else {
-    showCustomMessage("📈 图像展示模式已启用");
-  }
 };
 
 onMounted(() => {
@@ -161,26 +169,12 @@ onMounted(() => {
 
   resizeObserver = new ResizeObserver(resize);
   resizeObserver.observe(wrapperRef.value);
-
-  document.addEventListener("click", handleClickOutside);
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener("click", handleClickOutside);
   if (resizeObserver && wrapperRef.value)
     resizeObserver.unobserve(wrapperRef.value);
 });
-
-const handleClickOutside = (event) => {
-  const wrapper = wrapperRef.value;
-  const chartEl = chartContainer.value;
-  const inWrapper = wrapper && wrapper.contains(event.target);
-  const inChart = chartEl && chartEl.contains(event.target);
-  if (inWrapper && !inChart && !isLinkMode.value) {
-    lockedHoveredYear.value = null;
-    emit("update:hoveredChart", null);
-  }
-};
 </script>
 
 <style scoped>
@@ -205,11 +199,10 @@ const handleClickOutside = (event) => {
   flex: 1;
 }
 
-/* 模式切换按钮样式 */
-.mode-btn {
+/* 按钮通用样式 */
+.mode-btn,
+.chart-mode-btn {
   position: absolute;
-  top: 20px;
-  right: 30px;
   font-size: 14px;
   background: linear-gradient(to right, #ffcc70, #ff9a8b);
   color: white;
@@ -223,16 +216,28 @@ const handleClickOutside = (event) => {
   gap: 6px;
 }
 
-.mode-btn:hover {
+.mode-btn:hover,
+.chart-mode-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   background: linear-gradient(to right, #f6c667, #ff7b72);
 }
 
+.mode-btn {
+  top: 20px;
+  right: 30px;
+}
+
+.chart-mode-btn {
+  top: 20px;
+  left: 30px;
+}
+
 .custom-message {
   position: absolute;
-  top: 16px; /* 留出按钮空间 */
-  right: 230px;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   background: linear-gradient(to right, #b2ebf2, #80deea);
   color: #004d40;
   padding: 10px 18px;
@@ -252,15 +257,13 @@ const handleClickOutside = (event) => {
 
 .source-selector {
   position: absolute;
-  top: 20px;
+  bottom: 20px;
   left: 30px;
   z-index: 10;
 }
 
 .source-selector select {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   background: linear-gradient(to right, #a1c4fd, #c2e9fb);
   color: rgb(53, 45, 45);
   border: none;
@@ -271,8 +274,6 @@ const handleClickOutside = (event) => {
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
-  background-position: right 10px center;
-  background-repeat: no-repeat;
 }
 
 .source-selector select:hover {
