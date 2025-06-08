@@ -164,7 +164,7 @@ onMounted(() => {
   const resize = () => {
     if (!wrapperRef.value) return;
     const { width, height } = wrapperRef.value.getBoundingClientRect();
-    renderChart(Math.floor(width) * 0.8, Math.floor(height - 40) * 0.6);
+    renderChart(Math.floor(width) * 0.75, Math.floor(height - 40) * 0.7);
   };
 
   resizeObserver = new ResizeObserver(resize);

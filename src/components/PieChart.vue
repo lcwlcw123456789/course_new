@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container" ref="wrapperRef">
+  <div class="chart-container">
     <div class="chart-box" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
@@ -8,42 +8,40 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-defineOptions({ name: "PieChart" });
+defineOptions({ name: "BarChart" });
 
-const props = defineProps({ spec: Object, componentNumber: Number });
+const props = defineProps({ spec: Object });
 const emit = defineEmits(["close"]);
-
 const chartRef = ref(null);
-const wrapperRef = ref(null);
-const isLocked = ref(false);
-let resizeObserver;
+const isLocked = ref(false); // 🔒 锁定状态
 
-const renderChart = async (width, height) => {
+const renderChart = async () => {
   if (props.spec && chartRef.value) {
+    console.log("🔧 Rendering Vega chart in BarChart");
     await nextTick();
     const cleanSpec = JSON.parse(JSON.stringify(props.spec));
-    await vegaEmbed.default(chartRef.value, cleanSpec, {
-      actions: false,
-      width,
-      height,
-    });
+    await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
   }
 };
 
-const resize = () => {
-  if (!chartRef.value || !wrapperRef.value) return;
-  const { width, height } = wrapperRef.value.getBoundingClientRect();
-  renderChart(Math.floor(width) * 0.6, Math.floor(height) * 0.6);
+const handleClose = () => {
+  console.log("🚪 Close button clicked in BarChart");
+  emit("close");
+};
+
+const toggleLock = () => {
+  isLocked.value = !isLocked.value;
+  console.log(`🔐 Chart is now ${isLocked.value ? "locked" : "unlocked"}`);
 };
 
 watch(
   () => props.spec,
   () => {
     if (!isLocked.value) {
-      resize();
+      renderChart();
     } else {
       console.log("⛔ Chart update ignored (locked)");
     }
@@ -52,18 +50,9 @@ watch(
 );
 
 onMounted(() => {
-  if (props.spec) resize();
-  resizeObserver = new ResizeObserver(resize);
-  resizeObserver.observe(wrapperRef.value);
+  console.log("📦 BarChart mounted with spec:", props.spec);
+  if (props.spec) renderChart();
 });
-
-onBeforeUnmount(() => {
-  if (resizeObserver && wrapperRef.value)
-    resizeObserver.unobserve(wrapperRef.value);
-});
-
-const handleClose = () => emit("close");
-const toggleLock = () => (isLocked.value = !isLocked.value);
 </script>
 
 <style scoped>
@@ -85,11 +74,13 @@ const toggleLock = () => (isLocked.value = !isLocked.value);
   box-sizing: border-box;
 }
 
-.close-btn,
-.lock-btn {
+/* 关闭按钮样式 */
+.close-btn {
   position: absolute;
   top: 20px;
+  right: 30px;
   font-size: 14px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
   color: white;
   padding: 8px 16px;
   border-radius: 30px;
@@ -101,25 +92,33 @@ const toggleLock = () => (isLocked.value = !isLocked.value);
   gap: 6px;
 }
 
-.close-btn {
-  right: 30px;
-  background: linear-gradient(to right, #4facfe, #00f2fe);
-}
-
-.lock-btn {
-  right: 130px;
-  background: linear-gradient(to right, #ff758c, #ff7eb3);
-}
-
 .close-btn:hover {
   transform: translateY(-2px);
-  background: linear-gradient(to right, #43e97b, #38f9d7);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+/* 锁定按钮样式 */
+.lock-btn {
+  position: absolute;
+  top: 20px;
+  right: 130px;
+  font-size: 14px;
+  background: linear-gradient(to right, #ff758c, #ff7eb3);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .lock-btn:hover {
   transform: translateY(-2px);
-  background: linear-gradient(to right, #f77062, #fe5196);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(to right, #f77062, #fe5196);
 }
 </style>

@@ -12,25 +12,32 @@
 
     <!-- 右侧子图区域 -->
     <div v-if="componentStack.length > 0" class="right-grid">
-      <div
-        v-for="(vc, idx) in componentStack"
-        :key="vc.key"
-        class="component-wrapper"
+      <VueDraggable
+        v-model="componentStack"
+        class="right-grid"
+        :filter="'.no-drag'"
+        :prevent-on-filter="false"
       >
-        <component
-          :is="vc.comp"
-          v-bind="vc.props"
-          :container-count="componentStack.length"
-          @close="removeComponent(vc.key)"
-          @lock="lockComponent(vc.key)"
-        />
-      </div>
+        <div
+          v-for="(vc, idx) in componentStack"
+          :key="vc.key"
+          class="component-wrapper"
+        >
+          <component
+            :is="vc.comp"
+            v-bind="vc.props"
+            :container-count="componentStack.length"
+            @close="removeComponent(vc.key)"
+          />
+        </div>
+      </VueDraggable>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
+import { VueDraggable } from "vue-draggable-plus";
 import LineChart from "./components/LineChart.vue";
 import EarthChart from "./components/EarthChart.vue";
 import PieChart from "./components/PieChart.vue";

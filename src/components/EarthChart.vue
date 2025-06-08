@@ -1,12 +1,12 @@
 <template>
-  <div class="chart-container" ref="wrapperRef">
-    <!-- 图像区域 -->
-    <div :class="['chart-box', { visible: ready }]" ref="chartRef">
+  <div class="chart-container">
+    <!-- 等待完全渲染后再显示图表与控件 -->
+    <div v-show="ready" class="chart-box" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
 
     <!-- 控件区域 -->
-    <div :class="['vega-controls', { visible: ready }]" ref="controlRef" />
+    <div v-show="ready" class="vega-controls no-drag" ref="controlRef" />
 
     <!-- 关闭按钮 -->
     <button class="close-btn" @click="handleClose">🏠</button>
@@ -14,77 +14,60 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-const props = defineProps({ spec: Object, componentNumber: Number });
+const props = defineProps({ spec: Object });
 const emit = defineEmits(["close"]);
-
 const chartRef = ref(null);
-const wrapperRef = ref(null);
+
 const controlRef = ref(null);
-const ready = ref(false);
 
-let resizeObserver;
+const ready = ref(false); // 控制显示与否
 
-const renderChart = async (width, height) => {
-  if (!props.spec || !chartRef.value) return;
+const renderChart = async () => {
+  if (props.spec && chartRef.value) {
+    ready.value = false; // 暂时隐藏图表和控件
 
-  ready.value = false;
+    await nextTick();
+    const cleanSpec = JSON.parse(JSON.stringify(props.spec));
+    cleanSpec.autosize = {
+      type: "fit",
+      resize: "true",
+    };
+    if (Array.isArray(cleanSpec.projections)) {
+      const proj = cleanSpec.projections.find((p) => p.name === "projection");
+      if (proj) proj.scale = 200;
+    }
+    await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
 
-  await nextTick();
+    // 控件渲染后，立即移动到指定区域
+    const form = chartRef.value.querySelector(".vega-bindings");
+    if (form) {
+      controlRef.value.appendChild(form);
+    }
 
-  const cleanSpec = JSON.parse(JSON.stringify(props.spec));
-  cleanSpec.width = width;
-  cleanSpec.height = height - 50; // 给控件预留高度
+    // 一切完成后，再显示 chartBox 和控件
+    ready.value = true;
 
-  const scaleFactor = Math.min(width, height) / 2.2;
-  if (Array.isArray(cleanSpec.projections)) {
-    const proj = cleanSpec.projections.find((p) => p.name === "projection");
-    if (proj) proj.scale = scaleFactor;
+    // const select = chartRef.value.querySelector("svg");
+    // console.log(select);
   }
-
-  chartRef.value.innerHTML = "";
-  controlRef.value.innerHTML = "";
-
-  const result = await vegaEmbed.default(chartRef.value, cleanSpec, {
-    actions: false,
-    renderer: "svg",
-  });
-
-  const form = chartRef.value.querySelector(".vega-bindings");
-  if (form) {
-    controlRef.value.appendChild(form);
-  }
-
-  ready.value = true;
-};
-
-const resize = () => {
-  if (!chartRef.value || !wrapperRef.value) return;
-  const { width, height } = chartRef.value.getBoundingClientRect();
-  renderChart(Math.floor(width), Math.floor(height));
 };
 
 const handleClose = () => {
+  console.log("🚪 Close button clicked in BarChart");
   emit("close");
 };
 
 watch(
   () => props.spec,
-  () => resize(),
+  () => renderChart(),
   { immediate: true }
 );
 
 onMounted(() => {
-  if (props.spec) resize();
-  resizeObserver = new ResizeObserver(resize);
-  resizeObserver.observe(chartRef.value);
-});
-
-onBeforeUnmount(() => {
-  if (resizeObserver && chartRef.value)
-    resizeObserver.unobserve(chartRef.value);
+  if (props.spec) renderChart();
 });
 </script>
 
@@ -108,15 +91,9 @@ onBeforeUnmount(() => {
   font-size: 1.5rem;
   box-sizing: border-box;
   overflow: hidden;
-
-  opacity: 0;
-  transition: opacity 0.4s ease;
 }
 
-.chart-box.visible {
-  opacity: 1;
-}
-
+/* 控件容器 */
 .vega-controls {
   padding: 8px 16px;
   display: flex;
@@ -125,13 +102,6 @@ onBeforeUnmount(() => {
   justify-content: center;
   background-color: #fff8dc;
   border-top: 1px solid #ccc;
-
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.vega-controls.visible {
-  opacity: 1;
 }
 
 /* 控件美化与防抖动 */
