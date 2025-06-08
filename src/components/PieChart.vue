@@ -14,8 +14,6 @@
 import { ref, watch, nextTick, onMounted } from "vue";
 import * as vegaEmbed from "vega-embed";
 
-defineOptions({ name: "BarChart" });
-
 const props = defineProps({
   spec: Object,
   meta: {
@@ -33,6 +31,11 @@ const renderChart = async () => {
     console.log("🔧 Rendering Vega chart in BarChart");
     await nextTick();
     const cleanSpec = JSON.parse(JSON.stringify(props.spec));
+    cleanSpec.autosize = {
+      type: "fit",
+      resize: true,
+      contains: "padding",
+    };
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
   }
 };
@@ -78,7 +81,7 @@ onMounted(() => {
 
 .chart-box {
   flex: 1;
-  background-color: #ffe4b5;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -141,7 +144,7 @@ onMounted(() => {
   font-weight: bold;
   padding: 8px 16px;
   margin: 0;
-  background-color: #444; /* 用于对比显示 */
-  color: #fff;
+  color: #000000;
+  background-color: #ffffff; /* 为了能看到标题效果 */
 }
 </style>

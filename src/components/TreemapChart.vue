@@ -85,7 +85,7 @@ onMounted(() => {
 
 .chart-box {
   flex: 1;
-  background-color: #ffe4b5;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -103,7 +103,7 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
-  background-color: #fff8dc;
+  background-color: #ffffff;
   border-top: 1px solid #ccc;
 }
 
@@ -160,7 +160,7 @@ onMounted(() => {
   font-weight: bold;
   margin: 0;
   padding: 8px 16px;
-  color: #fff;
-  background-color: #444; /* 为了能看到标题效果 */
+  color: #000000;
+  background-color: #ffffff; /* 为了能看到标题效果 */
 }
 </style>
