@@ -4,9 +4,6 @@
       <p v-if="!spec">点击图表加载中...</p>
     </div>
     <button class="close-btn" @click="handleClose">🏠</button>
-    <button class="lock-btn" @click="toggleLock">
-      {{ isLocked ? "🔒" : "🔓" }}
-    </button>
   </div>
 </template>
 
