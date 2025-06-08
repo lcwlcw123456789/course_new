@@ -1,8 +1,14 @@
 <template>
   <div class="chart-container">
-    <div class="chart-box" ref="chartRef">
+    <!-- 等待完全渲染后再显示图表与控件 -->
+    <div v-show="ready" class="chart-box" ref="chartRef">
       <p v-if="!spec">点击图表加载中...</p>
     </div>
+
+    <!-- 控件区域 -->
+    <div v-show="ready" class="vega-controls" ref="controlRef" />
+
+    <!-- 关闭按钮 -->
     <button class="close-btn" @click="handleClose">🏠</button>
   </div>
 </template>
@@ -15,11 +21,37 @@ const props = defineProps({ spec: Object });
 const emit = defineEmits(["close"]);
 const chartRef = ref(null);
 
+const controlRef = ref(null);
+
+const ready = ref(false); // 控制显示与否
+
 const renderChart = async () => {
   if (props.spec && chartRef.value) {
+    ready.value = false; // 暂时隐藏图表和控件
+
     await nextTick();
     const cleanSpec = JSON.parse(JSON.stringify(props.spec));
+    cleanSpec.autosize = {
+      type: "fit",
+      resize: "true",
+    };
+    if (Array.isArray(cleanSpec.projections)) {
+      const proj = cleanSpec.projections.find((p) => p.name === "projection");
+      if (proj) proj.scale = 200;
+    }
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
+
+    // 控件渲染后，立即移动到指定区域
+    const form = chartRef.value.querySelector(".vega-bindings");
+    if (form) {
+      controlRef.value.appendChild(form);
+    }
+
+    // 一切完成后，再显示 chartBox 和控件
+    ready.value = true;
+
+    // const select = chartRef.value.querySelector("svg");
+    // console.log(select);
   }
 };
 
@@ -41,22 +73,58 @@ onMounted(() => {
 
 <style scoped>
 .chart-container {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .chart-box {
-  position: relative;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: #ffe4b5;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid #aaa;
   font-size: 1.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 控件容器 */
+.vega-controls {
+  padding: 8px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  background-color: #fff8dc;
+  border-top: 1px solid #ccc;
+}
+
+/* 控件美化与防抖动 */
+.vega-bindings {
+  font-family: monospace;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vega-bind {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 150px;
+  white-space: nowrap;
+}
+
+.vega-bind span:last-child {
+  display: inline-block;
+  width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 /* 关闭按钮样式 */
