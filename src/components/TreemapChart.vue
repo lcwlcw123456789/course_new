@@ -1,13 +1,13 @@
 <template>
   <div
     :key="forceRebuildKey"
-    :class="['chart-container', { zoomed: isZoomed }]"
+    :class="['chart-container', { zoomed: isZoomed, visible: ready }]"
   >
-    <h2 class="title" v-if="props.meta?.year">
+    <h2 class="title">
       <button class="zoom-btn" @click="toggleZoom">
         {{ isZoomed ? "🔍➖" : "🔍➕" }}
       </button>
-      <span> 📅 Year: {{ props.meta.year }} </span>
+      <span v-if="props.meta?.year"> 📅 Year: {{ props.meta.year }} </span>
     </h2>
 
     <!-- 等待完全渲染后再显示图表与控件 -->
@@ -77,7 +77,6 @@ const renderChart = async () => {
 };
 
 const handleClose = () => {
-  console.log("🚪 Close button clicked in BarChart");
   emit("close");
 };
 
@@ -88,7 +87,11 @@ watch(
 );
 
 onMounted(() => {
-  if (props.spec) renderChart();
+  if (props.spec) {
+    setTimeout(() => {
+      renderChart();
+    }, 10); // 触发初始 opacity: 0 → 1 过渡
+  }
 });
 </script>
 
@@ -100,7 +103,13 @@ onMounted(() => {
   height: 100%;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.chart-container.visible {
+  opacity: 1;
 }
 
 .chart-container.zoomed {

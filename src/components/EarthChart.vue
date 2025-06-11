@@ -1,7 +1,7 @@
 <template>
   <div
     :key="forceRebuildKey"
-    :class="['chart-container', { zoomed: isZoomed }]"
+    :class="['chart-container', { zoomed: isZoomed, visible: ready }]"
   >
     <!-- 标题区域 -->
     <h2 class="title">
@@ -108,7 +108,11 @@ watch(
 );
 
 onMounted(() => {
-  if (props.spec) renderChart();
+  if (props.spec) {
+    setTimeout(() => {
+      renderChart();
+    }, 10); // 触发初始 opacity: 0 → 1 过渡
+  }
 });
 </script>
 
@@ -120,7 +124,14 @@ onMounted(() => {
   height: 100%;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.chart-container.visible {
+  opacity: 1;
 }
 
 .chart-container.zoomed {

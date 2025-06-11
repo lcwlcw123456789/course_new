@@ -1,7 +1,7 @@
 <template>
   <div
     :key="forceRebuildKey"
-    :class="['chart-container', { zoomed: isZoomed }]"
+    :class="['chart-container', { zoomed: isZoomed, visible: ready }]"
   >
     <h2 class="title" v-if="props.meta?.year">
       <button class="zoom-btn" @click="toggleZoom">
@@ -30,6 +30,9 @@ const props = defineProps({
 
 const emit = defineEmits(["close"]);
 const chartRef = ref(null);
+
+const ready = ref(false);
+
 const isLocked = ref(false); // 🔒 锁定状态
 const isZoomed = ref(false);
 const forceRebuildKey = ref(0);
@@ -54,6 +57,8 @@ const renderChart = async () => {
     cleanSpec.width = 350;
     cleanSpec.height = 350;
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
+
+    ready.value = true;
   }
 };
 
@@ -80,9 +85,11 @@ watch(
 );
 
 onMounted(() => {
-  console.log("📦 BarChart mounted with spec:", props.spec);
-  console.log("📅 PieChart meta:", props.meta);
-  if (props.spec) renderChart();
+  if (props.spec) {
+    setTimeout(() => {
+      renderChart();
+    }, 10); // 触发初始 opacity: 0 → 1 过渡
+  }
 });
 </script>
 
@@ -95,6 +102,13 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.chart-container.visible {
+  opacity: 1;
 }
 
 .chart-container.zoomed {
