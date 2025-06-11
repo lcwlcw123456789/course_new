@@ -16,9 +16,14 @@
     <div v-if="componentStack.length > 0" class="right-grid">
       <VueDraggable
         v-model="componentStack"
-        class="right-grid"
+        class="right-grid swapHighlight"
         :filter="'.no-drag'"
         :prevent-on-filter="false"
+        :sort="true"
+        :animation="300"
+        :scroll="true"
+        :scrollSensitivity="200"
+        :scrollSpeed="1"
       >
         <div
           v-for="(vc, idx) in componentStack"
@@ -119,8 +124,14 @@ const mainClass = computed(() => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
   grid-auto-rows: 50vh;
+  position: relative;
   overflow-y: auto;
   order: 1;
+}
+
+.swapHighlight {
+  background-color: aliceblue !important;
+  border: 1px solid #000000;
 }
 
 .component-wrapper {

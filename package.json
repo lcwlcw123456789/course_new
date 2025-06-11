@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "element-plus": "^2.10.0",
+    "sortablejs": "^1.15.6",
     "vega": "^6.1.2",
     "vega-embed": "^7.0.2",
     "vue": "^3.5.13",
