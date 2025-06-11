@@ -2754,6 +2754,13 @@
               "size": {
                 "value": 60
               },
+              "shape": {
+                "signal": "datum.event ? 'triangle-up' : 'circle'"
+              },
+              "stroke": {
+                "signal": "datum.event ? 'black' : 'transparent'"
+              },
+              "strokeWidth": { "value": 1 },
               "tooltip": {
                 "signal": "datum.event ? {'Year': datum.year,'Category': datum.category,'Value': datum.food_value,'Event': datum.event} : {'Year': datum.year,'Category': datum.category,'Value': datum.food_value}"
               }
@@ -2857,5 +2864,6 @@
       "labelFontSize": 12,
       "symbolSize": 100
     }
-  ]
+  ],
+  "title": "Trends of Food Value per Category (1999\u20132024)"
 }
