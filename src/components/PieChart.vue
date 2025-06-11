@@ -51,6 +51,8 @@ const renderChart = async () => {
       resize: true,
       contains: "padding",
     };
+    cleanSpec.width = 350;
+    cleanSpec.height = 350;
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
   }
 };
