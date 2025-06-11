@@ -126,7 +126,7 @@ const mainClass = computed(() => {
 .component-wrapper {
   border: 1px solid #ddd;
   box-sizing: border-box;
-  padding: 4px;
+  padding: 1px;
   position: relative;
 }
 </style>
