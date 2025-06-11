@@ -85,6 +85,17 @@ const renderChart = async (width, height) => {
   spec.height = height;
   spec.marks[1].encode.enter.y.value = height;
 
+  const yearAxis = spec.axes.find((axis) => axis.orient === "bottom");
+  if (width < 600) {
+    yearAxis.labelAngle = -90;
+    yearAxis.labelAlign = "right";
+    yearAxis.labelBaseline = "middle";
+  } else {
+    yearAxis.labelAngle = 0;
+    yearAxis.labelAlign = "center";
+    yearAxis.labelBaseline = "top";
+  }
+
   const result = await vegaEmbed.default(chartContainer.value, spec, {
     actions: false,
   });
