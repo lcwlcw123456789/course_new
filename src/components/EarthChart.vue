@@ -74,7 +74,7 @@ const renderChart = async () => {
     // 放大时动态调整宽高
     if (isZoomed.value) {
       cleanSpec.width = 700;
-      cleanSpec.height = 500;
+      cleanSpec.height = 600;
     } else {
       cleanSpec.width = 350;
       cleanSpec.height = 300;
@@ -83,7 +83,7 @@ const renderChart = async () => {
     // 特殊地图处理（可选）
     if (Array.isArray(cleanSpec.projections)) {
       const proj = cleanSpec.projections.find((p) => p.name === "projection");
-      if (proj) proj.scale = isZoomed.value ? 200 : 100;
+      if (proj) proj.scale = isZoomed.value ? 290 : 140;
     }
 
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
@@ -179,6 +179,7 @@ onMounted(() => {
 }
 
 .vega-bind {
+  font-weight: bold;
   display: flex;
   align-items: center;
   gap: 6px;

@@ -54,8 +54,13 @@ const renderChart = async () => {
       resize: true,
       contains: "padding",
     };
-    cleanSpec.width = 350;
-    cleanSpec.height = 350;
+    if (isZoomed.value) {
+      cleanSpec.width = 500;
+      cleanSpec.height = 500;
+    } else {
+      cleanSpec.width = 350;
+      cleanSpec.height = 350;
+    }
     await vegaEmbed.default(chartRef.value, cleanSpec, { actions: false });
 
     ready.value = true;

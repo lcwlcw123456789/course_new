@@ -174,6 +174,7 @@ onMounted(() => {
 }
 
 .vega-bind {
+  font-weight: bold;
   display: flex;
   align-items: center;
   gap: 6px;
