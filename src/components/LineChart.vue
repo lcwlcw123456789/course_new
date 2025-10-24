@@ -73,8 +73,8 @@ function toggleChartMode() {
   chartMode.value = chartMode.value === "pie" ? "treemap" : "pie";
   showCustomMessage(
     chartMode.value === "pie"
-      ? "🥧 点击年份将展示piechart"
-      : "🌲 点击年份将展示treemap"
+      ? "🥧 点击年份将展示 piechart"
+      : "🌲 点击年份将展示 treemap"
   );
 }
 
