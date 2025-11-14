@@ -9,6 +9,8 @@
         @update:clickedYearChart_treemap="
           addComponent('clickedYear_treemap', $event)
         "
+        @update:recommendations="addComponent('insights', $event)"
+        @update:correlations="addComponent('correlations', $event)"
       />
     </div>
 
@@ -49,6 +51,7 @@ import LineChart from "./components/LineChart.vue";
 import EarthChart from "./components/EarthChart.vue";
 import PieChart from "./components/PieChart.vue";
 import TreemapChart from "./components/TreemapChart.vue";
+import InsightsPanel from "./components/InsightsPanel.vue";
 
 // 所有子组件的堆叠数组
 const componentStack = ref([]);
@@ -61,21 +64,34 @@ function getComponent(type) {
   if (type === "clicked") return EarthChart;
   if (type === "clickedYear_pie") return PieChart;
   if (type === "clickedYear_treemap") return TreemapChart;
+  if (type === "insights") return InsightsPanel;
+  if (type === "correlations") return InsightsPanel;
   return null;
 }
 
 // 添加新组件
-function addComponent(type, spec) {
+function addComponent(type, payload) {
   const key = `${type}_${Date.now()}_${Math.random()}`;
   const comp = getComponent(type);
 
-  const { year, category } = spec;
-  const props = {
-    spec,
-    meta: { year, category }, // 💡 添加 meta 信息
-  };
+  // 默认 props
+  let props = {};
 
-  componentStack.value.push({ key, comp, props });
+  if (type === "clicked" || type === "clickedYear_pie" || type === "clickedYear_treemap") {
+    const { year, category } = payload;
+    props = {
+      spec: payload,
+      meta: { year, category },
+    };
+  } else if (type === "insights") {
+    // payload: { title, mode: 'recommendations', data }
+    props = payload;
+  } else if (type === "correlations") {
+    // payload: { title, mode: 'correlations', data, category }
+    props = payload;
+  }
+
+  if (comp) componentStack.value.push({ key, comp, props });
 }
 
 // 关闭组件
