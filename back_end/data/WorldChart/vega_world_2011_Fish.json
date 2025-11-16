@@ -1,0 +1,406 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "2011 Fish - Interactive globe of FoodValue.",
+  "padding": 10,
+  "width": 450,
+  "height": 450,
+  "autosize": "none",
+  "signals": [
+    {
+      "name": "quakeSize",
+      "value": 6,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 12
+      }
+    },
+    {
+      "name": "rotate0",
+      "value": 90,
+      "bind": {
+        "input": "range",
+        "min": -180,
+        "max": 180
+      }
+    },
+    {
+      "name": "rotate1",
+      "value": -5,
+      "bind": {
+        "input": "range",
+        "min": -180,
+        "max": 180
+      }
+    }
+  ],
+  "data": [
+    {
+      "name": "sphere",
+      "values": [
+        {
+          "type": "Sphere"
+        }
+      ]
+    },
+    {
+      "name": "world",
+      "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+      "format": {
+        "type": "topojson",
+        "feature": "countries"
+      }
+    },
+    {
+      "name": "foodvalue",
+      "values": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 26.8,
+              "country": "ARGENTINA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -63.616672,
+                -38.416097,
+                0
+              ]
+            },
+            "id": "0"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 5015.4,
+              "country": "CANADA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -106.346771,
+                56.130366,
+                0
+              ]
+            },
+            "id": "1"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 1763.6,
+              "country": "CHILE"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -71.542969,
+                -35.675147,
+                0
+              ]
+            },
+            "id": "2"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 4746.900000000001,
+              "country": "CHINA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                104.195397,
+                35.86166,
+                0
+              ]
+            },
+            "id": "3"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 1416.0,
+              "country": "ECUADOR"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -78.183406,
+                -1.831239,
+                0
+              ]
+            },
+            "id": "4"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 61.5,
+              "country": "FAROE ISLANDS"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -6.911806,
+                61.892635,
+                0
+              ]
+            },
+            "id": "5"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 1205.6,
+              "country": "INDIA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                78.96288,
+                20.593684,
+                0
+              ]
+            },
+            "id": "6"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 2326.6,
+              "country": "INDONESIA"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                113.921327,
+                -0.789275,
+                0
+              ]
+            },
+            "id": "7"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 67.9,
+              "country": "JAPAN"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                138.252924,
+                36.204824,
+                0
+              ]
+            },
+            "id": "8"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 405.4,
+              "country": "MEXICO"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -102.552784,
+                23.634501,
+                0
+              ]
+            },
+            "id": "9"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 287.0,
+              "country": "NORWAY"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                8.468946,
+                60.472024,
+                0
+              ]
+            },
+            "id": "10"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 1432.6,
+              "country": "THAILAND"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                100.992541,
+                15.870032,
+                0
+              ]
+            },
+            "id": "11"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 74.7,
+              "country": "UNITED KINGDOM"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -3.435973,
+                55.378051,
+                0
+              ]
+            },
+            "id": "12"
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "value": 2092.0,
+              "country": "VIETNAM"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                108.277199,
+                14.058324,
+                0
+              ]
+            },
+            "id": "13"
+          }
+        ]
+      },
+      "format": {
+        "type": "json",
+        "property": "features"
+      }
+    }
+  ],
+  "projections": [
+    {
+      "name": "projection",
+      "scale": 225,
+      "type": "orthographic",
+      "translate": {
+        "signal": "[width/2, height/2]"
+      },
+      "rotate": [
+        {
+          "signal": "rotate0"
+        },
+        {
+          "signal": "rotate1"
+        },
+        0
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "size",
+      "type": "sqrt",
+      "domain": [
+        0,
+        2989
+      ],
+      "range": [
+        0,
+        {
+          "signal": "quakeSize"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "shape",
+      "from": {
+        "data": "sphere"
+      },
+      "encode": {
+        "update": {
+          "fill": {
+            "value": "aliceblue"
+          },
+          "stroke": {
+            "value": "black"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    },
+    {
+      "type": "shape",
+      "from": {
+        "data": "world"
+      },
+      "encode": {
+        "update": {
+          "fill": {
+            "value": "mintcream"
+          },
+          "stroke": {
+            "value": "black"
+          },
+          "strokeWidth": {
+            "value": 0.35
+          }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    },
+    {
+      "type": "shape",
+      "from": {
+        "data": "foodvalue"
+      },
+      "encode": {
+        "update": {
+          "opacity": {
+            "value": 0.25
+          },
+          "fill": {
+            "value": "red"
+          },
+          "tooltip": {
+            "signal": "{'Country': datum.properties.country, 'Value': datum.properties.value, 'Category': 'Fish'}"
+          }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection",
+          "pointRadius": {
+            "expr": "scale('size', datum.properties.value)"
+          }
+        }
+      ]
+    }
+  ]
+}

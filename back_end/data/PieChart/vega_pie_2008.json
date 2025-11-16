@@ -1,0 +1,155 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Food Value by Category - 2008",
+  "width": 400,
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "category": "Beverages",
+        "food_value": 21027.8,
+        "order": 0,
+        "color": "#98df8a"
+      },
+      {
+        "category": "Fruits",
+        "food_value": 17645.4,
+        "order": 1,
+        "color": "#8c564b"
+      },
+      {
+        "category": "Fish",
+        "food_value": 17236.1,
+        "order": 2,
+        "color": "#2ca02c"
+      },
+      {
+        "category": "Grains",
+        "food_value": 14824.7,
+        "order": 3,
+        "color": "#bcbd22"
+      },
+      {
+        "category": "Vegetables",
+        "food_value": 13230.6,
+        "order": 4,
+        "color": "#d62728"
+      },
+      {
+        "category": "VegetablesOil",
+        "food_value": 9633.9,
+        "order": 5,
+        "color": "#17becf"
+      },
+      {
+        "category": "Meats",
+        "food_value": 7942.8,
+        "order": 6,
+        "color": "#ff7f0e"
+      },
+      {
+        "category": "Coffee",
+        "food_value": 6560.8,
+        "order": 7,
+        "color": "#7f7f7f"
+      },
+      {
+        "category": "Cocoa",
+        "food_value": 4896.5,
+        "order": 8,
+        "color": "#ffbb78"
+      },
+      {
+        "category": "Animals",
+        "food_value": 4481.2,
+        "order": 9,
+        "color": "#1f77b4"
+      },
+      {
+        "category": "Sweets",
+        "food_value": 4445.5,
+        "order": 10,
+        "color": "#aec7e8"
+      },
+      {
+        "category": "Nuts",
+        "food_value": 2292.5,
+        "order": 11,
+        "color": "#e377c2"
+      },
+      {
+        "category": "Dairy",
+        "food_value": 2170.3,
+        "order": 12,
+        "color": "#9467bd"
+      },
+      {
+        "category": "Other",
+        "food_value": 5303.4,
+        "order": 13,
+        "color": "#cccccc"
+      }
+    ]
+  },
+  "mark": {
+    "type": "arc",
+    "innerRadius": 50,
+    "tooltip": true
+  },
+  "encoding": {
+    "theta": {
+      "field": "food_value",
+      "type": "quantitative"
+    },
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Animals",
+          "Beverages",
+          "Coffee",
+          "Cocoa",
+          "Dairy",
+          "Fish",
+          "Fruits",
+          "Grains",
+          "Meats",
+          "Nuts",
+          "Sweets",
+          "Vegetables",
+          "VegetablesOil",
+          "Other"
+        ],
+        "range": [
+          "#1f77b4",
+          "#98df8a",
+          "#7f7f7f",
+          "#ffbb78",
+          "#9467bd",
+          "#2ca02c",
+          "#8c564b",
+          "#bcbd22",
+          "#ff7f0e",
+          "#e377c2",
+          "#aec7e8",
+          "#d62728",
+          "#17becf",
+          "#cccccc"
+        ]
+      }
+    },
+    "order": {
+      "field": "order",
+      "type": "ordinal"
+    },
+    "tooltip": [
+      {
+        "field": "category"
+      },
+      {
+        "field": "food_value"
+      }
+    ]
+  }
+}
