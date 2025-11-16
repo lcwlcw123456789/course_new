@@ -185,9 +185,7 @@
           <div class="stat">
             <div class="stat-title">📅 年份与样本</div>
             <div class="stat-value">
-              {{ selectedMetrics.spanYears }} 年（{{
-                selectedMetrics.years
-              }}
+              {{ selectedMetrics.spanYears }} 年（{{ selectedMetrics.years }}
               点）
             </div>
           </div>
@@ -343,7 +341,10 @@ import {
   polynomialRegression,
   predictByMethod,
   lastFittedForMethod,
-} from "../analytics";
+} from "@/utils/analytics";
+// import { getLineChartData } from "@/api/line_chart";
+
+// ---
 
 const emit = defineEmits([
   "update:clickedChart",
@@ -595,6 +596,9 @@ async function renderCorrelationModal() {
 }
 
 async function loadBaseSpec() {
+  // const response = await getLineChartData();
+  // const result = response.json();
+  // const file = result.data;
   const file = await fetch("/vega_line.json");
   const spec = await file.json();
   rawData = spec.data[0].values.map((d) => ({
