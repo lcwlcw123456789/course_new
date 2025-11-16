@@ -7,6 +7,7 @@ function getData({ url }) {
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
+        } else {
           return res.json();
         }
       })
@@ -31,4 +32,4 @@ function postData({ url, data }) {
   });
 }
 
-export { baseUrl, fetchData, postData };
+export { baseUrl, getData, postData };
