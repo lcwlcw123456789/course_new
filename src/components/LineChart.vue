@@ -341,7 +341,11 @@ import {
   polynomialRegression,
   predictByMethod,
   lastFittedForMethod,
-} from "../analytics";
+} from "@/utils/analytics";
+import { getLineChartData } from "@/api/line_chart";
+import { getPieChartData } from "@/api/pie_chart";
+import { getTreemapChartData } from "@/api/treemap_chart";
+import { getWorldChartData } from "@/api/world_chart";
 
 const emit = defineEmits([
   "update:clickedChart",
@@ -594,12 +598,12 @@ async function renderCorrelationModal() {
 
 async function loadBaseSpec() {
   try {
-    // const response = await getLineChartData();
-    // console.log(response);
-    // const spec = response.data;
-    // console.log(spec);
-    const file = await fetch("/vega_line.json");
-    const spec = await file.json();
+    const res = await getLineChartData();
+    console.log(res);
+    const spec = res.data;
+    console.log(spec);
+    // const file = await fetch("/vega_line.json");
+    // const spec = await file.json();
     rawData = spec.data[0].values.map((d) => ({
       ...d,
       food_value: +d.food_value,
@@ -1153,6 +1157,13 @@ const renderChart = async (width, height) => {
       if (!isLinkMode.value) {
         reRenderWithOverlays();
       }
+      // if (wrapperRef.value) {
+      //   const { width, height } = wrapperRef.value.getBoundingClientRect();
+      //   await renderChart(
+      //     Math.floor(width) * 0.75,
+      //     Math.floor(height - 40) * 0.7
+      //   );
+      // }
       if (isLinkMode.value) {
         if (value.category && value.event) {
           const baseDomain =
@@ -1173,15 +1184,17 @@ const renderChart = async (width, height) => {
           );
         }
       } else {
-        const fileName = `/vega_f11/${value.year}_${value.category}_vega.json`;
-        const res = await fetch(fileName);
-        if (!res.ok) {
-          showCustomMessage("⚠️ 没有找到对应的子图数据文件");
-          return;
-        }
-        const spec = await res.json();
+        // const fileName = `/vega_f11/${value.year}_${value.category}_vega.json`;
+        // const res = await fetch(fileName);
+        // if (!res.ok) {
+        //   showCustomMessage("⚠️ 没有找到对应的子图数据文件");
+        //   return;
+        // }
+        // const spec = await res.json();
+        const res = await getWorldChartData(value.year, value.category);
+        const spec = res.data;
 
-        emit("update:clickedChart", {
+        const response = await emit("update:clickedChart", {
           ...spec,
           year: value.year,
           category: value.category,
@@ -1216,16 +1229,28 @@ const renderChart = async (width, height) => {
           window.open(url, "_blank");
         }
       } else {
-        const path =
-          chartMode.value === "pie"
-            ? `/vega_charts_2/vega_pie_${value.year}.json`
-            : `/vega3/${value.year}_WORLD.json`;
-        const res = await fetch(path);
-        if (!res.ok) {
-          showCustomMessage("⚠️ 未找到年份图数据文件");
-          return;
+        // const path =
+        //   chartMode.value === "pie"
+        //     ? `/vega_charts_2/vega_pie_${value.year}.json`
+        //     : `/vega3/${value.year}_WORLD.json`;
+        // const res = await fetch(path);
+        // if (!res.ok) {
+        //   showCustomMessage("⚠️ 未找到年份图数据文件");
+        //   return;
+        // }
+        // const specChild = await res.json();
+        var specChild;
+        if (chartMode.value === "pie") {
+          const res = await getPieChartData(value.year);
+          console.log(res);
+          specChild = res.data;
+          console.log(specChild);
+        } else {
+          const res = await getTreemapChartData(value.year);
+          console.log(res);
+          specChild = res.data;
+          console.log(specChild);
         }
-        const specChild = await res.json();
         if (chartMode.value === "pie") {
           emit("update:clickedYearChart_pie", {
             ...specChild,
