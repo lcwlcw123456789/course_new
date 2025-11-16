@@ -1104,6 +1104,14 @@ const renderChart = async (width, height) => {
     view.addSignalListener("clicked", async (_, value) => {
       if (!value) return;
       lastClickedCategory.value = value.category;
+      // 立即重新渲染以应用高亮
+      if (wrapperRef.value) {
+        const { width, height } = wrapperRef.value.getBoundingClientRect();
+        await renderChart(
+          Math.floor(width) * 0.75,
+          Math.floor(height - 40) * 0.7
+        );
+      }
       if (isLinkMode.value) {
         if (value.category && value.event) {
           const baseDomain =
