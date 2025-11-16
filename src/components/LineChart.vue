@@ -341,10 +341,7 @@ import {
   polynomialRegression,
   predictByMethod,
   lastFittedForMethod,
-} from "@/utils/analytics";
-import { getLineChartData } from "@/api/line_chart";
-
-// ---
+} from "../analytics";
 
 const emit = defineEmits([
   "update:clickedChart",
@@ -1462,59 +1459,182 @@ onBeforeUnmount(() => {
   right: 30px;
 }
 
+/* 统一风格的 category-selector */
 .category-selector {
   position: absolute;
-  top: 120px;
+  top: 680px;
   right: 30px;
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
-}
-.category-selector select {
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid #aaa;
-}
-.category-selector button {
-  padding: 6px 10px;
+  background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+  padding: 10px 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   border: none;
-  background: #ff9a8b;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
+.category-selector label {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(53, 45, 45);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-selector select {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(53, 45, 45);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category-selector select:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.category-selector button {
+  padding: 6px 12px;
+  border: none;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.category-selector button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(to right, #3fa1fe, #00e2fe);
+}
+
+/* 统一风格的 overlay-controls */
 .overlay-controls {
   position: absolute;
-  top: 170px;
-  right: 30px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 8px 12px;
-  border-radius: 8px;
+  top: 10px;
+  left: 200px;
+  background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+  padding: 12px 16px;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 12px;
+  gap: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border: none;
 }
+
 .overlay-controls label {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+  font-weight: bold;
+  color: rgb(53, 45, 45);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+
+.overlay-controls label:hover {
+  transform: translateY(-1px);
+}
+
+.overlay-controls input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.overlay-controls input[type="checkbox"]:checked {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.overlay-controls input[type="checkbox"]:checked::before {
+  content: "✓";
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .prediction-controls {
-  margin-top: 4px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
-.prediction-controls input {
-  width: 120px;
+
+.prediction-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.prediction-controls input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prediction-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+}
+
+.prediction-controls select {
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: bold;
+  color: rgb(53, 45, 45);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prediction-controls select:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .insight-controls {
   position: absolute;
-  top: 20px;
-  left: 160px;
+  top: 120px;
+  right: 30px;
   display: flex;
   gap: 10px;
 }
