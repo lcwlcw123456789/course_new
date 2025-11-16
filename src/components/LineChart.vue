@@ -342,7 +342,7 @@ import {
   predictByMethod,
   lastFittedForMethod,
 } from "@/utils/analytics";
-// import { getLineChartData } from "@/api/line_chart";
+import { getLineChartData } from "@/api/line_chart";
 
 // ---
 
@@ -596,21 +596,26 @@ async function renderCorrelationModal() {
 }
 
 async function loadBaseSpec() {
-  // const response = await getLineChartData();
-  // const result = response.json();
-  // const file = result.data;
-  const file = await fetch("/vega_line.json");
-  const spec = await file.json();
-  rawData = spec.data[0].values.map((d) => ({
-    ...d,
-    food_value: +d.food_value,
-  }));
-  categories.value = Array.from(new Set(rawData.map((d) => d.category)));
-  // 预计算指标
-  const m = {};
-  computeMetrics(rawData).forEach((item) => (m[item.category] = item));
-  metricsByCategory.value = m;
-  return spec;
+  try {
+    // const response = await getLineChartData();
+    // console.log(response);
+    // const spec = response.data;
+    // console.log(spec);
+    const file = await fetch("/vega_line.json");
+    const spec = await file.json();
+    rawData = spec.data[0].values.map((d) => ({
+      ...d,
+      food_value: +d.food_value,
+    }));
+    categories.value = Array.from(new Set(rawData.map((d) => d.category)));
+    // 预计算指标
+    const m = {};
+    computeMetrics(rawData).forEach((item) => (m[item.category] = item));
+    metricsByCategory.value = m;
+    return spec;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
 }
 
 function buildColorRange(baseRange) {
@@ -676,12 +681,26 @@ function getCategoryMeanValue(cat) {
 // }
 function addOverlays(spec, options = {}, overlay = null) {
   if (!rawData.length) return spec;
+
+  const augmented = JSON.parse(JSON.stringify(spec));
+
+  // ✅ 清理旧 overlay，避免重复叠加
+  augmented.data = augmented.data.filter(
+    (d) => !d.name.startsWith("prediction") && !d.name.endsWith("_series")
+  );
+  augmented.marks = augmented.marks.filter(
+    (m) =>
+      !(
+        (m.type === "line" || m.type === "group") &&
+        (m.from?.data?.startsWith("prediction") ||
+          m.from?.data?.endsWith("_series"))
+      )
+  );
   const {
     focusCategoryName = null,
     averageMode = "global",
     forceSingleCategoryPrediction = false,
   } = options;
-  const augmented = JSON.parse(JSON.stringify(spec));
   const byCat = groupByCategory(rawData);
 
   // derive overlay config (use overrides when provided)
@@ -980,7 +999,7 @@ function addOverlays(spec, options = {}, overlay = null) {
 
 function adjustSpecForSelection(spec) {
   // 主图仅对“点击高亮”生效；如果已通过下拉选择打开详情窗，则不在主图高亮
-  if (selectedCategory.value) return spec;
+  // if (selectedCategory.value) return spec;
   const sel = lastClickedCategory.value;
   if (!sel) return spec;
   const augmented = JSON.parse(JSON.stringify(spec));
@@ -1003,8 +1022,17 @@ function adjustSpecForSelection(spec) {
     { value: 0.15 },
   ];
   pointMark.encode.update.size = [
-    { test: testExpr, value: 140 },
-    { value: 60 },
+    {
+      test: "hovered && hovered.year === datum.year && hovered.category === datum.category",
+      value: 200,
+    },
+    {
+      test: testExpr,
+      value: 140,
+    },
+    {
+      value: 60,
+    },
   ];
   return augmented;
 }
@@ -1034,6 +1062,20 @@ function adjustSpecHighlightForCategory(spec, cat) {
     { test: testExpr, value: 140 },
     { value: 40 },
   ];
+
+  pointMark.encode.update.size = [
+    {
+      test: "hovered && hovered.year === datum.year && hovered.category === datum.category",
+      value: 200,
+    },
+    {
+      test: testExpr,
+      value: 140,
+    },
+    {
+      value: 60,
+    },
+  ];
   return augmented;
 }
 
@@ -1046,6 +1088,7 @@ const renderChart = async (width, height) => {
       await nextTick();
       if (!chartContainer.value) return; // 容器不存在则跳过，避免 null does not exist
     }
+    console.log("Begin Rendering");
     let spec = await loadBaseSpec();
     spec.width = width;
     spec.height = height;
@@ -1110,6 +1153,9 @@ const renderChart = async (width, height) => {
     view.addSignalListener("clicked", async (_, value) => {
       if (!value) return;
       lastClickedCategory.value = value.category;
+      if (!isLinkMode.value) {
+        reRenderWithOverlays();
+      }
       if (isLinkMode.value) {
         if (value.category && value.event) {
           const baseDomain =

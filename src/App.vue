@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, markRaw } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import LineChart from "./components/LineChart.vue";
 import EarthChart from "./components/EarthChart.vue";
@@ -61,11 +61,11 @@ const lockedKeys = ref(new Set());
 
 // 类型映射到组件
 function getComponent(type) {
-  if (type === "clicked") return EarthChart;
-  if (type === "clickedYear_pie") return PieChart;
-  if (type === "clickedYear_treemap") return TreemapChart;
-  if (type === "insights") return InsightsPanel;
-  if (type === "correlations") return InsightsPanel;
+  if (type === "clicked") return markRaw(EarthChart);
+  if (type === "clickedYear_pie") return markRaw(PieChart);
+  if (type === "clickedYear_treemap") return markRaw(TreemapChart);
+  if (type === "insights") return markRaw(InsightsPanel);
+  if (type === "correlations") return markRaw(InsightsPanel);
   return null;
 }
 
@@ -77,7 +77,11 @@ function addComponent(type, payload) {
   // 默认 props
   let props = {};
 
-  if (type === "clicked" || type === "clickedYear_pie" || type === "clickedYear_treemap") {
+  if (
+    type === "clicked" ||
+    type === "clickedYear_pie" ||
+    type === "clickedYear_treemap"
+  ) {
     const { year, category } = payload;
     props = {
       spec: payload,
