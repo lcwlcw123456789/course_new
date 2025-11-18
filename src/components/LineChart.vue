@@ -302,6 +302,81 @@
       </div>
     </div>
 
+    <!-- 数据查询模块 -->
+    <div class="data-query-module">
+      <h3 class="query-title">📋 查询原表格数据</h3>
+      <div class="query-controls">
+        <div class="query-field">
+          <label>年份:</label>
+          <select v-model="queryYear">
+            <option v-for="year in availableYears" :key="year" :value="year">
+              {{ year }}
+            </option>
+          </select>
+        </div>
+        <div class="query-field">
+          <label>类别:</label>
+          <select v-model="queryCategory">
+            <option value="">全部类别</option>
+            <option v-for="cat in availableCategories" :key="cat" :value="cat">
+              {{ cat }}
+            </option>
+          </select>
+        </div>
+        <button class="query-btn" @click="fetchData">查询数据</button>
+      </div>
+    </div>
+
+    <!-- 数据展示模态框 -->
+    <div v-if="dataModalVisible" class="data-modal" :class="[theme]">
+      <div class="modal-header">
+        <h3>
+          📊 查询结果 - {{ queryYear }}年 {{ queryCategory || "全部类别" }}
+        </h3>
+        <div class="spacer"></div>
+        <button class="mini-btn" @click="exportToCSV">导出CSV</button>
+        <button class="mini-btn" @click="closeDataModal">关闭</button>
+      </div>
+      <div class="modal-body">
+        <div class="data-summary">共找到 {{ filteredData.length }} 条记录</div>
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>商品</th>
+                <th>国家/地区</th>
+                <th>单位</th>
+                <th>类别</th>
+                <th>子类别</th>
+                <th>年份</th>
+                <th>食品价值 (百万$)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in paginatedData" :key="index">
+                <td>{{ item.Commodity }}</td>
+                <td>{{ item.Country }}</td>
+                <td>{{ item.UOM }}</td>
+                <td>{{ item.Category }}</td>
+                <td>{{ item.SubCategory }}</td>
+                <td>{{ item.YearNum }}</td>
+                <td class="numeric">{{ formatNumber(item.FoodValue) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-controls" v-if="totalPages > 1">
+          <button @click="prevPage" :disabled="currentPage === 1">
+            上一页
+          </button>
+          <span>第 {{ currentPage }} 页，共 {{ totalPages }} 页</span>
+          <button @click="nextPage" :disabled="currentPage === totalPages">
+            下一页
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div
       class="custom-message"
       v-show="showMessage"
@@ -408,6 +483,50 @@ const dSmoothObserved = ref(true);
 const correlationVisible = ref(false);
 const correlationContainer = ref(null);
 
+// 数据查询相关变量
+const queryYear = ref(2024);
+const queryCategory = ref("");
+const dataModalVisible = ref(false);
+const filteredData = ref([]);
+const currentPage = ref(1);
+const pageSize = ref(20);
+
+// 可用选项
+const availableYears = computed(() => {
+  const years = [];
+  for (let year = 1999; year <= 2024; year++) {
+    years.push(year);
+  }
+  return years;
+});
+
+const availableCategories = ref([
+  "Animals",
+  "Beverages",
+  "Coffee",
+  "Cocoa",
+  "Dairy",
+  "Fish",
+  "Fruits",
+  "Grains",
+  "Meats",
+  "Nuts",
+  "Sweets",
+  "Vegetables",
+  "VegetablesOil",
+  "Other",
+]);
+
+// 分页计算
+const totalPages = computed(() =>
+  Math.ceil(filteredData.value.length / pageSize.value)
+);
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return filteredData.value.slice(start, end);
+});
+
 function fmt(v) {
   return typeof v === "number" ? v.toFixed(1) : v;
 }
@@ -424,12 +543,132 @@ function num(v, digits = 1) {
     : v;
 }
 
+function formatNumber(value) {
+  return typeof value === "number"
+    ? value.toLocaleString("zh-CN", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      })
+    : value;
+}
+
 function showCustomMessage(text) {
   messageText.value = text;
   showMessage.value = true;
   setTimeout(() => (showMessage.value = false), 3000);
 }
 
+// 数据查询功能
+async function fetchData() {
+  try {
+    showCustomMessage("正在加载数据...");
+
+    // 从public文件夹加载CSV数据
+    const response = await fetch("/FoodImports.csv");
+    const csvText = await response.text();
+
+    // 简单的CSV解析
+    const lines = csvText.split("\n").filter((line) => line.trim());
+    const headers = lines[0].split(",").map((header) => header.trim());
+
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(",").map((value) => value.trim());
+      const item = {};
+      headers.forEach((header, index) => {
+        item[header] = values[index] || "";
+      });
+
+      // 转换数值字段
+      if (item.FoodValue) {
+        item.FoodValue = parseFloat(item.FoodValue) || 0;
+      }
+      if (item.YearNum) {
+        item.YearNum = parseInt(item.YearNum) || 0;
+      }
+
+      data.push(item);
+    }
+
+    // 筛选数据
+    filteredData.value = data.filter((item) => {
+      const yearMatch = item.YearNum === queryYear.value;
+      const categoryMatch =
+        !queryCategory.value || item.Category === queryCategory.value;
+      return yearMatch && categoryMatch;
+    });
+
+    currentPage.value = 1;
+    dataModalVisible.value = true;
+    showCustomMessage(`找到 ${filteredData.value.length} 条记录`);
+  } catch (error) {
+    console.error("加载数据失败:", error);
+    showCustomMessage("数据加载失败，请检查控制台");
+  }
+}
+
+function closeDataModal() {
+  dataModalVisible.value = false;
+  filteredData.value = [];
+}
+
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+}
+
+function exportToCSV() {
+  if (filteredData.value.length === 0) return;
+
+  const headers = [
+    "Commodity",
+    "Country",
+    "UOM",
+    "Category",
+    "SubCategory",
+    "YearNum",
+    "FoodValue",
+  ];
+  const csvContent = [
+    headers.join(","),
+    ...filteredData.value.map((item) =>
+      headers
+        .map((header) => {
+          const value = item[header];
+          // 处理包含逗号的值
+          return typeof value === "string" && value.includes(",")
+            ? `"${value}"`
+            : value;
+        })
+        .join(",")
+    ),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute(
+    "download",
+    `FoodImports_${queryYear.value}${
+      queryCategory.value ? "_" + queryCategory.value : ""
+    }.csv`
+  );
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showCustomMessage("CSV文件已导出");
+}
+
+// 其他现有函数保持不变...
 function toggleMode() {
   isLinkMode.value = !isLinkMode.value;
   showCustomMessage(
@@ -999,7 +1238,7 @@ function addOverlays(spec, options = {}, overlay = null) {
 }
 
 function adjustSpecForSelection(spec) {
-  // 主图仅对“点击高亮”生效；如果已通过下拉选择打开详情窗，则不在主图高亮
+  // 主图仅对"点击高亮"生效；如果已通过下拉选择打开详情窗，则不在主图高亮
   // if (selectedCategory.value) return spec;
   const sel = lastClickedCategory.value;
   if (!sel) return spec;
@@ -1815,6 +2054,281 @@ onBeforeUnmount(() => {
   background: #402127;
   color: #f3a6ac;
   border-color: #70424a;
+}
+
+/* 数据查询模块 */
+.data-query-module {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+  padding: 16px 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 400px;
+  z-index: 10;
+}
+
+.night .data-query-module {
+  background: linear-gradient(to right, #2c3e50, #4a6491);
+}
+
+.query-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(53, 45, 45);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.night .query-title {
+  color: #eee;
+}
+
+.query-controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.query-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.query-field label {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(53, 45, 45);
+  white-space: nowrap;
+}
+
+.night .query-field label {
+  color: #eee;
+}
+
+.query-field select {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(53, 45, 45);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+}
+
+.query-field select:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.query-btn {
+  padding: 8px 16px;
+  border: none;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.query-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(to right, #3fa1fe, #00e2fe);
+}
+
+/* 数据展示模态框 */
+.data-modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(95vw, 1200px);
+  height: min(90vh, 800px);
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  z-index: 2100;
+  overflow: hidden;
+}
+
+.data-modal.night {
+  background: #1e1e1e;
+  color: #eee;
+  border-color: #333;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+  border-bottom: 1px solid #ddd;
+}
+
+.night .modal-header {
+  background: linear-gradient(to right, #2c3e50, #4a6491);
+  border-color: #333;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: rgb(53, 45, 45);
+}
+
+.night .modal-header h3 {
+  color: #eee;
+}
+
+.modal-header .spacer {
+  flex: 1;
+}
+
+.modal-body {
+  flex: 1;
+  padding: 16px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.data-summary {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  padding: 8px 0;
+}
+
+.night .data-summary {
+  color: #ccc;
+}
+
+.data-table-container {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+}
+
+.night .data-table-container {
+  border-color: #444;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.data-table th {
+  background: linear-gradient(to right, #f0f8ff, #e6f3ff);
+  padding: 10px 8px;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.night .data-table th {
+  background: linear-gradient(to right, #2c3e50, #34495e);
+  color: #eee;
+  border-color: #444;
+}
+
+.data-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.night .data-table td {
+  color: #ccc;
+  border-color: #444;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.night .data-table tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+.data-table tr:hover {
+  background-color: #f0f8ff;
+}
+
+.night .data-table tr:hover {
+  background-color: #34495e;
+}
+
+.data-table .numeric {
+  text-align: right;
+  font-family: "Courier New", monospace;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: none;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: white;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-controls span {
+  font-size: 13px;
+  color: #666;
+}
+
+.night .pagination-controls span {
+  color: #ccc;
 }
 
 .custom-message {
