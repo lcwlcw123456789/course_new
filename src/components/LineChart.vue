@@ -1732,7 +1732,7 @@ onBeforeUnmount(() => {
 /* 统一风格的 category-selector */
 .category-selector {
   position: absolute;
-  top: 680px;
+  bottom: 20px;
   right: 30px;
   display: flex;
   gap: 12px;
