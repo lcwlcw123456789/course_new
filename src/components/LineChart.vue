@@ -421,6 +421,7 @@ import { getLineChartData } from "@/api/line_chart";
 import { getPieChartData } from "@/api/pie_chart";
 import { getTreemapChartData } from "@/api/treemap_chart";
 import { getWorldChartData } from "@/api/world_chart";
+import { getWholeData } from "@/api/whole_data";
 
 const emit = defineEmits([
   "update:clickedChart",
@@ -564,31 +565,36 @@ async function fetchData() {
     showCustomMessage("正在加载数据...");
 
     // 从public文件夹加载CSV数据
-    const response = await fetch("/FoodImports.csv");
-    const csvText = await response.text();
+    // const response = await fetch("/FoodImports.csv");
+    // console.log(response);
+    // const csvText = await response.text();
+    const response = await getWholeData();
+    // console.log(response);
+    const data = response.data;
+    // console.log(data);
 
-    // 简单的CSV解析
-    const lines = csvText.split("\n").filter((line) => line.trim());
-    const headers = lines[0].split(",").map((header) => header.trim());
+    // // 简单的CSV解析
+    // const lines = csvText.split("\n").filter((line) => line.trim());
+    // const headers = lines[0].split(",").map((header) => header.trim());
 
-    const data = [];
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(",").map((value) => value.trim());
-      const item = {};
-      headers.forEach((header, index) => {
-        item[header] = values[index] || "";
-      });
+    // const data = [];
+    // for (let i = 1; i < lines.length; i++) {
+    //   const values = lines[i].split(",").map((value) => value.trim());
+    //   const item = {};
+    //   headers.forEach((header, index) => {
+    //     item[header] = values[index] || "";
+    //   });
 
-      // 转换数值字段
-      if (item.FoodValue) {
-        item.FoodValue = parseFloat(item.FoodValue) || 0;
-      }
-      if (item.YearNum) {
-        item.YearNum = parseInt(item.YearNum) || 0;
-      }
+    //   // 转换数值字段
+    //   if (item.FoodValue) {
+    //     item.FoodValue = parseFloat(item.FoodValue) || 0;
+    //   }
+    //   if (item.YearNum) {
+    //     item.YearNum = parseInt(item.YearNum) || 0;
+    //   }
 
-      data.push(item);
-    }
+    //   data.push(item);
+    // }
 
     // 筛选数据
     filteredData.value = data.filter((item) => {
@@ -838,9 +844,9 @@ async function renderCorrelationModal() {
 async function loadBaseSpec() {
   try {
     const res = await getLineChartData();
-    console.log(res);
+    // console.log(res);
     const spec = res.data;
-    console.log(spec);
+    // console.log(spec);
     // const file = await fetch("/vega_line.json");
     // const spec = await file.json();
     rawData = spec.data[0].values.map((d) => ({

@@ -1,10 +1,11 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+import json
+import csv
 import os
 
-print(os.path.dirname(__file__))
+# print(os.path.dirname(__file__))
 os.chdir(os.path.dirname(__file__))
-import json
 
 app = Flask(__name__)
 CORS(app)
@@ -70,6 +71,36 @@ def getWorldChartData(year, category):
         return jsonify(response)
     except IOError:
         print("Can't find the corresponding file")
+
+
+@app.route("/data", methods=['GET'])
+def getWholeData():
+    data = None
+
+    try:
+        with open("./data/FoodImports.csv", 'r') as file:
+            reader = csv.DictReader(file)
+            rows = [row for row in reader]
+
+        for row in rows:
+            if "FoodValue" in row:
+                try:
+                    row["FoodValue"] = float(row["FoodValue"])
+                except:
+                    row["FoodValue"] = 0
+
+            if "YearNum" in row:
+                try:
+                    row["YearNum"] = int(row["YearNum"])
+                except:
+                    row["YearNum"] = None
+
+        response = {"code": 200, "msg": "", "data": rows}
+        return jsonify(response)
+
+    except Exception as e:
+        print("Error reading CSV:", e)
+        return jsonify({"code": 500, "msg": "Error reading CSV", "data": []})
 
 
 if __name__ == "__main__":
